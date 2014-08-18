@@ -82,8 +82,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="educational_level">Educational Level</label>
-                            <select class="form-control" name="educational_level">
+                            <label for="education_level">Educational Level</label>
+                            <select class="form-control" name="education_level">
                                 <option value="">Select Level</option>
                                 <option value="jhs">JHS</option>
                                 <option value="shs">SHS</option>

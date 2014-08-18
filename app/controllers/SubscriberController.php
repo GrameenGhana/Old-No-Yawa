@@ -23,6 +23,14 @@ class SubscriberController extends BaseController {
             'start_point' => 'min:1|max:52'
         );
 
+        $this->rules = array(
+            'msisdn' => 'required|min:10|max:16',
+            'gender' => 'required',
+            'language' => 'required|in:1,2,3',
+            'age' => 'required|numeric',
+            'education_level' => 'required'
+        );
+
         $this->API_USER_ID = 3;
     }
 
@@ -38,34 +46,33 @@ class SubscriberController extends BaseController {
 
         return View::make('subscribers.create', array('language_options' => $language_options));
     }
-    
-    public function store()
-    {        
+
+    public function store() {
         $validator = Validator::make(Input::all(), $this->rules);
 
-            if ($validator->fails()) {
-                //dd($validator->messages()->toJson());
-                return Redirect::to('/subs/create')
-                        ->with('flash_error','true')
-                        ->withInput()
-                        ->withErrors($validator);
-            } else {
-                $sub = new User;
-                $sub->msisdn = Input::get('msisdn');
-                $sub->age = Input::get('age');
-                $sub->gender = Input::get('gender');
-                $sub->education_level = Input::get('education_level');
-                $sub->region = Input::get('region');
-                $sub->location = Input::get('location');
-                $sub->channel = Input::get('channel');
-                $sub->language = Input::get('language');
-                $user->created_at = date('Y-m-d h:m:s');
-                $user->modified_by = Auth::user()->id;
-                $user->save();
+        if ($validator->fails()) {
+            //dd($validator->messages()->toJson());
+            return Redirect::to('/subs/create')
+                            ->with('flash_error', 'true')
+                            ->withInput()
+                            ->withErrors($validator);
+        } else {
+            $sub = new Subscriber();
+            $sub->msisdn = Input::get('msisdn');
+            $sub->age = Input::get('age');
+            $sub->gender = Input::get('gender');
+            $sub->education_level = Input::get('education_level');
+            $sub->region = Input::get('region');
+            $sub->location = Input::get('location');
+            $sub->channel = Input::get('channel');
+            $sub->language_id = Input::get('language');
+            $sub->created_at = date('Y-m-d h:m:s');
+            $sub->modified_by = Auth::user()->id;
+            $sub->save();
 
-                Session::flash('message',"{$user->getName()} created successfully");
-                return Redirect::to('/subs');
-            }
+            Session::flash('message', "{".Input::get('msisdn')."} created successfully");
+            return Redirect::to('/subs');
+        }
     }
 
     protected function createSubscriber($userid = null) {

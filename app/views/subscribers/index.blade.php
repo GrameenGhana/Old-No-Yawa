@@ -44,8 +44,8 @@
                             <tr>
                                 <th>Number</th>
                                 <th>Gender</th>
-                                <th>Pregnant</th>
-                                <th>Language</th>
+                                <th>Educattion Level</th>
+                                <th>Channel</th>
                                 <th>Registration Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -55,8 +55,8 @@
                             <tr>
                                 <td> {{ $value->msisdn }} </td>
                                 <td> {{ $value->getGender() }} </td>
-                                <td> {{ $value->getPregnancy() }} </td>
-                                <td> {{ $value->language->name }} </td>
+                                <td> {{ $value->education_level }} </td>
+                                <td> {{ $value->channel }} </td>
                                 <td> {{ date('M d, Y',strtotime($value->created_at)) }} </td>
                                 <td>
                                     <a title="Edit" class="btn btn-sm btn-info" href="{{ URL::to('subs/' . $value->id . '/edit') }}"><i class="fa fa-pencil"></i></a>
