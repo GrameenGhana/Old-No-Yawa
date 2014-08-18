@@ -20,7 +20,7 @@ Route::post('updateSchedule', array('uses' => 'SchedulerController@updateSchedul
 
 
 /** System paths **/
-Route::resource('subs','OnlineSubscriberController');
+Route::resource('subs','SubscriberController');
 Route::resource('users','UserController');
 
 Route::group(array('prefix' => 'api/v1'), function()

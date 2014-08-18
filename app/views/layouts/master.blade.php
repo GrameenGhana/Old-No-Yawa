@@ -108,7 +108,7 @@
                         <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
                             <a href="#">
                                 <i class="fa fa-cogs"></i>
-                                <span>MM Nigeria</span>                  
+                                <span>Actions</span>                  
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">

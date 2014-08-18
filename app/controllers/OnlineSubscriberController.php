@@ -2,11 +2,7 @@
 
 class OnlineSubscriberController extends SubscriberController {
 
-    public function index()
-    {
-       $subs = Subscriber::all();
-        return View::make('subscribers.index',array('subs'=>$subs));
-    }
+   
 
     public function store()
     {        

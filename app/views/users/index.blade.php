@@ -59,7 +59,7 @@
                                 <td> {{ date('M d, Y',strtotime($value->updated_at)) }} </td>
                                 <td> {{ $value->modifier->username }} </td>
                                 <td>
-                                    <a title="Edit" class="btn btn-sm btn-info" href="{{ URL::to('onlineusers/' . $value->id . '/edit') }}"><i class="fa fa-pencil"></i></a>
+                                    <a title="Edit" class="btn btn-sm btn-info" href="{{ URL::to('users/' . $value->id . '/edit') }}"><i class="fa fa-pencil"></i></a>
                                 </td>
                             </tr>
                         @endforeach

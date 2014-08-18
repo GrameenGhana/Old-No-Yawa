@@ -41,7 +41,7 @@ class UserController extends BaseController {
 
             if ($validator->fails()) {
                 //dd($validator->messages()->toJson());
-                return Redirect::to('/onlineusers/create')
+                return Redirect::to('/users/create')
                         ->with('flash_error','true')
                         ->withInput()
                         ->withErrors($validator);
@@ -57,7 +57,7 @@ class UserController extends BaseController {
                 $user->save();
 
                 Session::flash('message',"{$user->getName()} created successfully");
-                return Redirect::to('/onlineusers');
+                return Redirect::to('/users');
             }
     }
 
