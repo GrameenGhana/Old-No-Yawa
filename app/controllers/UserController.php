@@ -89,7 +89,7 @@ class UserController extends BaseController {
                 $user->save();
 
                 Session::flash('message',"{$user->getName()} updated successfully");
-                return Redirect::to('/onlineusers');
+                return Redirect::to('/users');
             }
     }
 }                                                            

@@ -47,6 +47,13 @@ class SubscriberController extends BaseController {
         return View::make('subscribers.create', array('language_options' => $language_options));
     }
 
+    public function edit($id) {
+        $sub = Subscriber::find($id);
+        // queries the languages db table, orders by name and lists name and id
+        $language_options = DB::table('languages')->orderBy('name', 'asc')->lists('name', 'id');
+        return View::make('subscribers.edit', array('sub' => $sub, 'languages' => $language_options));
+    }
+
     public function store() {
         $validator = Validator::make(Input::all(), $this->rules);
 
@@ -64,13 +71,44 @@ class SubscriberController extends BaseController {
             $sub->education_level = Input::get('education_level');
             $sub->region = Input::get('region');
             $sub->location = Input::get('location');
+            $sub->source = Input::get('source');
             $sub->channel = Input::get('channel');
             $sub->language_id = Input::get('language');
             $sub->created_at = date('Y-m-d h:m:s');
             $sub->modified_by = Auth::user()->id;
             $sub->save();
 
-            Session::flash('message', "{".Input::get('msisdn')."} created successfully");
+            Session::flash('message', "{" . Input::get('msisdn') . "} created successfully");
+            return Redirect::to('/subs');
+        }
+    }
+
+    public function update($id) {
+
+
+        $validator = Validator::make(Input::all(), $this->rules);
+
+        if ($validator->fails()) {
+            return Redirect::to('subs/' . $id . '/edit')
+                            ->with('flash_error', 'true')
+                            ->withInput()
+                            ->withErrors($validator);
+        } else {
+            $sub = Subscriber::find($id);
+            $sub->msisdn = Input::get('msisdn');
+            $sub->age = Input::get('age');
+            $sub->gender = Input::get('gender');
+            $sub->education_level = Input::get('education_level');
+            $sub->region = Input::get('region');
+            $sub->location = Input::get('location');
+            $sub->source = Input::get('source');
+            $sub->channel = Input::get('channel');
+            $sub->language_id = Input::get('language');
+            $sub->updated_at = date('Y-m-d h:m:s');
+            $sub->modified_by = Auth::user()->id;
+            $sub->save();
+
+            Session::flash('message', "{" . Input::get('msisdn') . "} updated successfully");
             return Redirect::to('/subs');
         }
     }

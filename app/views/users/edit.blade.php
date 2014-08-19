@@ -40,7 +40,7 @@
         </div>
         @endif
 
-        {{ Form::open(array('url'=> 'onlineusers/'.$user->id,'method'=>'post')) }}
+        {{ Form::open(array('url'=> 'users/'.$user->id,'method'=>'post')) }}
         
             <input type="hidden" name="_method" value="PATCH" />
             

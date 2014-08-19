@@ -113,7 +113,7 @@
 
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input type="text" class="form-control" id="client_location" name="location" placeholder="Enter location">
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter location">
                         </div>
                     </fieldset>
                 </div>
@@ -137,6 +137,12 @@
                         <div class="form-group">
                              <label for="language">Langauge</label>
                             {{ Form::select('language', $language_options , Input::old('language'),array('class'=>'form-control')) }}
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label for="source">Source of Data</label>
+                            <input type="text" class="form-control" id="source" name="source" placeholder="Enter source of data">
                         </div>
                         
                     </fieldset>

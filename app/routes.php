@@ -22,6 +22,7 @@ Route::post('updateSchedule', array('uses' => 'SchedulerController@updateSchedul
 /** System paths **/
 Route::resource('subs','SubscriberController');
 Route::resource('users','UserController');
+Route::resource('uploads','ExcelUploadController');
 
 Route::group(array('prefix' => 'api/v1'), function()
 {

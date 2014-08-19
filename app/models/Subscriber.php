@@ -30,8 +30,5 @@ class Subscriber extends Eloquent {
         return ($this->gender==1) ? 'Female' : 'Male';
     }
 
-    public function getPregnancy()
-    {
-        return ($this->pregnant==1) ? 'Yes' : 'No';
-    }
+    
 }
