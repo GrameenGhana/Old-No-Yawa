@@ -50,6 +50,12 @@
                                 {{ Form::label('username','Username') }}
                                 {{ Form::text('username',Input::old('username'),array('class'=>'form-control','placeholder'=>'Enter username')) }}
                             </div>
+                            
+                            
+                            <div class="form-group">
+                                {{ Form::label('email','Email Address') }}
+                                {{ Form::text('email',Input::old('email'),array('class'=>'form-control','placeholder'=>'Enter email address')) }}
+                            </div>
 
                             <div class="form-group">
                                 {{ Form::label('password','Password') }}

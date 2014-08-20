@@ -10,4 +10,9 @@ class Language extends Eloquent {
            return $this->hasOne('User','id','modified_by');
     }
 
+     public function getName()
+    {
+        return $this->name;
+    }
+    
 }

@@ -23,6 +23,7 @@ Route::post('updateSchedule', array('uses' => 'SchedulerController@updateSchedul
 Route::resource('subs','SubscriberController');
 Route::resource('users','UserController');
 Route::resource('uploads','ExcelUploadController');
+Route::resource('langs','LanguageController');
 
 Route::group(array('prefix' => 'api/v1'), function()
 {
@@ -40,4 +41,22 @@ Blade::extend(function($value) {
     return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);
 });
 
+/**
+Route::get('password/reset', array(
+  'uses' => 'PasswordController@remind',
+  'as' => 'password.remind'
+));
 
+Route::get('password/reset/{token}', array(
+  'uses' => 'PasswordController@reset',
+  'as' => 'password.reset'
+));
+
+Route::post('password/reset/{token}', array(
+  'uses' => 'PasswordController@update',
+  'as' => 'password.update'
+));
+ * 
+ */
+
+Route::controller('password', 'RemindersController');

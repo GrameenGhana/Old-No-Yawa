@@ -155,7 +155,7 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="box-footer">
-                {{ Form::submit('Create User',array('class'=>'btn btn-primary')) }}
+                {{ Form::submit('Create Subscriber',array('class'=>'btn btn-primary')) }}
             </div>
         </div>
     </div>

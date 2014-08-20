@@ -24,7 +24,7 @@ class SubscriberController extends BaseController {
         );
 
         $this->rules = array(
-            'msisdn' => 'required|min:10|max:16',
+            'msisdn' => 'required|min:10|max:16|unique:subscribers',
             'gender' => 'required',
             'language' => 'required|in:1,2,3',
             'age' => 'required|numeric',
