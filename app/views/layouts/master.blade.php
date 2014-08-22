@@ -35,7 +35,7 @@
 
     <body class="skin-blue">
         <header class="header">
-            <a href="/cch/yabr3/" class="logo">No Yawa Admin</a>
+            <a href="/" class="logo">No Yawa Admin</a>
 
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
