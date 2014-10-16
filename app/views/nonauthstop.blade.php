@@ -10,7 +10,7 @@ Stop Subscription
     <div class="header">No Yawa Stop Subscription</div>
 
 
-    {{ Form::open(array('url'=> 'stopmsg','method'=>'post')) }}
+    {{ Form::open(array('url'=> 'nonauthstopmsg','method'=>'post')) }}
 
     <div class="body bg-gray">
 
