@@ -24,6 +24,9 @@ Route::resource('subs','SubscriberController');
 Route::resource('users','UserController');
 Route::resource('uploads','ExcelUploadController');
 Route::resource('langs','LanguageController');
+Route::resource('broadcast','BroadcastController');
+Route::resource('stopmsg','StopController');
+Route::resource('smslogs','SmsLogController');
 
 Route::group(array('prefix' => 'api/v1'), function()
 {
@@ -36,6 +39,8 @@ Route::get('scheduler/sendmessage', array('uses' => 'SchedulerController@sendMes
 Route::get('login', array('uses' => 'HomeController@showLogin'))->before('guest');
 Route::post('login', array('uses' => 'HomeController@doLogin'));
 Route::get('logout', array('uses' => 'HomeController@doLogout'))->before('auth');
+Route::get('stop', array('uses' => 'NonAuthStopController@show'))->before('guest');
+Route::post('stopmsg', array('uses' => 'StopController@stopmsg'));
 
 Blade::extend(function($value) {
     return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);

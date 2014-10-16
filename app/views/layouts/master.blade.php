@@ -115,6 +115,8 @@
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
                                 <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('uploads/show') }}"><i class="fa fa-file"></i>Upload Excel File</a></li>
                                 <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('uploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
+                                <li class="{{ Request::is('broadcast/*') ? 'active' : '' }}"><a href="{{ URL::to('broadcast/show') }}"><i class="fa fa-files-o"></i>Broadcast A Message</a></li>
+                                <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
                             </ul>
                             
                         </li>
@@ -132,6 +134,7 @@
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('users/*') ? 'active' : '' }}"><a href="{{ URL::to('users') }}"><i class="fa fa-users"></i>Users</a></li>
                                 <li class="{{ Request::is('langs/*') ? 'active' : '' }}"><a href="{{ URL::to('langs') }}"><i class="fa fa-flag-o"></i>Languages</a></li>
+                                <li class="{{ Request::is('smslogs/*') ? 'active' : '' }}"><a href="{{ URL::to('smslogs') }}"><i class="fa fa-flag-o"></i>Sms Logs</a></li>
                             </ul>
                         </li>
             @endif
