@@ -5,8 +5,9 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"pda/pheanstalk": "2.0.*",
-                "phpexcel/phpexcel": "dev-master"
+		"pda/pheanstalk": "dev-master",
+                "phpexcel/phpexcel": "dev-master",
+		"pda/pheanstalk": "2.0.*"
 	},
 	"autoload": {
 		"classmap": [

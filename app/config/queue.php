@@ -78,7 +78,7 @@ return array(
 
 	'failed' => array(
 
-		'database' => 'mmnaija', 'table' => 'failed_jobs',
+		'database' => 'noyawagh', 'table' => 'failed_jobs',
 
 	),
 

@@ -27,6 +27,7 @@ Route::resource('langs','LanguageController');
 Route::resource('broadcast','BroadcastController');
 Route::resource('stopmsg','StopController');
 Route::resource('smslogs','SmsLogController');
+Route::resource('blastmsg','BroadcastController@blast');
 
 Route::group(array('prefix' => 'api/v1'), function()
 {
@@ -42,6 +43,8 @@ Route::get('logout', array('uses' => 'HomeController@doLogout'))->before('auth')
 Route::get('stop', array('uses' => 'NonAuthStopController@show'))->before('guest');
 Route::post('stopmsg', array('uses' => 'StopController@stopmsg'));
 Route::post('nonauthstopmsg', array('uses' => 'NonAuthStopController@stopmsg'));
+Route::post('broadcastsearch', array('uses' => 'BroadcastController@search'));
+Route::any('/blastmsg', array('as' => 'blastmsg' ,'uses' => 'BroadcastController@blast'));
 
 Blade::extend(function($value) {
     return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);

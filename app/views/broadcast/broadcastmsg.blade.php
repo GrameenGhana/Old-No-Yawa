@@ -17,6 +17,12 @@
 </section>
 @stop
 
+<?php
+if (Session::has('session_subs')) {
+    Session::forget('session_subs');
+}
+?>
+
 @section('content')
 
 <section class="content invoice">
@@ -26,6 +32,10 @@
             <h2 class="page-header">Send a Broadcast</h2>
         </div><!-- /.col -->
     </div>
+
+    @if (Session::has('message'))
+    <div class="alert alert-info">{{ Session::get('message') }}</div>
+    @endif
 
     @if(Session::has('flash_error'))
     <div class="row">
@@ -38,7 +48,7 @@
     </div>
     @endif
 
-    {{ Form::open(array('url'=> 'broadcast','method'=>'post')) }}
+    {{ Form::open(array('url'=> 'broadcastsearch','method'=>'post')) }}
     <div class="row">
         <div class="col-md-6">
             <div class="box box-primary">
@@ -131,8 +141,8 @@
 
                             &nbsp;&nbsp;&nbsp;&nbsp;
 
-                            {{ Form::checkbox('tersiary','tertiary') }}
-                            {{ Form::label('tersiary','Tertiary') }}
+                            {{ Form::checkbox('ter','ter') }}
+                            {{ Form::label('ter','Tertiary') }}
                         </div>
 
                     </fieldset>
@@ -147,10 +157,88 @@
 
                     </fieldset>
 
+
+
+                    <fieldset>
+                        <legend>Location & Region</legend>
+                        <div class="form-group">
+                            {{ Form::checkbox('Ashanti','Ashanti') }}
+                            {{ Form::label('Ashanti','Ashanti') }}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('Brong_Ahafo','Brong Ahafo') }}
+                            {{ Form::label('Brong_Ahafo','Brong Ahafo') }}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('Central','Central') }}
+                            {{ Form::label('Central','Central') }}
+
+                        </div>
+
+                        <div class="form-group">
+
+                            {{ Form::checkbox('Eastern','Eastern') }}
+                            {{ Form::label('Eastern','Eastern') }}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('Greater_Accra','Greater Accra') }}
+                            {{ Form::label('Greater_Accra','Greater Accra') }}
+
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('Northern','Northern') }}
+                            {{ Form::label('Northern','Northern') }}
+
+
+                        </div>
+
+                        <div class="form-group">
+
+                            {{ Form::checkbox('Upper_East','Upper East') }}
+                            {{ Form::label('Upper_East','Upper East') }}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('Upper_West','Upper West') }}
+                            {{ Form::label('Upper_West','Upper West') }}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('Volta','Volta') }}
+                            {{ Form::label('Volta','Volta') }}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('Western','Western') }}
+                            {{ Form::label('Western','Western') }}
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter location">
+                        </div>
+
+                    </fieldset>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-body">
+
                     <fieldset>
                         <legend>Operators</legend>
                         <div class="form-group">
-                            {{ Form::checkbox('mtn','MTN') }}
+                            {{ Form::checkbox('mtn','mtn') }}
                             {{ Form::label('mtn','MTN') }}
 
                             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -173,31 +261,24 @@
 
                     <fieldset>
                         <legend>Date of Registration</legend>
+
+
                         <div class="form-group" id="dorField">
-                            {{ Form::label('dor','Date of Registration') }}
+                            {{ Form::label('dorf','From') }}
                             <div class='input-group date' >
-                                {{ Form::text('dor',Input::old('dor'),array('class'=>'form-control','placeholder'=>'Enter date of regoistration')) }}
+                                {{ Form::text('dorf',Input::old('dorf'),array('class'=>'form-control','placeholder'=>'Starting date of regoistration')) }}
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
-                        </div>
-                    </fieldset>
 
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="box box-primary">
-                <div class="box-body">
-                    <fieldset>
-                        <legend>SMS / Message</legend>
-
-
-                        <div class="form-group">
-                            {{ Form::label('sms','Message') }}
-                            {{ Form::textarea('sms',Input::old('sms'),array('class'=>'form-control','placeholder'=>'Enter your message here')) }}
+                            {{ Form::label('dort',' To') }}
+                            <div class='input-group date' >
+                                {{ Form::text('dort',Input::old('dort'),array('class'=>'form-control','placeholder'=>'Ending date of regoistration')) }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
 
 
@@ -221,10 +302,19 @@
 </section>
 @stop                            
 @section('script')
-<script>
+<script type="text/javascript">
+    $(function() {
+        var nowDate = new Date();
+        var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
 
-    $('#nhised').datepicker();
-    
-    
+        $('#dorf').datepicker({
+            startDate: today
+        });
+
+        $('#dort').datepicker({
+            startDate: today
+        });
+
+    });
 </script>
 @stop
