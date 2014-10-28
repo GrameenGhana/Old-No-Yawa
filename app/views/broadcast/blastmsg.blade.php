@@ -33,6 +33,10 @@
             <fieldset>
                 <legend>SMS / Message</legend>
 
+                 <div class="form-group">
+                    {{ Form::label('smsid','Sms ID') }}
+                    {{ Form::text('smsid',Input::old('smsid'),array('class'=>'form-control','placeholder'=>'Enter your sms id')) }}
+                 </div> 
 
                 <div class="form-group">
                     {{ Form::label('sms','Message') }}

@@ -7,12 +7,12 @@ Login
 @section('content')
 
 <div class="form-box" id="login-box">
-   <div class="header">No Yawa Sign In</div>
+   <div class="header"><img alt="Logo" src="{{{ asset('img/logo.jpg') }}}" style="width:40%;"/></div>
    
    
     {{ Form::open(array('url' => 'login')) }}
                <div class="body bg-gray">
-<img alt="Logo" src="{{{ asset('img/logo2.png') }}}" style="width:100%;"/>
+
            @if(Session::has('flash_error'))
           <div class="alert alert-danger alert-dismissable" style="margin-top:10px">
                        <i class="fa fa-ban"></i>

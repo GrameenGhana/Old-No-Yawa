@@ -302,6 +302,7 @@ if (Session::has('session_subs')) {
 </section>
 @stop                            
 @section('script')
+
 <script type="text/javascript">
     $(function() {
         var nowDate = new Date();

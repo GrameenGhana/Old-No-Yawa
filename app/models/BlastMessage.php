@@ -16,17 +16,20 @@ class BlastMessage {
     public function fire ($job, $data) {
         $this->url = 'http://txtconnect.co/api/send/';
         
+        echo "Sending : To : " . $data['numbers'] . " From : " . $data['messageid'] ." Msg : ".$data['message'];
+        echo "  -----  ";
         
-        $result = file_get_contents($this->url."?token=".urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0')."&msg=". urlencode($data['message'])."&from=".urlencode("NoYawa")."&to=".urlencode($data['number']));
-        
+        $result = file_get_contents($this->url."?token=".urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0')."&msg=". urlencode($data['message'])."&from=".urlencode($data['messageid'])."&to=".urlencode($data['numbers']));
+       
         $data = json_decode($result);
-        if ($data->error == "0") {
-            $job->delete();
-            return "";
-        } else {
-            return "Message failed to send. Error: " . $data->error;
-            
-        }
+        $job->delete();
+//        if ($data->error == "0") {
+//            //$job->delete();
+//            return "";
+//        } else {
+//            return "Message failed to send. Error: " . $data->error;
+//            
+//        }
         
         
     }

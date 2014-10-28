@@ -221,79 +221,43 @@ class BroadcastController extends BaseController {
                 ->orderBy('created_at', 'DESC')
                 ->paginate();
         return View::make('broadcast.blastmsg', compact('subs'));
-
-//        $subs = DB::table('clients_sms_registration')
-//                ->orWhereRaw('substring(client_number,4,2) = '.$mtnC1.' ')
-//                ->orWhere('client_age', '=', $age15)
-//                ->orWhere('client_age', '=', $age16)
-//                ->orWhere('client_age', '=', $age17)
-//                ->orWhere('client_age', '=', $age18)
-//                ->orWhere('client_age', '=', $age19)
-//                ->orWhere('client_age', '=', $age20)
-//                ->orWhere('client_age', '=', $age21)
-//                ->orWhere('client_age', '=', $age22)
-//                ->orWhere('client_age', '=', $age23)
-//                ->orWhere('client_age', '=', $age24)
-//                ->orWhere('client_gender', '=', $male)
-//                ->orWhere('client_gender', '=', $female)
-//                ->orWhere('client_education_level', '=', $jhs)
-//                ->orWhere('client_education_level', '=', $shs)
-//                ->orWhere('client_education_level', '=', $tertiary)
-//                ->orWhere('nyweeks', '=', $noofweeks)
-//                ->orWhere('client_region', '=', $ashanti)
-//                ->orWhere('client_region', '=', $brong_Ahafo)
-//                ->orWhere('client_region', '=', $central)
-//                ->orWhere('client_region', '=', $eastern)
-//                ->orWhere('client_region', '=', $greater_Accra)
-//                ->orWhere('client_region', '=', $northern)
-//                ->orWhere('client_region', '=', $upper_East)
-//                ->orWhere('client_region', '=', $upper_West)
-//                ->orWhere('client_region', '=', $volta)
-//                ->orWhere('client_region', '=', $western)
-//               // ->orWhere('client_location', 'LIKE', "%".$location."%")
-//                //->orWhere('created_at', '>', $reg_from_date)
-//                //->orWhere('created_at', '<', $reg_to_date)
-//                ->orderBy('created_at', 'DESC')
-//                ->paginate();
-//        
-//        return View::make('broadcast.blastmsg', compact('subs'));
     }
-    
+
     public function sendmessage($number, $message) {
         $url = 'http://txtconnect.co/api/send/';
-       
-        
-        file_get_contents($url."?token=".urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0')."&msg=". urlencode($message)."&from=".urlencode("NoYawa")."&to=".urlencode($number));
-    }
 
+
+        file_get_contents($url . "?token=" . urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0') . "&msg=" . urlencode($message) . "&from=" . urlencode("NoYawa") . "&to=" . urlencode($number));
+    }
 
     public function blast() {
         $sms = Input::get('sms');
+        $smsid = Input::get('smsid');
 
         $subscribers = Session::get('session_subs');
         $noOfSubscribers = "";
+        $numbers = array();
 
         foreach ($subscribers as $key => $value) {
-            $noOfSubscribers = count($value) ;
+            $noOfSubscribers = count($value);
             for ($i = 0; $i < count($value); $i++) {
 
-                //$this->sendmessage( $value[$i]->client_number , $sms);
-                
-                Queue::push('BlastMessage', array('message' => $sms , 'number' => $value[$i]->client_number ));
-                
+               //$this->sendmessage( $value[$i]->client_number , $sms);
+                $numbers[] = "+" . $value[$i]->client_number;
+                //Queue::push('BlastMessage', array('message' => $sms , 'messageid' => $smsid , 'number' => $value[$i]->client_number ));
+
                 $smslog = new Smslog();
                 $smslog->direction = "OUTBOUND";
-                $smslog->sender = "NoYawa";
+                $smslog->sender = $smsid;
                 $smslog->receiver = $value[$i]->client_number;
                 $smslog->message = $sms;
                 $smslog->message_type = "system_blast";
                 $smslog->status = "success";
                 $smslog->save();
-                
             }
         }
 
-        
+        $this->pulse($numbers, '3000', $sms, $smsid);
 
         Session::forget('session_subs');
 
@@ -301,5 +265,24 @@ class BroadcastController extends BaseController {
         return Redirect::to('broadcast/show');
     }
 
-    
+    function pulse($numbers, $maxsize, $message , $messageid) {
+        $tolog;
+        while (count($numbers) > 0) {
+            $slice = array_slice($numbers, 0, $maxsize);
+            if (count($numbers) > $maxsize) {
+                $tolog = $maxsize;
+            } else {
+                $tolog = count($slice);
+            }
+
+            $comma_separated = implode(",", $slice);
+            //echo  $comma_separated . "  ";
+            //$result = sendmessage($comma_separated, $message);
+           Queue::push('BlastMessage', array('message' => $message, 'messageid' => $messageid, 'numbers' => $comma_separated));
+            
+            $numbers = array_splice($numbers, $tolog);
+           //echo "Size:".count($numbers);
+        }
+    }
+
 }

@@ -154,7 +154,7 @@
         </div><!-- ./wrapper -->
 
         <!-- jQuery 2.0.2 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+         {{ HTML::script('js/jquery-1.11.1.min.js'); }}
         <!-- jQuery UI 1.10.3 -->
         {{ HTML::script('js/jquery-ui-1.10.3.min.js'); }}
         <!-- Bootstrap -->
@@ -183,6 +183,6 @@
         <!-- AdminLTE App -->
         {{ HTML::script('js/AdminLTE/app.js'); }}
 
-    @yield('script')
+       @yield('script')
     </body>
 </html>
