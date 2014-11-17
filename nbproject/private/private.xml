@@ -3,14 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/liman/noyawagh/app/controllers/BroadcastController.php</file>
-            <file>file:/home/liman/noyawagh/app/views/uploads/index.blade.php</file>
+            <file>file:/home/liman/noyawagh/app/views/index.blade.php</file>
+            <file>file:/home/liman/noyawagh/app/config/session.php</file>
             <file>file:/home/liman/noyawagh/app/views/layouts/master.blade.php</file>
             <file>file:/home/liman/noyawagh/app/controllers/ExcelUploadController.php</file>
-            <file>file:/home/liman/noyawagh/app/routes.php</file>
             <file>file:/home/liman/noyawagh/app/views/uploads/upload.blade.php</file>
-            <file>file:/home/liman/noyawagh/app/views/broadcast/broadcastmsg.blade.php</file>
-            <file>file:/home/liman/noyawagh/app/views/subscribers/create.blade.php</file>
+            <file>file:/home/liman/noyawagh/app/routes.php</file>
+            <file>file:/home/liman/noyawagh/app/views/subscribers/index.blade.php</file>
+            <file>file:/home/liman/noyawagh/app/views/home.blade.php</file>
+            <file>file:/home/liman/noyawagh/vendor/laravel/framework/src/Illuminate/Foundation/AliasLoader.php</file>
+            <file>file:/home/liman/noyawagh/app/views/users/index.blade.php</file>
+            <file>file:/home/liman/noyawagh/app/models/Subscriber.php</file>
         </group>
     </open-files>
 </project-private>

@@ -21,6 +21,8 @@
     @else
     @include('home');
     @endif
+    
+    
 
 </section>
 <!-- /.content -->

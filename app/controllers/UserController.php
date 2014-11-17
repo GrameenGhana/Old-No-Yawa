@@ -54,8 +54,10 @@ class UserController extends BaseController {
             
             $name = Input::get('first_name') . ' ' . Input::get('last_name') ;
 
-            Mail::send('emails.mails.welcome', array('name' => $name), function($message) {
-                $message->to(Input::get('email'), $name)->subject('Welcome to No Yawa!');
+            $data = array('name' => $name);
+            
+            Mail::send('emails.mails.welcome', $data, function($message) {
+                $message->to(Input::get('email'), 'No Yawa')->subject('Welcome to No Yawa!');
             });
 
             Session::flash('message', "{$user->getName()} created successfully");

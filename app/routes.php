@@ -45,6 +45,8 @@ Route::post('stopmsg', array('uses' => 'StopController@stopmsg'));
 Route::post('nonauthstopmsg', array('uses' => 'NonAuthStopController@stopmsg'));
 Route::post('broadcastsearch', array('uses' => 'BroadcastController@search'));
 Route::any('/blastmsg', array('as' => 'blastmsg' ,'uses' => 'BroadcastController@blast'));
+Route::get('/getclients', array('as'=>'getclients', 'uses'=>'SubscriberController@getData'));
+Route::get('/getblastclients', array('as'=>'getblastclients', 'uses'=>'BroadcastController@getData'));
 
 Blade::extend(function($value) {
     return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);

@@ -92,7 +92,7 @@ if (Session::has('session_subs')) {
 
                             &nbsp;&nbsp;&nbsp;&nbsp;
 
-                            {{ Form::checkbox('age1','21') }}
+                            {{ Form::checkbox('age21','21') }}
                             {{ Form::label('age21','21') }}
 
                             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -143,6 +143,11 @@ if (Session::has('session_subs')) {
 
                             {{ Form::checkbox('ter','ter') }}
                             {{ Form::label('ter','Tertiary') }}
+                            
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('na','na') }}
+                            {{ Form::label('na','N/A') }}
                         </div>
 
                     </fieldset>
@@ -237,6 +242,7 @@ if (Session::has('session_subs')) {
 
                     <fieldset>
                         <legend>Operators</legend>
+
                         <div class="form-group">
                             {{ Form::checkbox('mtn','mtn') }}
                             {{ Form::label('mtn','MTN') }}
@@ -251,11 +257,25 @@ if (Session::has('session_subs')) {
                             {{ Form::checkbox('airtel','airtel') }}
                             {{ Form::label('airtel','Airtel') }}
 
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ Form::checkbox('vodafone','vodafone') }}
+                            {{ Form::label('vodafone','Vodafone') }}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            {{ Form::checkbox('expresso','expresso') }}
+                            {{ Form::label('expresso','Expresso') }}
+
                             &nbsp;&nbsp;&nbsp;&nbsp;
 
                             {{ Form::checkbox('glo','glo') }}
                             {{ Form::label('glo','Glo') }}
                         </div>
+
+
+
 
                     </fieldset>
 

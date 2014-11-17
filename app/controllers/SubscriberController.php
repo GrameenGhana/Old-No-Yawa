@@ -1,7 +1,11 @@
 <?php
 
+
+use Bllim\Datatables\Datatables;
+
 class SubscriberController extends BaseController {
 
+    
     public function __construct() {
         $this->createRules = array(
             'msisdn' => 'required|min:10|max:16',
@@ -33,10 +37,31 @@ class SubscriberController extends BaseController {
 
         $this->API_USER_ID = 3;
     }
+    
+     public function getData(){
+
+        $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'channel' ,'created_at'));
+
+        return Datatables::of($subs)
+
+
+        ->make();
+
+    }
+
+
+//    public function index() {
+//        $subs  = Subscriber::all();
+//        return View::make('subscribers.index', array('subs' => $subs));
+//       
+//    }
+
 
     public function index() {
-        $subs = Subscriber::all();
-        return View::make('subscribers.index', array('subs' => $subs));
+        $subs = DB::table('clients_sms_registration')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
+        return View::make('subscribers.index', compact('subs'));
     }
 
     public function create() {

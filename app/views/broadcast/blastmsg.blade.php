@@ -31,72 +31,94 @@
             </h2>
 
             <fieldset>
-                <legend>SMS / Message</legend>
+                <legend>Subscribers Found :: {{ count($subs) }}</legend>
+            </fieldset>
 
-                 <div class="form-group">
-                    {{ Form::label('smsid','Sms ID') }}
-                    {{ Form::text('smsid',Input::old('smsid'),array('class'=>'form-control','placeholder'=>'Enter your sms id')) }}
-                 </div> 
+            <?php if (count($subs) != 0) { ?>
+                <fieldset>
+                    <legend>SMS / Message</legend>
 
-                <div class="form-group">
-                    {{ Form::label('sms','Message') }}
-                    {{ Form::textarea('sms',Input::old('sms'),array('class'=>'form-control','placeholder'=>'Enter your message here','style'=>'height:130px;')) }}
-                    {{ Form::label('Character Count') }} <h3><span class="alert-info" id="characters"><span></h3>
-                                </div>
+                    <div class="form-group">
+                        {{ Form::label('smsid','Sms ID') }}
+                        {{ Form::text('smsid',Input::old('smsid'),array('class'=>'form-control','placeholder'=>'Enter your sms id')) }}
+                    </div> 
 
-
-
-                                </fieldset>
-                                </div><!-- /.col -->
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="box-footer">
-                                            {{ Form::submit('Blast Message',array('class'=>'btn btn-primary')) }} 
-
-                                        </div>
+                    <div class="form-group">
+                        {{ Form::label('sms','Message') }}
+                        {{ Form::textarea('sms',Input::old('sms'),array('class'=>'form-control','placeholder'=>'Enter your message here','style'=>'height:80px' ,
+                                        'onKeyDown'=>'limitText(this.form.sms,this.form.countdown,100);',
+                                        'onKeyUp'=>'limitText(this.form.sms,this.form.countdown,100);')) }}
+                                    <font class="alert-info" size="2">(Maximum characters: 160)<br>
+                                   You have <input readonly type="text" name="countdown" size="3" value="160"> characters left.</font>
                                     </div>
-                                </div>
-                                {{ Form::close() }}
 
-                                @if (Session::has('message'))
-                                <div class="alert alert-info">{{ Session::get('message') }}</div>
-                                @endif
 
-                                <section class="content">
-                                    <fieldset>
-                                        <legend>Subscribers Found :: {{ count($subs) }}</legend>
-                                        <div class="box">
-                                            <div class="box-header">
-                                            </div><!-- /.box-header -->
 
-                                            <div class="box-body table-responsive">
-                                                <table id="substable" class="table table-bordered table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Number</th>
-                                                            <th>Gender</th>
-                                                            <th>Educattion Level</th>
-                                                            <th>Registration Date</th>
+                                    </fieldset>
+                                    </div><!-- /.col -->
+                                    </div>
 
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($subs as $k => $value)
-                                                        <tr>
-                                                            <td> {{ $value->client_number }} </td>
-                                                            <td> {{ $value->client_gender }} </td>
-                                                            <td> {{ $value->client_education_level }} </td>
-                                                            <td> {{ date('M d, Y',strtotime($value->created_at)) }} </td>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="box-footer">
+                                                {{ Form::submit('Blast Message',array('class'=>'btn btn-primary')) }} 
 
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
                                             </div>
                                         </div>
-                                    </fieldset>
+                                    </div>
+                                    {{ Form::close() }}
+
+                                    @if (Session::has('message'))
+                                    <div class="alert alert-info">{{ Session::get('message') }}</div>
+                                    @endif
+
+                                <?php } else { ?>
+                                    <div class="alert alert-warning"> There are no subscriber(s) found , refine your search. </div>           
+                                <?php } ?>                   
+                                <section class="content">
+
+                                    <!--
+                                   <fieldset>
+                                       <legend>Subscribers Found :: {{ count($subs) }}</legend>
+                                       
+                                      
+                                       
+                                       <div class="box">
+                                           <div class="box-header">
+                                           </div>  
+
+                                           
+                                           <div class="box-body table-responsive">
+                                               
+                                               <table id="substable" class="table table-bordered table-striped">
+                                                   <thead>
+                                                       <tr>
+                                                           <th>Number</th>
+                                                           <th>Gender</th>
+                                                           <th>Education Level</th>
+                                                           <th>Registration Date</th>
+
+                                                       </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                       
+                                                       <tr>
+                                                           <td>  </td>
+                                                           <td>  </td>
+                                                           <td>  </td>
+                                                           <td>  </td>
+
+                                                       </tr>
+                                                      
+                                                   </tbody>
+                                               </table>
+                                           </div>
+                                       </div>
+                                       
+                                       
+                                   </fieldset>
+                                    
+                                    -->
                                 </section>
                                 @stop
 
@@ -104,15 +126,7 @@
                                 @section('script')
                                 <script type="text/javascript">
                                     $(function() {
-                                        $('#substable').dataTable({
-                                            "bPaginate": true,
-                                            "bLengthChange": true,
-                                            "bFilter": true,
-                                            "bSort": true,
-                                            "bInfo": true,
-                                            "bAutoWidth": false,
-                                            "iDisplayLength": 100
-                                        });
+
 
                                         $('textarea').keyup(function() {
                                             var cs = $(this).val().length;
@@ -120,6 +134,33 @@
                                         });
 
                                     });
+                                </script>
+
+                                <script type="text/javascript">
+                                    var oTable;
+                                    $(document).ready(function() {
+                                        oTable = $('#substable').dataTable({
+                                            "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+                                            "sPaginationType": "bootstrap",
+                                            "oLanguage": {
+                                                "sLengthMenu": "_MENU_ records per page"
+                                            },
+                                            "bSortable": true,
+                                            "bProcessing": true,
+                                            "bServerSide": true,
+                                            "sAjaxSource": "{{ URL::to('/getblastclients') }}"
+                                        });
+                                    });
+                                </script>
+
+                                <script language="javascript" type="text/javascript">
+                                    function limitText(limitField, limitCount, limitNum) {
+                                        if (limitField.value.length > limitNum) {
+                                            limitField.value = limitField.value.substring(0, limitNum);
+                                        } else {
+                                            limitCount.value = limitNum - limitField.value.length;
+                                        }
+                                    }
                                 </script>
                                 @stop
 

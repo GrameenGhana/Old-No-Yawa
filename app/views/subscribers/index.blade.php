@@ -1,88 +1,98 @@
 @extends('layouts.master')
 
 @section('head')
-   @parent
-   {{ HTML::style('css/datatables/dataTables.bootstrap.css'); }}
+@parent
+{{ HTML::style('css/datatables/dataTables.bootstrap.css'); }}
 @stop
 
 
 @section('content-header')
-   <!-- Content Header (Page header) -->
-   <section class="content-header">
-        <h1> <i class="fa fa-users"></i> Subscribers <small>Control panel</small> </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Subscribers</li>
-        </ol>
-   </section>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1> <i class="fa fa-users"></i> Subscribers <small>Control panel</small> </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ URL::to('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Subscribers</li>
+    </ol>
+</section>
 @stop
 
 @section('content')
 
-   <section class="content invoice">
-        
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
-                    <a class="btn btn-small btn-success" href="{{ URL::to('subs/create') }}"><i class="fa fa-plus-circle"></i> Add a Subcriber</a>
-                </h2>
-            </div><!-- /.col -->
-        </div>
-                                                           
-        @if (Session::has('message'))
-        <div class="alert alert-info">{{ Session::get('message') }}</div>
-        @endif
+<section class="content invoice">
 
-        <section class="content">
-            <div class="box">
-                <div class="box-header">
-                </div><!-- /.box-header -->
-                                
-                <div class="box-body table-responsive">
-                    <table id="substable" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Number</th>
-                                <th>Gender</th>
-                                <th>Educattion Level</th>
-                                <th>Channel</th>
-                                <th>Registration Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($subs as $k => $value)
-                            <tr>
-                                <td> {{ $value->msisdn }} </td>
-                                <td> {{ $value->getGender() }} </td>
-                                <td> {{ $value->education_level }} </td>
-                                <td> {{ $value->channel }} </td>
-                                <td> {{ date('M d, Y',strtotime($value->created_at)) }} </td>
-                                <td>
-                                    <a title="Edit" class="btn btn-sm btn-info" href="{{ URL::to('subs/' . $value->id . '/edit') }}"><i class="fa fa-pencil"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="page-header">
+                <a class="btn btn-small btn-success" href="{{ URL::to('subs/create') }}"><i class="fa fa-plus-circle"></i> Add a Subcriber</a>
+            </h2>
+        </div><!-- /.col -->
+    </div>
+
+    @if (Session::has('message'))
+    <div class="alert alert-info">{{ Session::get('message') }}</div>
+    @endif
+
+    <section class="content">
+        <div class="box">
+            <div class="box-header">
+            </div><!-- /.box-header -->
+
+            <div class="box-body table-responsive">
+                <table id="substable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Gender</th>
+                            <th>Education Level</th>
+                            <th>Channel</th>
+                            <th>Registration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+
+                        </tr>
+
+                    </tbody>
+
+
+
+                </table>
             </div>
-        </section>
-@stop
+        </div>
+    </section>
+    @stop
 
 
-@section('script')
+    @section('script')
     <script type="text/javascript">
-            $(function() {
-                $('#substable').dataTable({
-                    "bPaginate": true,
-                    "bLengthChange": true,
-                    "bFilter": true,
-                    "bSort": true,
-                    "bInfo": true,
-                    "bAutoWidth": false,
-                    "iDisplayLength": 100
-                                    });
+        $(function() {
+            //$('#substable').dataTable();
+        });
+    </script>
+
+    <script type="text/javascript">
+        var oTable;
+        $(document).ready(function() {
+            oTable = $('#substable').dataTable({
+                "aaSorting": [[0, 'desc']],
+                "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+                "sPaginationType": "bootstrap",
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bSortable": true,
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "{{ URL::to('/getclients') }}"
             });
-        </script>
-@stop
+        });
+    </script>
+
+    @stop

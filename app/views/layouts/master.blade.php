@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    @section('head')
+        @section('head')
 
         <meta charset="UTF-8">
         <title>No Yawa Admin Dashboard</title>
@@ -30,7 +30,7 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
 
-    @show
+        @show
     </head>
 
     <body class="skin-blue">
@@ -46,6 +46,12 @@
                 </a>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
+                        <?php 
+                        if (Auth::check() == false)
+                        {
+                         Redirect::to('/');
+                        }
+                        ?>
 
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
@@ -86,7 +92,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                             {{ HTML::image('img/avatar3.png','User Image',array('class'=>'img-circle')); }}
+                            {{ HTML::image('img/avatar3.png','User Image',array('class'=>'img-circle')); }}
                         </div>
                         <div class="pull-left info">
                             <p>Hello, {{{ Auth::user()->first_name }}}</p>
@@ -103,7 +109,7 @@
                             </a>
                         </li>
 
-            @if (in_array(strtolower(Auth::user()->role), array('admin','manager')))
+                        @if (in_array(strtolower(Auth::user()->role), array('admin','manager')))
 
                         <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
                             <a href="#">
@@ -118,17 +124,17 @@
                                 <li class="{{ Request::is('broadcast/*') ? 'active' : '' }}"><a href="{{ URL::to('broadcast/show') }}"><i class="fa fa-files-o"></i>Broadcast A Message</a></li>
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
                             </ul>
-                            
-                        </li>
-            @endif          
 
-            @if (strtolower(Auth::user()->role) == 'admin')
+                        </li>
+                        @endif          
+
+                        @if (strtolower(Auth::user()->role) == 'admin')
 
                         <li class="treeview {{ (Request::is('users*')) ? 'active' : '' }}">
                             <a href="#">
                                 <i class="fa fa-cogs"></i>
                                 <span>System Setup</span>
-                                                                   
+
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
@@ -137,7 +143,7 @@
                                 <li class="{{ Request::is('smslogs/*') ? 'active' : '' }}"><a href="{{ URL::to('smslogs') }}"><i class="fa fa-flag-o"></i>Sms Logs</a></li>
                             </ul>
                         </li>
-            @endif
+                        @endif
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -146,15 +152,15 @@
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <!-- Content Header (Page header) -->
-        @yield('content-header')
+                @yield('content-header')
 
                 <!-- Main content -->
-        @yield('content')
+                @yield('content')
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
         <!-- jQuery 2.0.2 -->
-         {{ HTML::script('js/jquery-1.11.1.min.js'); }}
+        {{ HTML::script('js/jquery-1.11.1.min.js'); }}
         <!-- jQuery UI 1.10.3 -->
         {{ HTML::script('js/jquery-ui-1.10.3.min.js'); }}
         <!-- Bootstrap -->
@@ -183,6 +189,6 @@
         <!-- AdminLTE App -->
         {{ HTML::script('js/AdminLTE/app.js'); }}
 
-       @yield('script')
+        @yield('script')
     </body>
 </html>

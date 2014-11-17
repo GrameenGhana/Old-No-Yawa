@@ -47,7 +47,7 @@ class ExcelUploadController extends BaseController {
 
         $file = Input::file('file'); //  file upload input field in the form should be named 'file'
 
-        $source = Input::get('source');
+        //$source = Input::get('source');
         $uploaded_by = Auth::user()->id;
 
         $destinationPath = 'uploads/';
@@ -60,9 +60,9 @@ class ExcelUploadController extends BaseController {
         $date = date_create();
         $currentDateTime = date_format($date, 'Y-m-d H:i:s');
 
-        Log::info('Uploading excel file -> ' . $filename);
+        Log::info('Uploading excel file -> ' . $filename .' with extension ->' . $extension );
 
-        if ($uploadSuccess) {
+        if ($uploadSuccess && $extension =="xlsx") {
             //return Response::json('success', 200); // or do a redirect with some message that file was uploaded
 
             Log::info('File uploaded -> ' . $filename . ' :: Processing started...');
@@ -93,6 +93,8 @@ class ExcelUploadController extends BaseController {
                 $gender_pos = array_search('gender', $fields);
                 $education_pos = array_search('education', $fields);
                 $location_pos = array_search('location', $fields);
+                $source_pos = array_search('source',$fields);
+
 
                 foreach ($rows as $row) {
                     // remove keys again
@@ -107,21 +109,43 @@ class ExcelUploadController extends BaseController {
                     } else {
                         $location = '';
                     }
+                    
+                     if ($source_pos !== false) {
+                        $source = $data[$source_pos];
+                    } else {
+                        $source = '';
+                    }
+
 
                     // getting data read for insertion
                     $contact = $data[$contact_pos];
                     $age = $data[$age_pos];
                     $gender = $data[$gender_pos];
                     $education = $data[$education_pos];
+                    $campaign="";
+                    $status= "Completed";
+                    
+                    
+                    if($age >= 15 && $age <= 19 && $education =="na"){
+                        $campaign = "kiki";
+                    }else if($age >= 15 && $age <= 19)
+                    {
+                        $campaign = "ronald";
+                    }else if($age >= 20 && $age <= 24){
+                        $campaign = "rita";
+                    }else{
+                        $status ="Ineligible";
+                    }
+                    
 
 
-                    if (trim($contact) === '') {
+                    if (trim($contact) == '' ) {
                         Log::info("Empty contact number");
                         $sizeOfFailedData ++;
                     } else {
 
                         
-                        $success = DB::statement('insert ignore into subscribers Set msisdn ="233' . $contact . '",gender="' . $gender . '",age="' . $age . '",education_level="' . $education . '",status="Completed",channel="SMS" ,created_at="' . $currentDateTime . '" , location="' . $location . '"  ,source = "' . $source . '"  ');
+                        $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="SMS" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" ');
 
                         if ($success) {
 
@@ -151,17 +175,17 @@ class ExcelUploadController extends BaseController {
             } else {
 
                 DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . $sizeOfData . '",status="Error:invalid permissions on file",created_at="' . $currentDateTime . '" , uploaded_by='.$uploaded_by .'');
-
+                 Session::flash('message', "Error loading file , check permissions on file");
                 return Redirect::back()
                                 ->with('errors.message', 'Error loading file , check permissions on file');
             }
         } else {
 
-            DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . $sizeOfData . '",status="Error:can not load file",created_at="' . $currentDateTime . '" , uploaded_by='.$uploaded_by .'');
-
+            DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . 0 . '",status="Error:can not load file",created_at="' . $currentDateTime . '" , uploaded_by='.$uploaded_by .'');
+            Session::flash('message', "Error loading file .Check the file extension, should be in xlsx");
 
             return Redirect::back()
-                            ->with('errors.message', 'Error loading file . ');
+                            ->with('errors.message', 'Error loading file .Check the file extension, should be in xlsx ');
         }
     }
 

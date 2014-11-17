@@ -33,6 +33,10 @@
         </div>
     </div>
     @endif
+    
+    @if (Session::has('message'))
+    <div class="alert alert-danger">{{ Session::get('message') }}</div>
+    @endif
 
     {{ Form::open(array('url'=> 'uploads','method'=>'post','enctype'=>'multipart/form-data')) }}
     <div class="row">
@@ -48,11 +52,14 @@
                             <center><p><strong>Excel File Structure : Sample</strong></p></center>   
                             <img alt="Excel Structure" src="{{{ asset('img/structure.PNG') }}}" style="width:100%;"/>
                         </div>
+                        <!--
 
                          <div class="form-group">
                                 {{ Form::label('source','Source of Data') }}                        
                                 {{ Form::text('source',Input::old('source'),array('class'=>'form-control','placeholder'=>'Enter source of data')) }}
                             </div>
+                        
+                        -->
 
                         <div class="form-group">
                             <label for="file">Click to upload excel file</label>
