@@ -21,15 +21,24 @@ class BroadcastController extends BaseController {
 
     public function search() {
 
-        ini_set('memory_limit','512M');
+        ini_set('memory_limit', '512M');
         DB::connection()->disableQueryLog();
 
         $sql = "";
+        $selectedAge=false;
+        $selectedGender=false;
 
         //ages
         $age15 = Input::get('age15');
         if ($age15 != null) {
-            $sql .= " client_age = '" . $age15 . "' or ";
+            if($selectedAge){
+                $sql .= " or client_age = '" . $age15 ;
+            }else{
+                $sql .= "and client_age = '" . $age15 ;
+            }
+            
+            $selectedAge=true;
+            
         }
 
         $age16 = Input::get('age16');
@@ -54,7 +63,13 @@ class BroadcastController extends BaseController {
 
         $age20 = Input::get('age20');
         if ($age20 != null) {
-            $sql .= " client_age = '" . $age20 . "' or ";
+             if($selectedAge){
+                $sql .= " or client_age = '" . $age20 ;
+            }else{
+                $sql .= "and client_age = '" . $age20 ;
+            }
+            
+            $selectedAge=true;
         }
 
         $age21 = Input::get('age21');
@@ -103,7 +118,7 @@ class BroadcastController extends BaseController {
         if ($tertiary != null) {
             $sql .= " client_education_level = '" . $tertiary . "' or ";
         }
-        
+
         $na = Input::get('na');
         if ($na != null) {
             $sql .= " client_education_level = '" . $na . "' or ";
@@ -206,11 +221,22 @@ class BroadcastController extends BaseController {
             $airtelC = array("26");
             $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $airtelC)) . "') or ";
         }
-        
-         $expresso = Input::get('expresso');
+
+        $expresso = Input::get('expresso');
         if ($expresso != null) {
-           $expressoC = array("28");
+            $expressoC = array("28");
             $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $expressoC)) . "') or ";
+        }
+
+        //channel
+        $sms = Input::get('sms');
+        if ($sms != null) {
+            $sql .= " channel = '" . $sms . "' or ";
+        }
+
+        $voice = Input::get('voice');
+        if ($voice != null) {
+            $sql .= " channel = '" . $voice . "' or ";
         }
 
         //registration date
@@ -226,53 +252,42 @@ class BroadcastController extends BaseController {
 
         $sql = preg_replace('/\W\w+\s*(\W*)$/', '$1', $sql);
         //$session_subs = DB::select( DB::raw("select * from clients_sms_registration where ".$sql. " order by created_at DESC ") )->get();
-       
-        //return $sql;
         
-        Session::forget('session_subs');
-        
+        //return preg_replace("/''/","and",$sql,1);
 
-        if (empty($sql) || !isset($sql) || (strlen($sql) == 0) ) {
+        Session::forget('session_subs');
+
+
+        if (empty($sql) || !isset($sql) || (strlen($sql) == 0)) {
             $session_subs = DB::table('clients_sms_registration')
-                ->orderBy('created_at', 'DESC')
-                ->get();
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
             Session::push('session_subs', $session_subs);
-            
-            //$subs = Subscriber::orderBy('created_at', 'DESC')->get();
-            
+
             $subs = $session_subs;
-            
+
             return View::make('broadcast/blastmsg', compact('subs'));
         } else {
-            
-             $session_subs = DB::table('clients_sms_registration')
-                ->whereRaw($sql)
-                ->orderBy('created_at', 'DESC')
-                ->get();
-             Session::push('session_subs', $session_subs);
 
-//            $subs = DB::table('clients_sms_registration')
-//                    ->whereRaw($sql)
-//                    ->orderBy('created_at', 'DESC')
-//                    ->get();
-             
-             $subs = $session_subs;
+            $session_subs = DB::table('clients_sms_registration')
+                    ->whereRaw($sql)
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
+            Session::push('session_subs', $session_subs);
+
+
+            $subs = $session_subs;
             return View::make('broadcast/blastmsg', compact('subs'));
         }
     }
-    
-    
-    public function getData(){
+
+    public function getData() {
 
         $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'created_at'));
 
         return Datatables::of($subs)
-
-
-        ->make();
-
+                        ->make();
     }
-
 
     public function sendmessage($number, $message) {
         $url = 'http://txtconnect.co/api/send/';

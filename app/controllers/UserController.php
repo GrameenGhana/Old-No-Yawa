@@ -5,7 +5,7 @@ class UserController extends BaseController {
     public function __construct() {
         $this->beforeFilter('auth');
 
-        $this->roles = array('Admin' => 'Admin', 'Guest' => 'Guest', 'Manager' => 'Manager', 'API' => 'API User');
+        $this->roles = array('Admin' => 'Admin', 'Partner' => 'Partner', 'Volunteer' => 'Volunteer');
 
         $this->rules = array('username' => 'required|min:3|unique:users',
             'email' => 'required|email|unique:users',
@@ -52,9 +52,12 @@ class UserController extends BaseController {
             $user->modified_by = Auth::user()->id;
             $user->save();
             
-            $name = Input::get('first_name') . ' ' . Input::get('last_name') ;
+            $name = Input::get('first_name')  ;
+            $role = Input::get('role');
+            $username =  Input::get('username');
+            $password = Input::get('password');
 
-            $data = array('name' => $name);
+            $data = array('name' => $name,'role'=>$role,'username'=>$username,'password'=>$password);
             
             Mail::send('emails.mails.welcome', $data, function($message) {
                 $message->to(Input::get('email'), 'No Yawa')->subject('Welcome to No Yawa!');
@@ -68,8 +71,6 @@ class UserController extends BaseController {
     public function update($id) {
         $this->rules = array('username' => 'required|min:3|unique:users,username,' . $id,
             'email' => 'required|min:3|unique:users,email,' . $id,
-            'password' => 'required|min:6',
-            'confirmpassword' => 'required|same:password',
             'first_name' => 'required|min:2',
             'last_name' => 'required|min:2',
             'role' => 'required|min:2'

@@ -101,6 +101,9 @@ class SubscriberController extends BaseController {
             $sub->language_id = Input::get('language');
             $sub->created_at = date('Y-m-d h:m:s');
             $sub->modified_by = Auth::user()->id;
+            
+            
+            
             $sub->save();
 
             Session::flash('message', "{" . Input::get('msisdn') . "} created successfully");

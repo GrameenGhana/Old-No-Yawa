@@ -61,15 +61,7 @@
                                 {{ Form::text('email',$user->username,array('class'=>'form-control','placeholder'=>'Enter email address')) }}
                             </div>
 
-                            <div class="form-group">
-                                {{ Form::label('password','Password') }}
-                                <input name="password" type="password" value="{{{ $user->password }}}" class="form-control" id="password">
-                            </div>
-                                        
-                            <div class="form-group">
-                                {{ Form::label('confirmpassword','Confirm Password') }}
-                                <input name="confirmpassword" type="password" value="{{{ $user->password }}}" class="form-control" id="confirmpassword">
-                            </div>
+                            
                         </fieldset>
                    </div>
                 </div>            

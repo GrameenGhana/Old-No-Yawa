@@ -36,7 +36,10 @@ Stop Subscription
 
                             <div class="form-group">
                                 {{ Form::label('phonenumbers','Enter phone numbers separated by a comma " , "') }}
-                                <textarea lass="form-control" id="phonenumbers" name="phonenumbers" rows="5" cols="40"></textarea>
+                                 {{ Form::label('phonenumbers','To unsubscribe multiple numbers, type in both numbers separated by a comma "," but with no spaces (e.g. 233540727313,233542356773) " , "') }}
+
+                                 <textarea lass="form-control" id="phonenumbers" name="phonenumbers" rows="5" cols="40"></textarea>
+
                             </div>
                         </fieldset>
                     </div>

@@ -21,9 +21,33 @@
     @else
     @include('home');
     @endif
-    
-    
+
 
 </section>
 <!-- /.content -->
+@stop
+
+@section('script')
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/drilldown.js"></script>
+
+
+<script type="text/javascript">
+
+$(function() {
+    $('#byAge').highcharts(
+    {{json_encode($subscribersByAge)}}
+    )
+    
+    $('#byChannel').highcharts(
+    {{json_encode($subscribersByChannel)}}
+    )
+    
+    $('#byOperator').highcharts(
+    {{json_encode($subscribersByOperator)}}
+    )
+});
+
+
+</script>
 @stop

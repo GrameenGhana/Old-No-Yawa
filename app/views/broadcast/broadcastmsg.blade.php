@@ -274,9 +274,23 @@ if (Session::has('session_subs')) {
                             {{ Form::label('glo','Glo') }}
                         </div>
 
+                    </fieldset>
+                    
+                    <fieldset>
+                        <legend>Channel</legend>
 
+                        <div class="form-group">
+                            {{ Form::checkbox('sms','sms') }}
+                            {{ Form::label('sms','SMS') }}
 
+                            &nbsp;&nbsp;&nbsp;&nbsp;
 
+                            {{ Form::checkbox('voice','voice') }}
+                            {{ Form::label('voice','Voice') }}
+
+                        </div>
+                        
+                        
                     </fieldset>
 
                     <fieldset>

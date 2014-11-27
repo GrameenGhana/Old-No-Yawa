@@ -109,7 +109,7 @@
                             </a>
                         </li>
 
-                        @if (in_array(strtolower(Auth::user()->role), array('admin','manager')))
+                        @if (in_array(strtolower(Auth::user()->role), array('admin')))
 
                         <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
                             <a href="#">
@@ -126,9 +126,57 @@
                             </ul>
 
                         </li>
-                        @endif          
+                        @endif
+                        
+                         @if (in_array(strtolower(Auth::user()->role), array('partner')))
+
+                        <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
+                            <a href="#">
+                                <i class="fa fa-cogs"></i>
+                                <span>Actions</span>                  
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
+                                
+                                <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
+                            </ul>
+
+                        </li>
+                        
+                        @endif
+                        
+                        @if (in_array(strtolower(Auth::user()->role), array('volunteer')))
+
+                        <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
+                            <a href="#">
+                                <i class="fa fa-cogs"></i>
+                                <span>Actions</span>                  
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
+                             </ul>
+
+                        </li>
+                        @endif
 
                         @if (strtolower(Auth::user()->role) == 'admin')
+                        
+                        <li class="treeview {{ (Request::is('stats*')) ? 'active' : '' }}">
+                            <a href="#">
+                                <i class="fa fa-cogs"></i>
+                                <span>Stats</span>
+
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{{ Request::is('general/*') ? 'active' : '' }}"><a href="{{ URL::to('general') }}"><i class="fa fa-bar-chart-o"></i>General Charts</a></li>
+                                <li class="{{ Request::is('timeseries/*') ? 'active' : '' }}"><a href="{{ URL::to('timeseries') }}"><i class="fa fa-bar-chart-o"></i>Timeseries Charts</a></li>
+                                <li class="{{ Request::is('location/*') ? 'active' : '' }}"><a href="{{ URL::to('location') }}"><i class="fa fa-map-marker"></i>Location Charts</a></li>
+                            </ul>
+                        </li>
+                        
 
                         <li class="treeview {{ (Request::is('users*')) ? 'active' : '' }}">
                             <a href="#">

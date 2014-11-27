@@ -4,10 +4,13 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<h1>Hi, {{ $name }}!</h1>
+		<h1>Dear, <b>{{ $name }}!</b></h1>
 
 		<div>
-			<p>We'd like to personally welcome you to the No Yawa Service Application. Thank you for registering!</p>
+			<p>You have been added to the list of <b>{{ $role }}</b> users in No Yawa.</p>
+                        <p>You can log on with username <b>{{ $username }}</b>, and  password <b>{{ $password }}</b>.</p>
+                        <p>Thanks,</p>
+                        <p>The Grameen Foundation No Yawa Team</p>
 		</div>
 	</body>
 </html>
