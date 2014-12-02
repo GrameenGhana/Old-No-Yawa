@@ -88,6 +88,13 @@
                             </div>
 
                             <div class="form-group">
+                                {{ Form::label('gender','Gender') }}
+                                {{ Form::select('gender', $gender, Input::old('gender'),array('class'=>'form-control','placeholder'=>'Enter gender')) }}
+                            </div>
+                            
+                            
+                            
+                            <div class="form-group">
                                 {{ Form::label('role','Role') }}
                                 {{ Form::select('role', $roles, Input::old('role'),array('class'=>'form-control','placeholder'=>'Enter role')) }}
                             </div>

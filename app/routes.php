@@ -35,7 +35,11 @@ Route::group(array('prefix' => 'api/v1'), function()
     Route::resource('consumer','ApiConsumerController');
 });
 
+//Stats Charts
+Route::get('stats/generalcharts', array('uses' => 'StatsController@showGeneralChart'));
+
 Route::get('/', array('uses' => 'HomeController@showHome'))->before('auth');
+Route::get('/dashboard', array('uses' => 'HomeController@showHome'))->before('auth');
 Route::get('scheduler/sendmessage', array('uses' => 'SchedulerController@sendMessage'));
 Route::get('login', array('uses' => 'HomeController@showLogin'))->before('guest');
 Route::post('login', array('uses' => 'HomeController@doLogin'));

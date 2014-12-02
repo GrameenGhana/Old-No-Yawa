@@ -46,10 +46,9 @@
                 </a>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
-                        <?php 
-                        if (Auth::check() == false)
-                        {
-                         Redirect::to('/');
+                        <?php
+                        if (Auth::check() == false) {
+                            Redirect::to('/');
                         }
                         ?>
 
@@ -62,7 +61,19 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    {{ HTML::image('img/avatar3.png','User Image',array('class'=>'img-circle')); }}
+                                    <?php
+                                    if (Auth::user()->getGender() == "f") {
+                                        ?>
+                                        {{ HTML::image('img/female.png','User Image',array('class'=>'img-circle')); }}
+
+                                        <?php
+                                    } else {
+                                        ?>
+                                        {{ HTML::image('img/male.png','User Image',array('class'=>'img-circle')); }}
+                                        <?php
+                                    }
+                                    ?>
+
                                     <p>
                                         {{{ Auth::user()->getName() }}} ({{{Auth::user()->username}}})
                                         <small>{{{ ucfirst(Auth::user()->role) }}}</small>
@@ -92,7 +103,18 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            {{ HTML::image('img/avatar3.png','User Image',array('class'=>'img-circle')); }}
+                            <?php
+                            if (Auth::user()->getGender() == "f") {
+                                ?>
+                                {{ HTML::image('img/female.png','User Image',array('class'=>'img-circle')); }}
+
+                                <?php
+                            } else {
+                                ?>
+                                {{ HTML::image('img/male.png','User Image',array('class'=>'img-circle')); }}
+                                <?php
+                            }
+                            ?>
                         </div>
                         <div class="pull-left info">
                             <p>Hello, {{{ Auth::user()->first_name }}}</p>
@@ -104,8 +126,8 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="treeview {{ Request::is('/') ? 'active' : '' }}">
-                            <a href="{{ URL::to('/') }}">
-                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            <a href="{{ URL::to('/dashboard') }}">
+                                <i class="fa fa-dashboard"></i> Dashboard
                             </a>
                         </li>
 
@@ -127,8 +149,8 @@
 
                         </li>
                         @endif
-                        
-                         @if (in_array(strtolower(Auth::user()->role), array('partner')))
+
+                        @if (in_array(strtolower(Auth::user()->role), array('partner')))
 
                         <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
                             <a href="#">
@@ -138,14 +160,14 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
-                                
+
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
                             </ul>
 
                         </li>
-                        
+
                         @endif
-                        
+
                         @if (in_array(strtolower(Auth::user()->role), array('volunteer')))
 
                         <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
@@ -156,13 +178,13 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
-                             </ul>
+                            </ul>
 
                         </li>
                         @endif
 
                         @if (strtolower(Auth::user()->role) == 'admin')
-                        
+
                         <li class="treeview {{ (Request::is('stats*')) ? 'active' : '' }}">
                             <a href="#">
                                 <i class="fa fa-cogs"></i>
@@ -171,12 +193,12 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="{{ Request::is('general/*') ? 'active' : '' }}"><a href="{{ URL::to('general') }}"><i class="fa fa-bar-chart-o"></i>General Charts</a></li>
+                                <li class="{{ Request::is('stats/generalcharts') ? 'active' : '' }}"><a href="{{ URL::to('stats/generalcharts') }}"><i class="fa fa-bar-chart-o"></i>General Charts</a></li>
                                 <li class="{{ Request::is('timeseries/*') ? 'active' : '' }}"><a href="{{ URL::to('timeseries') }}"><i class="fa fa-bar-chart-o"></i>Timeseries Charts</a></li>
                                 <li class="{{ Request::is('location/*') ? 'active' : '' }}"><a href="{{ URL::to('location') }}"><i class="fa fa-map-marker"></i>Location Charts</a></li>
                             </ul>
                         </li>
-                        
+
 
                         <li class="treeview {{ (Request::is('users*')) ? 'active' : '' }}">
                             <a href="#">

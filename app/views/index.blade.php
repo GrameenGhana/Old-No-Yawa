@@ -16,10 +16,16 @@
 <!-- Main content -->
 <section class="content">
 
-    @if (strtolower(Auth::user()->role) == 'supervisor')
-    @include('supervisor.index', array('nurses'=>$nurses));
-    @else
-    @include('home');
+    @if (strtolower(Auth::user()->role) == 'admin')
+     @include('adminhome')
+    @endif
+    
+    @if (strtolower(Auth::user()->role) == 'partner')
+     @include('partnerhome')
+    @endif
+    
+    @if (strtolower(Auth::user()->role) == 'volunteer')
+     @include('volunteerhome')
     @endif
 
 
@@ -31,23 +37,17 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/drilldown.js"></script>
 
-
 <script type="text/javascript">
 
 $(function() {
-    $('#byAge').highcharts(
-    {{json_encode($subscribersByAge)}}
+    $('#byStatus').highcharts(
+    {{json_encode($subscribersByStatus)}}
     )
     
-    $('#byChannel').highcharts(
-    {{json_encode($subscribersByChannel)}}
-    )
-    
-    $('#byOperator').highcharts(
-    {{json_encode($subscribersByOperator)}}
-    )
+   
 });
 
 
 </script>
+
 @stop

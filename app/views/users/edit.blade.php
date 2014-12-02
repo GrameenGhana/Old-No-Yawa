@@ -81,6 +81,11 @@
                                 {{ Form::label('last_name','Last Name') }}
                                 {{ Form::text('last_name',$user->last_name,array('class'=>'form-control','placeholder'=>'Enter last name')) }}
                             </div>
+                            
+                              <div class="form-group">
+                                {{ Form::label('gender','Gender') }}
+                                {{ Form::select('gender', $gender, Input::old('gender'),array('class'=>'form-control','placeholder'=>'Enter gender')) }}
+                            </div>
 
                             <div class="form-group">
                                 {{ Form::label('role','Role') }}
