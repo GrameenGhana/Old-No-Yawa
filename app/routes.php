@@ -35,6 +35,9 @@ Route::group(array('prefix' => 'api/v1'), function()
     Route::resource('consumer','ApiConsumerController');
 });
 
+Route::get('/gettotalsubscribers', array('as'=>'getdata', 'uses'=>'HomeController@getTotalSubscribersData'));
+Route::get('/getactivesubscribers', array('as'=>'getdata', 'uses'=>'HomeController@getActiveSubscribersData'));
+
 //Stats Charts
 Route::get('stats/generalcharts', array('uses' => 'StatsController@showGeneralChart'));
 

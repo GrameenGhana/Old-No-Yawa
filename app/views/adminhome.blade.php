@@ -39,7 +39,7 @@ if ($credit >= ($subscribersCount * 3)) {
     </div><!-- ./col -->
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-yellow">
+        <div class="small-box bg-purple">
             <div class="inner">
                 <h3>
                     {{ $subscribersCount }}
@@ -63,7 +63,7 @@ if ($credit >= ($subscribersCount * 3)) {
         if ($flag == 0) {
             echo "bg-green";
         } elseif ($flag == 1) {
-            echo "beg-yellow";
+            echo "bg-yellow";
         } elseif ($flag == 2) {
             echo "bg-red";
         }
@@ -95,7 +95,7 @@ if ($credit >= ($subscribersCount * 3)) {
 
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-red">
+        <div class="small-box bg-blue">
             <div class="inner">
                 <h3>
                     {{ $messagesOut }}
@@ -127,11 +127,85 @@ if ($credit >= ($subscribersCount * 3)) {
 
         <div class="box-body ">
 
-            <br/>
+            <div class="row">
+                <center><h2>NoYawa Registrants By Status</h2></center>
             
-            <div id="byStatus" class="span6"></div>
+            <div id="byStatus" class="col-md-8"></div>
 
-            <br/>
+                <div class="col-md-4">
+                          
+                            <div class="box">
+                                <div class="box-header">
+                                </div><!-- /.box-header -->
+                                <div class="box-body no-padding">
+                                    <table class="table table-striped">
+                                        <tbody><tr>
+                                            <th>Status</th>
+                                            <th>Progress</th>
+                                            <th style="width: 40px">Total</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Graduants</td>
+                                            <td>
+                                                <div class="progress xs">
+                                                    <div class="progress-bar progress-bar-yellow" style="width: <?php echo (($subsGraduants * 100) / $subscribersCount ) ; ?>%"></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-yellow">{{ $subsGraduants }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Active</td>
+                                            <td>
+                                                <div class="progress xs">
+                                                    <div class="progress-bar progress-bar-success" style="width: <?php echo (($subsActive * 100) / $subscribersCount ) ; ?>%"></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-green">{{ $subsActive }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ineligible</td>
+                                            <td>
+                                                <div class="progress xs progress-striped active">
+                                                    <div class="progress-bar progress-bar-danger" style="width: <?php echo (($subsIneligible * 100) / $subscribersCount ) ; ?>%"></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-red">{{ $subsIneligible }}</span></td>
+                                        </tr>
+                                        
+                                    </tbody></table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        
+            </div>
+            </div>
+
+            <hr class="space">
+
+            <form>
+                <div class="form-group" style=" text-align: right;
+                     background: white;
+                     padding-bottom: 5px;
+                     padding-right: 5px;
+                     padding: 5px;margin-bottom: 0px;">
+                    <label>Select Year</label>
+                    <select  class="from-control " id="yearselected" >
+
+                        <option>2013</option>
+
+                        <option selected="selected">2014</option>
+
+
+                    </select>
+
+                </div>
+            </form>
+
+         
+            
+            <div id="subscriberschart" class="span6">
+                
+            </div>
+
 
 
         </div>

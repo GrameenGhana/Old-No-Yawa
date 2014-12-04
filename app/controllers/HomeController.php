@@ -16,20 +16,155 @@ class HomeController extends BaseController {
         
         
         
-        //Charts
+        // Number of graduants
+        $subsGraduants = DB::table('clients_sms_registration')
+                ->whereRaw('nyweeks > 26')
+                ->count();
+
         
-        //getting chart array of subscribers by age
-        //$subscribersByAge = $this->getSubscribersByAgeChart();
-        //$subscribersByChannel = $this->getSubscribersByChannelChart();
-        //$subscribersByOperator = $this->getSubscribersByOperatorChart();
-        //return $subscribersByAge;
+        // Number of active subscribers
+        $subsActive = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE")')
+                ->count();
+        
+        // Number of ineligible subscribers
+         $subsIneligible = DB::table('clients_sms_registration')
+                ->whereRaw('status = "Ineligible"')
+                ->count();
         
         $subscribersByStatus = $this->getSubscribersByStatus();
 
-        $data = array("subscribersCount"=>$subscribersCount,"projectAge"=>$projectAge,"messagesOut"=>$messagesOut,"subscribersByStatus"=>$subscribersByStatus);
+        $data = array("subscribersCount"=>$subscribersCount,"projectAge"=>$projectAge,"messagesOut"=>$messagesOut,"subscribersByStatus"=>$subscribersByStatus,'subsGraduants'=>$subsGraduants,'subsActive'=>$subsActive,'subsIneligible'=>$subsIneligible);
         
         return View::make('index')->with($data);
     }
+    
+    public function getTotalSubscribersData(){
+        
+        $year = Input::get( 'y' );
+        
+        //if no year is selected , load charts for current year
+        if($year == null){
+            $year = date("Y");
+        }
+        
+        $jansubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 01  And Year(created_at) = '.$year)
+                ->count();
+        
+        $febsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 02  And Year(created_at) = '.$year)
+                ->count();
+        
+        $marsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 03  And Year(created_at) = '.$year)
+                ->count();
+        
+        $aprsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 04  And Year(created_at) = '.$year)
+                ->count();
+        
+        $maysubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 05  And Year(created_at) = '.$year)
+                ->count();
+        
+        $junsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 06  And Year(created_at) = '.$year)
+                ->count();
+        
+        $julsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 07  And Year(created_at) = '.$year)
+                ->count();
+        
+        $augsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 08  And Year(created_at) = '.$year)
+                ->count();
+        
+        $sepsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 09  And Year(created_at) = '.$year)
+                ->count();
+        
+        $octsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 10  And Year(created_at) = '.$year)
+                ->count();
+        
+        
+        $novsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 11  And Year(created_at) = '.$year)
+                ->count();
+        
+        $decsubscribers = DB::table('clients_sms_registration')
+                ->whereRaw('Month(created_at) = 12  And Year(created_at) = '.$year)
+                ->count();
+        
+        
+        $data = [$jansubscribers, $febsubscribers, $marsubscribers, $aprsubscribers, $maysubscribers, $junsubscribers, $julsubscribers, $augsubscribers, $sepsubscribers, $octsubscribers, $novsubscribers,$decsubscribers];
+        return  $data;
+    }
+    
+     public function getActiveSubscribersData(){
+        
+        $year = Input::get( 'y' );
+        
+        //if no year is selected , load charts for current year
+        if($year == null){
+            $year = date("Y");
+        }
+        
+        $jansubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 01  And Year(start_date) = '.$year)
+                ->count();
+        
+        $febsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 02  And Year(start_date) = '.$year)
+                ->count();
+        
+        $marsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 03  And Year(start_date) = '.$year)
+                ->count();
+        
+        $aprsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 04  And Year(start_date) = '.$year)
+                ->count();
+        
+        $maysubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 05  And Year(start_date) = '.$year)
+                ->count();
+        
+        $junsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 06  And Year(start_date) = '.$year)
+                ->count();
+        
+        $julsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 07  And Year(start_date) = '.$year)
+                ->count();
+        
+        $augsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 08  And Year(start_date) = '.$year)
+                ->count();
+        
+        $sepsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 09  And Year(start_date) = '.$year)
+                ->count();
+        
+        $octsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 10  And Year(start_date) = '.$year)
+                ->count();
+        
+        
+        $novsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 11  And Year(start_date) = '.$year)
+                ->count();
+        
+        $decsubscribers = DB::table('reporting_subscribers')
+                ->whereRaw('status IN ("ACTIVE") And Month(start_date) = 12  And Year(start_date) = '.$year)
+                ->count();
+        
+        
+        $data = [$jansubscribers, $febsubscribers, $marsubscribers, $aprsubscribers, $maysubscribers, $junsubscribers, $julsubscribers, $augsubscribers, $sepsubscribers, $octsubscribers, $novsubscribers,$decsubscribers];
+        return  $data;
+    }
+    
     
     public function DateDiff($date1, $date2, $format='long')
 	{
@@ -90,7 +225,7 @@ class HomeController extends BaseController {
                 ->count();
          
         $chartArray["chart"] = array("plotBackgroundColor" => null,"plotBorderWidth"=>1,"plotShadow"=>false);
-        $chartArray["title"] = array("text" => "NoYawa Registrants By Status");
+        $chartArray["title"] = array("text" => " ");
         //$chartArray["tooltip"] = array("pointFormat" => "{series.name}: <b>{point.percentage:.1f}%</b>");
         $chartArray["legend"] = array("enabled" => true);
         $chartArray["credits"] = array("enabled" => false);

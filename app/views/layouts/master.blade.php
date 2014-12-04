@@ -12,8 +12,8 @@
         {{ HTML::style('css/font-awesome.min.css'); }} 
         <!-- Ionicons -->
         {{ HTML::style('css/ionicons.min.css'); }} 
-        <!-- Morris chart -->
-        {{ HTML::style('css/morris/morris.css'); }} 
+        <!-- Morris chart 
+        {{ HTML::style('css/morris/morris.css'); }} -->
         <!-- jvectormap -->
         {{ HTML::style('css/jvectormap/jquery-jvectormap-1.2.2.css'); }} 
         <!-- fullCalendar -->
@@ -229,15 +229,17 @@
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
+        <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+        
         <!-- jQuery 2.0.2 -->
-        {{ HTML::script('js/jquery-1.11.1.min.js'); }}
+        
         <!-- jQuery UI 1.10.3 -->
         {{ HTML::script('js/jquery-ui-1.10.3.min.js'); }}
         <!-- Bootstrap -->
         {{ HTML::script('js/bootstrap.min.js'); }}
-        <!-- Morris.js charts -->
+        <!-- Morris.js charts 
         <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-        {{ HTML::script('js/plugins/morris/morris.min.js'); }}
+        {{ HTML::script('js/plugins/morris/morris.min.js'); }} -->
         <!-- Sparkline -->
         {{ HTML::script('js/plugins/sparkline/jquery.sparkline.min.js'); }}
         <!-- jvectormap -->
