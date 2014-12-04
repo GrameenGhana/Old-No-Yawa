@@ -39,50 +39,56 @@
             </div><!-- /.box-header -->
 
             <div class="box-body table-responsive">
-                <table id="substable" class="table table-bordered table-striped">
+                <table id="uploadstable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>File Name</th>
-                            <th>File Extension</th>
                             <th>No of Records</th>
                             <th>Source</th>
                             <th>Status</th>
-                            <th>Uploaded By</th>
                             <th>Registration Date</th>
+                            <th>Uploaded By</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($uploads as $k => $value)
                         <tr>
-                            <td> {{ $value->file_name }} </td>
-                            <td> {{ $value->file_extension }} </td>
-                            <td> {{ $value->number_of_records }} </td>
-                            <td> {{ $value->source }} </td>
-                            <td> {{ $value->status }} </td>
-                            <td> {{ $value->uploader->username}} </td>
-                            <td> {{ date('M d, Y',strtotime($value->created_at)) }} </td>
+                            <td> </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td class="expand">  </td>
+                            <td>  </td>
+                            <td>  </td>
 
                         </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
+
+    <style type="text/css">
+        table td.expand {
+            width: 50%
+        }
+    </style>
     @stop
 
 
     @section('script')
     <script type="text/javascript">
-        $(function() {
-            $('#substable').dataTable({
-                "bPaginate": true,
-                "bLengthChange": true,
-                "bFilter": true,
-                "bSort": true,
-                "bInfo": true,
-                "bAutoWidth": false,
-                "iDisplayLength": 100
+        var oTable;
+        $(document).ready(function() {
+            oTable = $('#uploadstable').dataTable({
+                "aaSorting": [[0, 'desc']],
+                "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+                "sPaginationType": "bootstrap",
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bSortable": true,
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "{{ URL::to('/getuploads') }}"
             });
         });
     </script>

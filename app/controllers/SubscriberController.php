@@ -1,11 +1,9 @@
 <?php
 
-
 use Bllim\Datatables\Datatables;
 
 class SubscriberController extends BaseController {
 
-    
     public function __construct() {
         $this->createRules = array(
             'msisdn' => 'required|min:10|max:16',
@@ -37,18 +35,14 @@ class SubscriberController extends BaseController {
 
         $this->API_USER_ID = 3;
     }
-    
-     public function getData(){
 
-        $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'channel' ,'created_at'));
+    public function getData() {
+
+        $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'channel', 'created_at'));
 
         return Datatables::of($subs)
-
-
-        ->make();
-
+                        ->make();
     }
-
 
 //    public function index() {
 //        $subs  = Subscriber::all();
@@ -67,7 +61,7 @@ class SubscriberController extends BaseController {
     public function create() {
 
         // queries the languages db table, orders by name and lists name and id
-        $language_options = DB::table('languages')->orderBy('name', 'asc')->lists('name', 'id');
+        $language_options = DB::table('languages')->orderBy('name', 'asc')->lists('name', 'name');
 
         return View::make('subscribers.create', array('language_options' => $language_options));
     }
@@ -75,7 +69,7 @@ class SubscriberController extends BaseController {
     public function edit($id) {
         $sub = Subscriber::find($id);
         // queries the languages db table, orders by name and lists name and id
-        $language_options = DB::table('languages')->orderBy('name', 'asc')->lists('name', 'id');
+        $language_options = DB::table('languages')->orderBy('name', 'asc')->lists('name', 'name');
         return View::make('subscribers.edit', array('sub' => $sub, 'languages' => $language_options));
     }
 
@@ -89,25 +83,46 @@ class SubscriberController extends BaseController {
                             ->withInput()
                             ->withErrors($validator);
         } else {
-            $sub = new Subscriber();
-            $sub->msisdn = Input::get('msisdn');
-            $sub->age = Input::get('age');
-            $sub->gender = Input::get('gender');
-            $sub->education_level = Input::get('education_level');
-            $sub->region = Input::get('region');
-            $sub->location = Input::get('location');
-            $sub->source = Input::get('source');
-            $sub->channel = Input::get('channel');
-            $sub->language_id = Input::get('language');
-            $sub->created_at = date('Y-m-d h:m:s');
-            $sub->modified_by = Auth::user()->id;
-            
-            
-            
-            $sub->save();
+            $contact = Input::get('msisdn');
+            $age = Input::get('age');
+            $gender = Input::get('gender');
+            $education = Input::get('education_level');
+            $region = Input::get('region');
+            $location = Input::get('location');
+            $source = Input::get('source');
+            $channel = Input::get('channel');
+            $language = Input::get('language');
+           
+            $date = date_create();
+            $currentDateTime = date_format($date, 'Y-m-d H:i:s');
 
-            Session::flash('message', "{" . Input::get('msisdn') . "} created successfully");
-            return Redirect::to('/subs');
+            $status = "Completed";
+
+
+            if ($age >= 15 && $age <= 19 && $education == "na") {
+                $campaign = "kiki";
+            } else if ($age >= 15 && $age <= 19) {
+                $campaign = "ronald";
+            } else if ($age >= 20 && $age <= 24) {
+                $campaign = "rita";
+            } else {
+                $status = "Ineligible";
+            }
+
+            
+            $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" ');
+
+            if ($success) {
+
+                Session::flash('message', "{" . Input::get('msisdn') . "} created successfully");
+            
+                return Redirect::to('/subs');
+            }else{
+                //Session::flash('message', "{" . Input::get('msisdn') . "} not created successfully");
+            
+                return Redirect::back()->with('errors.message',  Input::get('msisdn') .' not created, check inputs and try again!');
+            }
+            
         }
     }
 
@@ -123,17 +138,17 @@ class SubscriberController extends BaseController {
                             ->withErrors($validator);
         } else {
             $sub = Subscriber::find($id);
-            $sub->msisdn = Input::get('msisdn');
-            $sub->age = Input::get('age');
-            $sub->gender = Input::get('gender');
-            $sub->education_level = Input::get('education_level');
-            $sub->region = Input::get('region');
+            $sub->client_number = Input::get('msisdn');
+            $sub->client_age = Input::get('age');
+            $sub->client_gender = Input::get('gender');
+            $sub->client_education_level = Input::get('education_level');
+            $sub->client_region = Input::get('region');
             $sub->location = Input::get('location');
             $sub->source = Input::get('source');
             $sub->channel = Input::get('channel');
-            $sub->language_id = Input::get('language');
+            $sub->client_language = Input::get('language');
             $sub->updated_at = date('Y-m-d h:m:s');
-            $sub->modified_by = Auth::user()->id;
+            
             $sub->save();
 
             Session::flash('message', "{" . Input::get('msisdn') . "} updated successfully");

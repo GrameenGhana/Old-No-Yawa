@@ -128,7 +128,7 @@ if ($credit >= ($subscribersCount * 3)) {
         <div class="box-body ">
 
             <div class="row">
-                <center><h2>NoYawa Registrants By Status</h2></center>
+                <center><h3>NoYawa Registrants By Status</h3></center>
             
             <div id="byStatus" class="col-md-8"></div>
 

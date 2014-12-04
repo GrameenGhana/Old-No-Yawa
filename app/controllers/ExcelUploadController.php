@@ -11,6 +11,9 @@
  *
  * @author liman
  */
+
+
+use Bllim\Datatables\Datatables;
 class ExcelUploadController extends BaseController {
 
     public function __construct() {
@@ -26,9 +29,19 @@ class ExcelUploadController extends BaseController {
             'role' => 'required|min:2'
         );
     }
+    
+    public function getData() {
+
+        $uploads = ExcelUpload::select(array('file_name', 'number_of_records', 'source',  'created_at','uploaded_by'));
+
+        return Datatables::of($uploads)
+                        ->make();
+    }
 
     public function index() {
-        $uploads = ExcelUpload::all();
+        $uploads = DB::table('excel_uploads')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
         return View::make('uploads.index', array('uploads' => $uploads));
     }
 
@@ -48,7 +61,7 @@ class ExcelUploadController extends BaseController {
         $file = Input::file('file'); //  file upload input field in the form should be named 'file'
 
         //$source = Input::get('source');
-        $uploaded_by = Auth::user()->id;
+        $uploaded_by = Auth::user()->firstname;
 
         $destinationPath = 'uploads/';
         $filename = $file->getClientOriginalName();
@@ -94,6 +107,9 @@ class ExcelUploadController extends BaseController {
                 $education_pos = array_search('education', $fields);
                 $location_pos = array_search('location', $fields);
                 $source_pos = array_search('source',$fields);
+                $region_pos = array_search('region',$fields);
+                $channel_pos = array_search('channel',$fields);
+                $language_pos = array_search('language',$fields);
 
 
                 foreach ($rows as $row) {
@@ -103,18 +119,34 @@ class ExcelUploadController extends BaseController {
                         $data[] = $value;
                     }
 
+                    $location = "";
                     // Only use location if exists
                     if ($location_pos !== false) {
                         $location = $data[$location_pos];
-                    } else {
-                        $location = '';
-                    }
+                    } 
                     
+                     $source = "";
                      if ($source_pos !== false) {
                         $source = $data[$source_pos];
-                    } else {
-                        $source = '';
-                    }
+                    } 
+                    
+                    $region = "";
+                    // Only use region if exists
+                    if ($region_pos !== false) {
+                        $region = $data[$region_pos];
+                    } 
+                    
+                     $channel = "";
+                    // Only use channel if exists
+                    if ($channel_pos !== false) {
+                        $channel = $data[$channel_pos];
+                    } 
+                    
+                    $language = "";
+                    // Only use langauge if exists
+                    if ($language_pos !== false) {
+                        $language = $data[$language_pos];
+                    } 
 
 
                     // getting data read for insertion
@@ -145,7 +177,7 @@ class ExcelUploadController extends BaseController {
                     } else {
 
                         
-                        $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="SMS" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" ');
+                        $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" , excel="'.$filename.'"');
 
                         if ($success) {
 
@@ -164,7 +196,7 @@ class ExcelUploadController extends BaseController {
                 // subscripe client here
 
                 Log:: info('Processing of file completed');
-                DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . ($sizeOfSuccessData + $sizeOfFailedData ) . '",status="Completed : Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ']",created_at="' . $currentDateTime . '" , source="' . $source . '" , uploaded_by='.$uploaded_by .'');
+                DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . ($sizeOfSuccessData + $sizeOfFailedData ) . '",status="Completed : Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ']",created_at="' . $currentDateTime . '" ,  uploaded_by='.$uploaded_by .'');
 
                 Session::flash('msg', 'File Uploaded successfully , Data with Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ' ] records saved !');
                 Log::info('File has Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ' ] records');

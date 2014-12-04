@@ -53,6 +53,7 @@ Route::post('nonauthstopmsg', array('uses' => 'NonAuthStopController@stopmsg'));
 Route::post('broadcastsearch', array('uses' => 'BroadcastController@search'));
 Route::any('/blastmsg', array('as' => 'blastmsg' ,'uses' => 'BroadcastController@blast'));
 Route::get('/getclients', array('as'=>'getclients', 'uses'=>'SubscriberController@getData'));
+Route::get('/getuploads', array('as'=>'getuploads', 'uses'=>'ExcelUploadController@getData'));
 Route::get('/getblastclients', array('as'=>'getblastclients', 'uses'=>'BroadcastController@getData'));
 Route::get('/report', array('uses' => 'HomeController@showDashboard'));
 

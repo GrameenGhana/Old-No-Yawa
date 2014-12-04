@@ -125,7 +125,7 @@
 
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="treeview {{ Request::is('/') ? 'active' : '' }}">
+                        <li class=" {{ Request::is('/') ? 'active' : '' }}">
                             <a href="{{ URL::to('/dashboard') }}">
                                 <i class="fa fa-dashboard"></i> Dashboard
                             </a>
