@@ -38,7 +38,7 @@ class SubscriberController extends BaseController {
 
     public function getData() {
 
-        $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'channel', 'created_at'));
+        $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'channel', 'status','created_at'));
 
         return Datatables::of($subs)
                         ->make();
@@ -124,6 +124,41 @@ class SubscriberController extends BaseController {
             }
             
         }
+    }
+    
+    public function fireAllForCampaign(){
+         $subs  = Subscriber::all();
+         
+         $count = 0 ;
+         foreach ($subs as $s){
+             $campaign = "";
+             $status="";
+             
+            if ($s->client_age >= 15 && $s->client_age <= 19 && $s->client_education_level == "na") {
+                $campaign = "kiki";
+                $status = "Completed";
+                $count++;
+            } else if ($s->client_age >= 15 && $s->client_age <= 19) {
+                $campaign = "ronald";
+                $status = "Completed";
+                $count++;
+            } else if ($s->client_age >= 20 && $s->client_age <= 24) {
+                $campaign = "rita";
+                $status = "Completed";
+                $count++;
+            } else {
+                $status = "Ineligible";
+            }
+            
+            
+            $success =  DB::statement('update clients_sms_registration Set status="'.$status.'" , campaignid="' .$campaign.'" Where client_number= "'.$s->client_number.'" ');
+             if($success){
+                 print("Done ".$count);
+                 print("\n");
+             }
+         }
+         
+         return "Firing all subscribers with all campaigns : " .$count;
     }
 
     public function update($id) {

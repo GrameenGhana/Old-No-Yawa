@@ -44,16 +44,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($logs as $k => $value)
                             <tr>
-                                <td> {{ $value->direction }} </td>
-                                <td> {{ $value->sender }} </td>
-                                <td> {{ $value->receiver }} </td>
-                                <td> {{ $value->message }} </td>
-                                <td> {{ $value->status }} </td>
+                                <td> </td>
+                                <td> </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
                                
                             </tr>
-                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -64,16 +62,20 @@
 
 @section('script')
     <script type="text/javascript">
-            $(function() {
-                $('#logstable').dataTable({
-                    "bPaginate": true,
-                    "bLengthChange": true,
-                    "bFilter": true,
-                    "bSort": true,
-                    "bInfo": true,
-                    "bAutoWidth": false,
-                    "iDisplayLength": 100
-                                    });
+        var oTable;
+        $(document).ready(function() {
+            oTable = $('#logstable').dataTable({
+                "aaSorting": [[0, 'desc']],
+                "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+                "sPaginationType": "bootstrap",
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bSortable": true,
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "{{ URL::to('/getlogs') }}"
             });
-        </script>
+        });
+    </script>
 @stop

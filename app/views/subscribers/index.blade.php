@@ -46,12 +46,14 @@
                             <th>Gender</th>
                             <th>Education Level</th>
                             <th>Channel</th>
+                            <th>Status</th>
                             <th>Registration Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td> </td>
+                            <td>  </td>
                             <td>  </td>
                             <td>  </td>
                             <td>  </td>
@@ -81,7 +83,7 @@
         var oTable;
         $(document).ready(function() {
             oTable = $('#substable').dataTable({
-                "aaSorting": [[0, 'desc']],
+                "aaSorting": [[5, 'desc']],
                 "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
                 "sPaginationType": "bootstrap",
                 "oLanguage": {

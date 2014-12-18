@@ -1,5 +1,7 @@
 <?php
 
+use Bllim\Datatables\Datatables;
+
 class SmsLogController extends BaseController {
 
     public function __construct()
@@ -11,12 +13,29 @@ class SmsLogController extends BaseController {
        
 
     }
+    
+    public function getData() {
 
-    public function index()
-    {
-       $logs = Smslog::all();
-       return View::make('smslogs.index',array('logs'=>$logs));
+        $logs = Smslog::select(array('direction', 'sender', 'receiver', 'message', 'status'));
+
+        return Datatables::of($logs)
+                        ->make();
     }
+
+
+
+    public function index() {
+        $logs = DB::table('smslog')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
+        return View::make('smslogs.index', compact('logs'));
+    }
+
+//    public function index()
+//    {
+//       $logs = Smslog::all();
+//       return View::make('smslogs.index',array('logs'=>$logs));
+//    }
 
    
 }                                                            

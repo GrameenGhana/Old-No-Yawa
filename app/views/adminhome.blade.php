@@ -2,9 +2,13 @@
 //checking balance from txtconnect api
 $url = 'http://txtconnect.co/api/balance/';
 $context = stream_context_create(array('http' => array('header' => 'Connection: close\r\n')));
-$result = file_get_contents($url . "?token=" . urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0'), false, $context);
-$data = json_decode($result);
-$credit = $data->response;
+$result = @file_get_contents($url . "?token=" . urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0'), false, $context);
+if ($result) {
+    $data = json_decode($result);
+    $credit = $data->response;
+} else {
+    $credit = "------";
+}
 
 $flag = ""; //to determine which color of message to show
 
@@ -129,54 +133,54 @@ if ($credit >= ($subscribersCount * 3)) {
 
             <div class="row">
                 <center><h3>NoYawa Registrants By Status</h3></center>
-            
-            <div id="byStatus" class="col-md-8"></div>
+
+                <div id="byStatus" class="col-md-8"></div>
 
                 <div class="col-md-4">
-                          
-                            <div class="box">
-                                <div class="box-header">
-                                </div><!-- /.box-header -->
-                                <div class="box-body no-padding">
-                                    <table class="table table-striped">
-                                        <tbody><tr>
-                                            <th>Status</th>
-                                            <th>Progress</th>
-                                            <th style="width: 40px">Total</th>
-                                        </tr>
-                                        <tr>
-                                            <td>Graduants</td>
-                                            <td>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-yellow" style="width: <?php echo (($subsGraduants * 100) / $subscribersCount ) ; ?>%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-yellow">{{ $subsGraduants }}</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Active</td>
-                                            <td>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-success" style="width: <?php echo (($subsActive * 100) / $subscribersCount ) ; ?>%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-green">{{ $subsActive }}</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ineligible</td>
-                                            <td>
-                                                <div class="progress xs progress-striped active">
-                                                    <div class="progress-bar progress-bar-danger" style="width: <?php echo (($subsIneligible * 100) / $subscribersCount ) ; ?>%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-red">{{ $subsIneligible }}</span></td>
-                                        </tr>
-                                        
-                                    </tbody></table>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
-                        
-            </div>
+
+                    <div class="box">
+                        <div class="box-header">
+                        </div><!-- /.box-header -->
+                        <div class="box-body no-padding">
+                            <table class="table table-striped">
+                                <tbody><tr>
+                                        <th>Status</th>
+                                        <th>Progress</th>
+                                        <th style="width: 40px">Total</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Graduants</td>
+                                        <td>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-yellow" style="width: <?php echo (($subsGraduants * 100) / $subscribersCount ); ?>%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-yellow">{{ $subsGraduants }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Active</td>
+                                        <td>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-success" style="width: <?php echo (($subsActive * 100) / $subscribersCount ); ?>%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-green">{{ $subsActive }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ineligible</td>
+                                        <td>
+                                            <div class="progress xs progress-striped active">
+                                                <div class="progress-bar progress-bar-danger" style="width: <?php echo (($subsIneligible * 100) / $subscribersCount ); ?>%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-red">{{ $subsIneligible }}</span></td>
+                                    </tr>
+
+                                </tbody></table>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+
+                </div>
             </div>
 
             <hr class="space">
@@ -200,10 +204,10 @@ if ($credit >= ($subscribersCount * 3)) {
                 </div>
             </form>
 
-         
-            
+
+
             <div id="subscriberschart" class="span6">
-                
+
             </div>
 
 

@@ -16,32 +16,87 @@
 <!-- Main content -->
 <section class="content">
 
-    <div class="box">
-        <div class="box-header">
-        </div><!-- /.box-header -->
-
-        
-        
-        <div class="box-body ">
-            
-            
-
-            <br/>
-            
-            <div id="byAge" class="span6"></div>
-
-            <br/>
-            
-            <div id="byChannel" class="span6"></div>
-
-            <br/>
-            
-            <div id="byOperator" class="span6"></div>
-
-            <br/>
+    <div class="col-md-12">
+        <!-- general form elements disabled -->
+        <div class="box box-warning">
+            <div class="box-body">
+                <form role="form" class="form-inline">
 
 
-        </div>
+                    <!-- select -->
+                    <div class="form-group">
+                        <label >Select Subscribers</label>
+                        <select class="form-control">
+                            <option>All</option>
+                            <option>Graduates</option>
+                            <option>Active</option>
+                        </select>
+                    </div>
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;
+
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <label >Subscribers By </label> &nbsp; &nbsp;
+                        <div class="checkbox" >
+                            <label data-labelfor="agebox">
+                                <input value="agebox"  id="agebox" type="checkbox" style="position: absolute; opacity: 0;"> 
+                                Age
+                            </label>
+                        </div>
+
+                        &nbsp;
+
+                        <div class="checkbox">
+                            <label class="">
+                                <div class="icheckbox_minimal"   style="position: relative;"><input value="channelbox" type="checkbox" style="position: absolute; opacity: 0;"></div>
+                                Channel(SMS/Voice)
+                            </label>
+                        </div>
+
+                        &nbsp;
+
+                        <div class="checkbox">
+                            <label class="">
+                                <input value="networkbox" type="checkbox" style="position: absolute; opacity: 0;">
+                                Network Operators
+                            </label>
+                        </div>
+
+                        &nbsp;
+
+                        <div class="checkbox">
+                            <label class="">
+                                <div class="icheckbox_minimal"   style="position: relative;"><input value="sourcebox" type="checkbox" style="position: absolute; opacity: 0;"></div>
+                                Source
+                            </label>
+                        </div>
+
+
+                    </div>
+
+                    <br/>
+
+                    <div id="byAge" ></div>
+
+                    <br/>
+
+                    <div id="byChannel" class="span6"></div>
+
+                    <br/>
+
+                    <div id="byOperator" class="span6"></div>
+
+                    <br/>
+
+                    <div id="bySource" class="span6"></div>
+
+                </form>
+
+
+
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
     </div>
 
 
@@ -56,21 +111,48 @@
 
 <script type="text/javascript">
 
-$(function() {
-    $('#byAge').highcharts(
-    {{json_encode($subscribersByAge)}}
-    )
-    
-     $('#byChannel').highcharts(
-    {{json_encode($subscribersByChannel)}}
-    )
-    
-     $('#byOperator').highcharts(
-    {{json_encode($subscribersByOperator)}}
-    )
-    
-   
-});
+        $(function() {
+
+        $("[data-labelfor]").click(function() {
+        $('#' + $(this).attr("data-labelfor")).prop('checked',
+                function(i, oldVal) { return !oldVal; });
+        });
+                $('input[type="checkbox"]').click(function(){
+        if ($(this).attr("value") == "agebox"){
+        $("#byAge").toggle();
+                console.log("Age Box Toggled....");
+        }
+        if ($(this).attr("value") == "channelbox"){
+        $("#byChannel").toggle();
+                console.log("Channel Box Toggled....");
+        }
+        if ($(this).attr("value") == "networkbox"){
+        $("#byOperator").toggle();
+                console.log("Network Box Toggled....");
+        }
+        if ($(this).attr("value") == "sourcebox"){
+        $("#bySource").toggle();
+                console.log("Source Box Toggled....");
+        }
+        });
+                $('#byAge').highcharts(
+        {{json_encode($subscribersByAge)}}
+        )
+
+                $('#byChannel').highcharts(
+        {{json_encode($subscribersByChannel)}}
+        )
+
+                $('#byOperator').highcharts(
+        {{json_encode($subscribersByOperator)}}
+        )
+
+                $('#bySource').highcharts(
+        {{json_encode($subscribersBySource)}}
+        )
+
+
+        });
 
 
 </script>

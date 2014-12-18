@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/fire', array('uses' => 'SubscriberController@fireAllForCampaign'));
+
 /** for Vas2Nets **/
 Route::resource('users','ApiSubscriberController');
 Route::post('insertUser',     array('uses' => 'ApiSubscriberController@store'));
@@ -38,6 +40,8 @@ Route::group(array('prefix' => 'api/v1'), function()
 Route::get('/gettotalsubscribers', array('as'=>'getdata', 'uses'=>'HomeController@getTotalSubscribersData'));
 Route::get('/getactivesubscribers', array('as'=>'getdata', 'uses'=>'HomeController@getActiveSubscribersData'));
 
+Route::get('/getagechart', array('as'=>'getagechart', 'uses'=>'StatsController@getSubscribersByAgeChart'));
+
 //Stats Charts
 Route::get('stats/generalcharts', array('uses' => 'StatsController@showGeneralChart'));
 
@@ -53,6 +57,7 @@ Route::post('nonauthstopmsg', array('uses' => 'NonAuthStopController@stopmsg'));
 Route::post('broadcastsearch', array('uses' => 'BroadcastController@search'));
 Route::any('/blastmsg', array('as' => 'blastmsg' ,'uses' => 'BroadcastController@blast'));
 Route::get('/getclients', array('as'=>'getclients', 'uses'=>'SubscriberController@getData'));
+Route::get('/getlogs', array('as'=>'getlogs', 'uses'=>'SmsLogController@getData'));
 Route::get('/getuploads', array('as'=>'getuploads', 'uses'=>'ExcelUploadController@getData'));
 Route::get('/getblastclients', array('as'=>'getblastclients', 'uses'=>'BroadcastController@getData'));
 Route::get('/report', array('uses' => 'HomeController@showDashboard'));
