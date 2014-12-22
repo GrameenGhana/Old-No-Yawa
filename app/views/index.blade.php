@@ -16,7 +16,7 @@
 <!-- Main content -->
 <section class="content">
 
-    @if (strtolower(Auth::user()->role) == 'admin')
+    @if (in_array(strtolower(Auth::user()->role), array('admin','demo')))
     @include('adminhome')
     @endif
 

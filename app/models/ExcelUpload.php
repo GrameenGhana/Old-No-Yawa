@@ -16,10 +16,6 @@ class ExcelUpload extends Eloquent{
     protected $table = 'excel_uploads';
     
     
-    	public function uploader()
-    {
-           return $this->hasOne('User','id','uploaded_by');
-    }
     
     /**
 	 * Returns the date of the client creation,

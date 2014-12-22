@@ -24,6 +24,7 @@
         {{ HTML::style('css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); }} 
         <!-- Theme style -->
         {{ HTML::style('css/AdminLTE.css'); }} 
+        
 
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -149,6 +150,23 @@
 
                         </li>
                         @endif
+                        
+                        @if (in_array(strtolower(Auth::user()->role), array('demo')))
+
+                        <li class="treeview {{ (Request::is('subs*')) ? 'active' : '' }}">
+                            <a href="#">
+                                <i class="fa fa-cogs"></i>
+                                <span>Actions</span>                  
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
+                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('uploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
+                                <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
+                            </ul>
+
+                        </li>
+                        @endif
 
                         @if (in_array(strtolower(Auth::user()->role), array('partner')))
 
@@ -183,7 +201,7 @@
                         </li>
                         @endif
 
-                        @if (strtolower(Auth::user()->role) == 'admin')
+                        @if (in_array(strtolower(Auth::user()->role), array('admin','demo')))
 
                         <li class="treeview {{ (Request::is('stats*')) ? 'active' : '' }}">
                             <a href="#">

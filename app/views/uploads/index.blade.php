@@ -23,9 +23,11 @@
 
     <div class="row">
         <div class="col-xs-12">
+            @if (in_array(strtolower(Auth::user()->role), array('admin')))
             <h2 class="page-header">
                 <a class="btn btn-small btn-success" href="{{ URL::to('uploads/upload') }}"><i class="fa fa-plus-circle"></i> Upload Excel File</a>
             </h2>
+            @endif
         </div><!-- /.col -->
     </div>
 
@@ -44,7 +46,6 @@
                         <tr>
                             <th>File Name</th>
                             <th>No of Records</th>
-                            <th>Source</th>
                             <th>Status</th>
                             <th>Registration Date</th>
                             <th>Uploaded By</th>
@@ -53,7 +54,6 @@
                     <tbody>
                         <tr>
                             <td> </td>
-                            <td>  </td>
                             <td>  </td>
                             <td class="expand">  </td>
                             <td>  </td>
@@ -79,7 +79,7 @@
         var oTable;
         $(document).ready(function() {
             oTable = $('#uploadstable').dataTable({
-                "aaSorting": [[0, 'desc']],
+                "aaSorting": [[3, 'desc']],
                 "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
                 "sPaginationType": "bootstrap",
                 "oLanguage": {

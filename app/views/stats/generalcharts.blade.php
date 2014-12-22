@@ -35,12 +35,13 @@
 
                     &nbsp; &nbsp;&nbsp; &nbsp;
 
+                    
                     <!-- checkbox -->
                     <div class="form-group">
                         <label >Subscribers By </label> &nbsp; &nbsp;
                         <div class="checkbox" >
                             <label data-labelfor="agebox">
-                                <input value="agebox"  id="agebox" type="checkbox" style="position: absolute; opacity: 0;"> 
+                                <input value="agebox"  id="agebox" checked="true" type="checkbox" style="position: absolute; opacity: 0;"> 
                                 Age
                             </label>
                         </div>
@@ -49,7 +50,7 @@
 
                         <div class="checkbox">
                             <label class="">
-                                <div class="icheckbox_minimal"   style="position: relative;"><input value="channelbox" type="checkbox" style="position: absolute; opacity: 0;"></div>
+                                <input value="channelbox" checked type="checkbox" style="position: absolute; opacity: 0;">
                                 Channel(SMS/Voice)
                             </label>
                         </div>
@@ -58,7 +59,7 @@
 
                         <div class="checkbox">
                             <label class="">
-                                <input value="networkbox" type="checkbox" style="position: absolute; opacity: 0;">
+                                <input value="networkbox" checked type="checkbox" style="position: absolute; opacity: 0;">
                                 Network Operators
                             </label>
                         </div>
@@ -67,7 +68,7 @@
 
                         <div class="checkbox">
                             <label class="">
-                                <div class="icheckbox_minimal"   style="position: relative;"><input value="sourcebox" type="checkbox" style="position: absolute; opacity: 0;"></div>
+                                <input value="sourcebox" checked type="checkbox" style="position: absolute; opacity: 0;">
                                 Source
                             </label>
                         </div>
@@ -110,6 +111,7 @@
 <script src="http://code.highcharts.com/modules/drilldown.js"></script>
 
 <script type="text/javascript">
+    
 
         $(function() {
 

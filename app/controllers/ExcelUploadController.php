@@ -32,7 +32,7 @@ class ExcelUploadController extends BaseController {
     
     public function getData() {
 
-        $uploads = ExcelUpload::select(array('file_name', 'number_of_records', 'source',  'created_at','uploaded_by'));
+        $uploads = ExcelUpload::select(array('file_name', 'number_of_records', 'status',  'created_at','uploaded_by'));
 
         return Datatables::of($uploads)
                         ->make();

@@ -23,9 +23,11 @@
         
         <div class="row">
             <div class="col-xs-12">
+                 @if (in_array(strtolower(Auth::user()->role), array('admin')))
                 <h2 class="page-header">
                     <a class="btn btn-small btn-success" href="{{ URL::to('users/create') }}"><i class="fa fa-plus-circle"></i> Add a User</a>
                 </h2>
+                 @endif
             </div><!-- /.col -->
         </div>
                                                            

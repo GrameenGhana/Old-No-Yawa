@@ -5,7 +5,7 @@ class UserController extends BaseController {
     public function __construct() {
         $this->beforeFilter('auth');
 
-        $this->roles = array('Admin' => 'Admin', 'Partner' => 'Partner', 'Volunteer' => 'Volunteer');
+        $this->roles = array('Admin' => 'Admin', 'Partner' => 'Partner', 'Volunteer' => 'Volunteer','Demo'=>'Demo');
         $this->gender = array('male' => 'Male', 'female' => 'Female');
 
         $this->rules = array('username' => 'required|min:3|unique:users',
