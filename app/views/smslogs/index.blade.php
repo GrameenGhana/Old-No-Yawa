@@ -41,6 +41,7 @@
                                 <th>Receiver</th>
                                 <th>Message</th>
                                 <th>Status</th>
+                                <th>Date Sent</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +51,7 @@
                                 <td>  </td>
                                 <td>  </td>
                                 <td>  </td>
-                               
+                                 <td>  </td>
                             </tr>
                         </tbody>
                     </table>
@@ -65,7 +66,7 @@
         var oTable;
         $(document).ready(function() {
             oTable = $('#logstable').dataTable({
-                "aaSorting": [[0, 'desc']],
+                "aaSorting": [[5, 'desc']],
                 "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
                 "sPaginationType": "bootstrap",
                 "oLanguage": {

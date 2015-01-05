@@ -46,7 +46,7 @@ if ($credit >= ($subscribersCount * 3)) {
         <div class="small-box bg-purple">
             <div class="inner">
                 <h3>
-                    {{ $subscribersCount }}
+                    {{ $subscribersCompletedCount }}
                 </h3>
                 <p>
                     Subscribers
@@ -149,13 +149,13 @@ if ($credit >= ($subscribersCount * 3)) {
                                         <th style="width: 40px">Total</th>
                                     </tr>
                                     <tr>
-                                        <td>Graduants</td>
+                                        <td>Graduates</td>
                                         <td>
                                             <div class="progress xs">
-                                                <div class="progress-bar progress-bar-yellow" style="width: <?php echo (($subsGraduants * 100) / $subscribersCount ); ?>%"></div>
+                                                <div class="progress-bar progress-bar-yellow" style="width: <?php echo (($subsGraduates * 100) / $subscribersCount ); ?>%"></div>
                                             </div>
                                         </td>
-                                        <td><span class="badge bg-yellow">{{ $subsGraduants }}</span></td>
+                                        <td><span class="badge bg-yellow">{{ $subsGraduates }}</span></td>
                                     </tr>
                                     <tr>
                                         <td>Active</td>
@@ -174,6 +174,24 @@ if ($credit >= ($subscribersCount * 3)) {
                                             </div>
                                         </td>
                                         <td><span class="badge bg-red">{{ $subsIneligible }}</span></td>
+                                    </tr>
+                                     <tr>
+                                        <td>Incomplete</td>
+                                        <td>
+                                            <div class="progress xs progress-striped active">
+                                                <div class="progress-bar progress-bar-danger" style="width: <?php echo (($subsIncomplete * 100) / $subscribersCount ); ?>%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-red">{{ $subsIncomplete }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Suspended</td>
+                                        <td>
+                                            <div class="progress xs progress-striped active">
+                                                <div class="progress-bar progress-bar-danger" style="width: <?php echo (($subsSuspended * 100) / $subscribersCount ); ?>%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-red">{{ $subsSuspended }}</span></td>
                                     </tr>
 
                                 </tbody></table>

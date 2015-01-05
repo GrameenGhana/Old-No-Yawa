@@ -91,9 +91,6 @@ $(function() {
         series: [{
                 name: "Total Subscribers",
                 data: []
-            },{
-                name: "Active Subscribers",
-                data: []
             }]
     });
 

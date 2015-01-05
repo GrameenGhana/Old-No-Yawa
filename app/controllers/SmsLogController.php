@@ -16,7 +16,7 @@ class SmsLogController extends BaseController {
     
     public function getData() {
 
-        $logs = Smslog::select(array('direction', 'sender', 'receiver', 'message', 'status'));
+        $logs = Smslog::select(array('direction', 'sender', 'receiver', 'message', 'status','created_at'));
 
         return Datatables::of($logs)
                         ->make();

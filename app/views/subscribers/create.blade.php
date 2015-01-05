@@ -142,7 +142,14 @@
                         
                         <div class="form-group">
                             <label for="source">Source of Data</label>
-                            <input type="text" class="form-control" id="source" name="source" placeholder="Enter source of data">
+                             <select class="form-control" name="source">
+                                 <option value="">None</option>
+                                <option value="GF">Grameen Foundation</option>
+                                <option value="DKT">DKT</option>
+                                <option value="JamJam">JamJam</option>
+                                <option value="MSI">MSI</option>
+                                 <option value="Other">Other</option>
+                            </select>
                         </div>
                         
                     </fieldset>

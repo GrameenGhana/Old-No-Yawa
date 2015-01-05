@@ -32,7 +32,7 @@ class StatsController extends BaseController {
 
         
         //Subscribers between 0-14 yrs
-        $sql014 = ' client_age >= 0 and client_age <=14 ';
+        $sql014 = 'status IN ("LongCode","Completed") and client_age >= 0 and client_age <=14 ';
 //        $subscribers014 = DB::table('clients_sms_registration')
 //                ->whereRaw($sql014)
 //                ->count();
@@ -92,7 +92,7 @@ class StatsController extends BaseController {
                 ->count();
 
         //Subscribers between 15-19 yrs
-        $sql1519 = ' client_age >= 15 and client_age <=19 ';
+        $sql1519 = 'status IN ("LongCode","Completed") and  client_age >= 15 and client_age <=19 ';
         $subscribers1519 = DB::table('clients_sms_registration')
                 ->whereRaw($sql1519)
                 ->count();
@@ -148,7 +148,7 @@ class StatsController extends BaseController {
                 ->count();
 
         //Subscribers between 20-24 yrs 
-        $sql2024 = ' client_age >= 20 and client_age <=24 ';
+        $sql2024 = 'status IN ("LongCode","Completed") and  client_age >= 20 and client_age <=24';
         $subscribers2024 = DB::table('clients_sms_registration')
                 ->whereRaw($sql2024)
                 ->count();
@@ -204,7 +204,7 @@ class StatsController extends BaseController {
                 ->count();
 
         //Subscribers between 25+ yrs 
-        $sql25 = ' client_age >= 25  ';
+        $sql25 = 'status IN ("LongCode","Completed") and  client_age >= 25  ';
         $subscribers25 = DB::table('clients_sms_registration')
                 ->whereRaw($sql25)
                 ->count();
@@ -268,8 +268,8 @@ class StatsController extends BaseController {
         //$chartArray["tooltip"] = array("pointFormat" => "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>","headerFormat"=>"<span style='font-size:11px'>{series.name}</span><br>");
           $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %")));
          //$chartArray["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %")));
-        $chartArray["series"][] = array("type" => "pie", 'name' => "Age Ranges", "colorByPoint" => true, "data" => [array("name" => "0-14 yrs", "y" => $subscribers014, "drilldown" => "age014"), array("name" => "15-19 yrs", "y" => $subscribers1519, "drilldown" => "age1519"),
-                array("name" => "20-24 yrs", "y" => $subscribers2024, "drilldown" => "age2024"), array("name" => "25+ yrs", "y" => $subscribers25, "drilldown" => "age25")]);
+        $chartArray["series"][] = array("type" => "pie", 'name' => "Age Ranges", "colorByPoint" => true, "data" => [ array("name" => "15-19 yrs", "y" => $subscribers1519, "drilldown" => "age1519"),
+                array("name" => "20-24 yrs", "y" => $subscribers2024, "drilldown" => "age2024")]);
         $chartArray["drilldown"] = array("series" => [
                 
             array("id" => "age014", "name" => "0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribers014male, "drilldown" => "maleage014"), array("name" => "Female", "y" => $subscribers014female, "drilldown" => "femaleage014")]),
@@ -311,7 +311,7 @@ class StatsController extends BaseController {
 
 
         //Subscribers registered with sms channel
-        $sqlsms = ' channel = "sms" ';
+        $sqlsms = 'status IN ("LongCode","Completed") and  channel = "sms" ';
         $subscribersSms = DB::table('clients_sms_registration')
                 ->whereRaw($sqlsms)
                 ->count();
@@ -539,7 +539,7 @@ class StatsController extends BaseController {
         //Next Criteria : voice channel
         
         //Subscribers registered with voice channel
-        $sqlvoice = ' channel = "voice" ';
+        $sqlvoice = 'status IN ("LongCode","Completed") and  channel = "voice" ';
         $subscribersVoice = DB::table('clients_sms_registration')
                 ->whereRaw($sqlvoice)
                 ->count();
@@ -778,10 +778,9 @@ class StatsController extends BaseController {
                 array("name" => "Voice", "y" => $subscribersVoice, "drilldown" => "channelVoice")]);
         $chartArray["drilldown"] = array("series" => [
                 
-            array("id" => "channelSms", "name" => "SMS By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersSms014, "drilldown" => "smsage014"), 
+            array("id" => "channelSms", "name" => "SMS By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersSms1519, "drilldown" => "smsage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersSms2024, "drilldown" => "smsage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersSms25, "drilldown" => "smsage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersSms2024, "drilldown" => "smsage2024")]),
             
             array("id" => "smsage014", "name" => "SMS : 0-14 yrs By Gender", "data" => [array("name" => "SMS :  0-14 yrs : Male", "y" => $subscribersSms014male, "drilldown" => "smsmaleage014"), array("name" => "SMS :  0-14 yrs : Female", "y" => $subscribersSms014female, "drilldown" => "smsfemaleage014")]),
                 array("name" => "SMS :  0-14 yrs : Male By Education Level", "id" => "smsmaleage014", "data" => [['JHS', $subscribersSms014malejhs], ['SHS', $subscribersSms014maleshs], ['Tertiary', $subscribersSms014maleter], ["Not In School", $subscribersSms014malena]]),
@@ -846,7 +845,7 @@ class StatsController extends BaseController {
 
          //Subscribers with MTN phone number
         $mtnC = array("54", "24", "55");
-        $sqlMtn = " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $mtnC)) . "') ";
+        $sqlMtn = 'status IN ("LongCode","Completed") and' . " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $mtnC)) . "') ";
         $subscribersMtn = DB::table('clients_sms_registration')
                 ->whereRaw($sqlMtn)
                 ->count();
@@ -1076,7 +1075,7 @@ class StatsController extends BaseController {
         //Next Network Operator : Tigo
         //Subscribers with Tigo phone number
         $tigoC = array("27", "57");
-        $sqlTigo = " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $tigoC)) . "') ";
+        $sqlTigo = 'status IN ("LongCode","Completed") and' . " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $tigoC)) . "') ";
         $subscribersTigo = DB::table('clients_sms_registration')
                 ->whereRaw($sqlTigo)
                 ->count();
@@ -1305,7 +1304,7 @@ class StatsController extends BaseController {
         //Next Network Operator : Vodafone
         //Subscribers with Vodafone phone number
         $vodaC = array("50", "20");
-        $sqlVodafone = " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $vodaC)) . "') ";
+        $sqlVodafone = 'status IN ("LongCode","Completed") and' . " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $vodaC)) . "') ";
         $subscribersVodafone = DB::table('clients_sms_registration')
                 ->whereRaw($sqlVodafone)
                 ->count();
@@ -1534,7 +1533,7 @@ class StatsController extends BaseController {
         //Next Network Operator : Glo
         //Subscribers with Glo phone number
         $gloC = array("23");
-        $sqlGlo = " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $gloC)) . "') ";
+        $sqlGlo = 'status IN ("LongCode","Completed") and' . " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $gloC)) . "') ";
         $subscribersGlo = DB::table('clients_sms_registration')
                 ->whereRaw($sqlGlo)
                 ->count();
@@ -1763,7 +1762,7 @@ class StatsController extends BaseController {
         //Next Network Operator : Airtel
         //Subscribers with Airtel phone number
         $airtelC = array("26");
-        $sqlAirtel = " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $airtelC)) . "') ";
+        $sqlAirtel = 'status IN ("LongCode","Completed") and' . " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $airtelC)) . "') ";
         $subscribersAirtel = DB::table('clients_sms_registration')
                 ->whereRaw($sqlAirtel)
                 ->count();
@@ -1992,7 +1991,7 @@ class StatsController extends BaseController {
         //Next Network Operator : Expresso
         //Subscribers with Expresso phone number
         $expressoC = array("28");
-        $sqlExpresso = " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $expressoC)) . "') ";
+        $sqlExpresso = 'status IN ("LongCode","Completed") and' . " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $expressoC)) . "') ";
         $subscribersExpresso = DB::table('clients_sms_registration')
                 ->whereRaw($sqlExpresso)
                 ->count();
@@ -2239,10 +2238,9 @@ class StatsController extends BaseController {
         $chartArray["drilldown"] = array("series" => [
                 
             //Mtn drilldowns
-            array("id" => "networkMtn", "name" => "Mtn By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersMtn014, "drilldown" => "mtnage014"), 
+            array("id" => "networkMtn", "name" => "Mtn By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersMtn1519, "drilldown" => "mtnage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersMtn2024, "drilldown" => "mtnage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersMtn25, "drilldown" => "mtnage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersMtn2024, "drilldown" => "mtnage2024")]),
             
             array("id" => "mtnage014", "name" => "Mtn : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersMtn014male, "drilldown" => "mtnmaleage014"), array("name" => "Female", "y" => $subscribersMtn014female, "drilldown" => "mtnfemaleage014")]),
                 array("name" => "Mtn : 0-14 yrs : Male By Education Level", "id" => "mtnmaleage014", "data" => [['JHS', $subscribersMtn014malejhs], ['SHS', $subscribersMtn014maleshs], ['Tertiary', $subscribersMtn014maleter], ["Not In School", $subscribersMtn014malena]]),
@@ -2262,10 +2260,9 @@ class StatsController extends BaseController {
             
             
             //Tigo drilldowns
-            array("id" => "networkTigo", "name" => "Tigo : Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersTigo014, "drilldown" => "tigoage014"), 
+            array("id" => "networkTigo", "name" => "Tigo : Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersTigo1519, "drilldown" => "tigoage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersTigo2024, "drilldown" => "tigoage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersTigo25, "drilldown" => "tigoage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersTigo2024, "drilldown" => "tigoage2024")]),
             
             array("id" => "tigoage014", "name" => "Tigo : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersTigo014male, "drilldown" => "tigomaleage014"), array("name" => "Female", "y" => $subscribersTigo014female, "drilldown" => "tigofemaleage014")]),
                 array("name" => "Tigo : 0-14 yrs : Male By Education Level", "id" => "tigomaleage014", "data" => [['JHS', $subscribersTigo014malejhs], ['SHS', $subscribersTigo014maleshs], ['Tertiary', $subscribersTigo014maleter], ["Not In School", $subscribersTigo014malena]]),
@@ -2286,10 +2283,9 @@ class StatsController extends BaseController {
 
             //Airtel drilldowns
             
-            array("id" => "networkAirtel", "name" => "Airtel By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersAirtel014, "drilldown" => "airtelage014"), 
+            array("id" => "networkAirtel", "name" => "Airtel By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersAirtel1519, "drilldown" => "airtelage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersAirtel2024, "drilldown" => "airtelage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersAirtel25, "drilldown" => "airtelage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersAirtel2024, "drilldown" => "airtelage2024")]),
             
             array("id" => "airtelage014", "name" => "Airtel : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersAirtel014male, "drilldown" => "airtelmaleage014"), array("name" => "Female", "y" => $subscribersAirtel014female, "drilldown" => "airtelfemaleage014")]),
                 array("name" => "Airtel : 0-14 yrs : Male By Education Level", "id" => "airtelmaleage014", "data" => [['JHS', $subscribersAirtel014malejhs], ['SHS', $subscribersAirtel014maleshs], ['Tertiary', $subscribersAirtel014maleter], ["Not In School", $subscribersAirtel014malena]]),
@@ -2310,10 +2306,9 @@ class StatsController extends BaseController {
          
             //Vodafone drilldowns
             
-            array("id" => "networkVodafone", "name" => "Vodafone By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersVodafone014, "drilldown" => "vodafoneage014"), 
+            array("id" => "networkVodafone", "name" => "Vodafone By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersVodafone1519, "drilldown" => "vodafoneage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersVodafone2024, "drilldown" => "vodafoneage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersVodafone25, "drilldown" => "vodafoneage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersVodafone2024, "drilldown" => "vodafoneage2024")]),
             
             array("id" => "vodafoneage014", "name" => "Vodafone : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersVodafone014male, "drilldown" => "vodafonemaleage014"), array("name" => "Female", "y" => $subscribersVodafone014female, "drilldown" => "vodafonefemaleage014")]),
                 array("name" => "Vodafone : 0-14 yrs : Male By Education Level", "id" => "vodafonemaleage014", "data" => [['JHS', $subscribersVodafone014malejhs], ['SHS', $subscribersVodafone014maleshs], ['Tertiary', $subscribersVodafone014maleter], ["Not In School", $subscribersVodafone014malena]]),
@@ -2334,10 +2329,9 @@ class StatsController extends BaseController {
 
             //Glo drilldowns
             
-            array("id" => "networkGlo", "name" => "Glo By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersGlo014, "drilldown" => "gloage014"), 
+            array("id" => "networkGlo", "name" => "Glo By Age Groups", "data" => [
                                                                     array("name" => "15-19 yrs", "y" => $subscribersGlo1519, "drilldown" => "gloage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersGlo2024, "drilldown" => "gloage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersGlo25, "drilldown" => "gloage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersGlo2024, "drilldown" => "gloage2024")]),
             
             array("id" => "gloage014", "name" => "Glo : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersGlo014male, "drilldown" => "glomaleage014"), array("name" => "Female", "y" => $subscribersGlo014female, "drilldown" => "glofemaleage014")]),
                 array("name" => "Glo : 0-14 yrs : Male By Education Level", "id" => "glomaleage014", "data" => [['JHS', $subscribersGlo014malejhs], ['SHS', $subscribersGlo014maleshs], ['Tertiary', $subscribersGlo014maleter], ["Not In School", $subscribersGlo014malena]]),
@@ -2358,10 +2352,9 @@ class StatsController extends BaseController {
 
             //Expresso drilldowns
             
-            array("id" => "networkExpresso", "name" => "Expresso By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersExpresso014, "drilldown" => "expressoage014"), 
+            array("id" => "networkExpresso", "name" => "Expresso By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersExpresso1519, "drilldown" => "expressoage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersExpresso2024, "drilldown" => "expressoage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersExpresso25, "drilldown" => "expressoage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersExpresso2024, "drilldown" => "expressoage2024")]),
             
             array("id" => "expressoage014", "name" => "Expresso : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersExpresso014male, "drilldown" => "expressomaleage014"), array("name" => "Female", "y" => $subscribersExpresso014female, "drilldown" => "expressofemaleage014")]),
                 array("name" => "Expresso : 0-14 yrs : Male By Education Level", "id" => "expressomaleage014", "data" => [['JHS', $subscribersExpresso014malejhs], ['SHS', $subscribersExpresso014maleshs], ['Tertiary', $subscribersExpresso014maleter], ["Not In School", $subscribersExpresso014malena]]),
@@ -2405,7 +2398,7 @@ class StatsController extends BaseController {
         $sqlna = ' and client_education_level="na"';
 
          //Subscribers with source GF
-        $sqlGF = " source = 'GF' ";
+        $sqlGF = 'status IN ("LongCode","Completed") and' . " source = 'GF' ";
         $subscribersGF = DB::table('clients_sms_registration')
                 ->whereRaw($sqlGF)
                 ->count();
@@ -2634,7 +2627,7 @@ class StatsController extends BaseController {
 
         //Next Source : DKT
         //Subscribers with source DKT
-        $sqlDKT = " source = 'DKT' ";
+        $sqlDKT = 'status IN ("LongCode","Completed") and' . " source = 'DKT' ";
         $subscribersDKT = DB::table('clients_sms_registration')
                 ->whereRaw($sqlDKT)
                 ->count();
@@ -2862,7 +2855,7 @@ class StatsController extends BaseController {
 
         //Next Source : MSI
         //Subscribers with source MSI
-        $sqlMSI = " source ='MSI' ";
+        $sqlMSI = 'status IN ("LongCode","Completed") and' . " source ='MSI' ";
         $subscribersMSI = DB::table('clients_sms_registration')
                 ->whereRaw($sqlMSI)
                 ->count();
@@ -3090,7 +3083,7 @@ class StatsController extends BaseController {
 
         //Next Source: JamJam
         //Subscribers with JamJam
-        $sqlJamJam = " source = 'JamJam' ";
+        $sqlJamJam = 'status IN ("LongCode","Completed") and' . " source = 'JamJam' ";
         $subscribersJamJam = DB::table('clients_sms_registration')
                 ->whereRaw($sqlJamJam)
                 ->count();
@@ -3318,7 +3311,7 @@ class StatsController extends BaseController {
 
         //Next Source : None
         //Subscribers with no source 
-        $sqlNone = " ISNULL(source) or source = '' ";
+        $sqlNone = 'status IN ("LongCode","Completed") and' . " ISNULL(source) or source = '' ";
         $subscribersNone = DB::table('clients_sms_registration')
                 ->whereRaw($sqlNone)
                 ->count();
@@ -3566,10 +3559,9 @@ class StatsController extends BaseController {
         $chartArray["drilldown"] = array("series" => [
                 
             //GF drilldowns
-            array("id" => "sourceGF", "name" => "GF By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersGF014, "drilldown" => "gfage014"), 
+            array("id" => "sourceGF", "name" => "GF By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersGF1519, "drilldown" => "gfage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersGF2024, "drilldown" => "gfage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersGF25, "drilldown" => "gfage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersGF2024, "drilldown" => "gfage2024")]),
             
             array("id" => "gfage014", "name" => "GF : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersGF014male, "drilldown" => "gfmaleage014"), array("name" => "Female", "y" => $subscribersGF014female, "drilldown" => "gffemaleage014")]),
                 array("name" => "GF : 0-14 yrs : Male By Education Level", "id" => "gfmaleage014", "data" => [['JHS', $subscribersGF014malejhs], ['SHS', $subscribersGF014maleshs], ['Tertiary', $subscribersGF014maleter], ["Not In School", $subscribersGF014malena]]),
@@ -3589,10 +3581,9 @@ class StatsController extends BaseController {
             
             
             //DKT drilldowns
-            array("id" => "sourceDKT", "name" => "DKT By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersDKT014, "drilldown" => "dktage014"), 
+            array("id" => "sourceDKT", "name" => "DKT By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersDKT1519, "drilldown" => "dktage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersDKT2024, "drilldown" => "dktage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersDKT25, "drilldown" => "dktage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersDKT2024, "drilldown" => "dktage2024")]),
             
             array("id" => "dktage014", "name" => "DKT : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersDKT014male, "drilldown" => "dktmaleage014"), array("name" => "Female", "y" => $subscribersDKT014female, "drilldown" => "dktfemaleage014")]),
                 array("name" => "DKT : 0-14 yrs : Male By Education Level", "id" => "dktmaleage014", "data" => [['JHS', $subscribersDKT014malejhs], ['SHS', $subscribersDKT014maleshs], ['Tertiary', $subscribersDKT014maleter], ["Not In School", $subscribersDKT014malena]]),
@@ -3613,10 +3604,9 @@ class StatsController extends BaseController {
 
             //MSI drilldowns
             
-            array("id" => "sourceMSI", "name" => "MSI By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersMSI014, "drilldown" => "msiage014"), 
+            array("id" => "sourceMSI", "name" => "MSI By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersMSI1519, "drilldown" => "msiage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersMSI2024, "drilldown" => "msiage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersMSI25, "drilldown" => "msiage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersMSI2024, "drilldown" => "msiage2024")]),
             
             array("id" => "msiage014", "name" => "MSI : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersMSI014male, "drilldown" => "msimaleage014"), array("name" => "Female", "y" => $subscribersMSI014female, "drilldown" => "msifemaleage014")]),
                 array("name" => "MSI : 0-14 yrs : Male By Education Level", "id" => "msimaleage014", "data" => [['JHS', $subscribersMSI014malejhs], ['SHS', $subscribersMSI014maleshs], ['Tertiary', $subscribersMSI014maleter], ["Not In School", $subscribersMSI014malena]]),
@@ -3637,10 +3627,9 @@ class StatsController extends BaseController {
          
             //JamJam drilldowns
             
-            array("id" => "sourceJamJam", "name" => "JamJam By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersJamJam014, "drilldown" => "jamjamage014"), 
+            array("id" => "sourceJamJam", "name" => "JamJam By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersJamJam1519, "drilldown" => "jamjamage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersJamJam2024, "drilldown" => "jamjamage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersJamJam25, "drilldown" => "jamjamage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersJamJam2024, "drilldown" => "jamjamage2024")]),
             
             array("id" => "jamjamage014", "name" => "JamJam : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJam014male, "drilldown" => "jamjammaleage014"), array("name" => "Female", "y" => $subscribersJamJam014female, "drilldown" => "jamjamfemaleage014")]),
                 array("name" => "JamJam : 0-14 yrs : Male By Education Level", "id" => "jamjammaleage014", "data" => [['JHS', $subscribersJamJam014malejhs], ['SHS', $subscribersJamJam014maleshs], ['Tertiary', $subscribersJamJam014maleter], ["Not In School", $subscribersJamJam014malena]]),
@@ -3661,10 +3650,9 @@ class StatsController extends BaseController {
 
             //None drilldowns
             
-            array("id" => "sourceNone", "name" => "None By Age Groups", "data" => [array("name" => "0-14 yrs", "y" => $subscribersNone014, "drilldown" => "noneage014"), 
+            array("id" => "sourceNone", "name" => "None By Age Groups", "data" => [ 
                                                                     array("name" => "15-19 yrs", "y" => $subscribersNone1519, "drilldown" => "noneage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersNone2024, "drilldown" => "noneage2024"), 
-                                                                    array("name" => "25+ yrs", "y" => $subscribersNone25, "drilldown" => "noneage25")]),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersNone2024, "drilldown" => "noneage2024")]),
             
             array("id" => "noneage014", "name" => "None : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersNone014male, "drilldown" => "nonemaleage014"), array("name" => "Female", "y" => $subscribersNone014female, "drilldown" => "nonefemaleage014")]),
                 array("name" => "None : 0-14 yrs : Male By Education Level", "id" => "nonemaleage014", "data" => [['JHS', $subscribersNone014malejhs], ['SHS', $subscribersNone014maleshs], ['Tertiary', $subscribersNone014maleter], ["Not In School", $subscribersNone014malena]]),
