@@ -8,7 +8,7 @@ class SubscriberController extends BaseController {
         $this->createRules = array(
             'msisdn' => 'required|min:10|max:16',
             'gender' => 'required|in:1,2',
-            'language' => 'required|in:1,2,3',
+            'language' => 'required',
             'age' => 'required|numeric',
             'pregnant' => 'required|in:1,2',
             'service' => 'required|in:PRE,NEW',
@@ -18,7 +18,7 @@ class SubscriberController extends BaseController {
         $this->updateRules = array(
             'msisdn' => 'required|min:10|max:16',
             'gender' => 'in:1,2',
-            'language' => 'in:1,2,3',
+            'language' => 'required',
             'age' => 'numeric',
             'pregnant' => 'in:1,2',
             'service' => 'in:PRE,NEW',
@@ -28,7 +28,7 @@ class SubscriberController extends BaseController {
         $this->rules = array(
             'msisdn' => 'required|min:10|max:16|unique:subscribers',
             'gender' => 'required',
-            'language' => 'required|in:1,2,3',
+            'language' => 'required',
             'age' => 'required|numeric',
             'education_level' => 'required'
         );

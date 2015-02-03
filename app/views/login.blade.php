@@ -38,7 +38,7 @@ Login
             {{ Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control')) }}
                     </div>
                     <div class="form-group">
-                       <input type="checkbox" name="remember_me"/> Remember me
+                       <input type="checkbox" name="remember_me" id="remember_me"/> Remember me
                     </div>
                 </div>
 
@@ -50,4 +50,36 @@ Login
     {{ Form::close() }}
 </div>
 
+@stop
+
+@section('script')
+<script>
+            $(function() {
+ 
+                if (localStorage.chkbx && localStorage.chkbx != '') {
+                    $('#remember_me').attr('checked', 'checked');
+                    $('#username').val(localStorage.usrname);
+                    $('#password').val(localStorage.pass);
+                } else {
+                    $('#remember_me').removeAttr('checked');
+                    $('#username').val('');
+                    $('#password').val('');
+                }
+ 
+                $('#remember_me').click(function() {
+ 
+                    if ($('#remember_me').is(':checked')) {
+                        // save username and password
+                        localStorage.usrname = $('#username').val();
+                        localStorage.pass = $('#password').val();
+                        localStorage.chkbx = $('#remember_me').val();
+                    } else {
+                        localStorage.usrname = '';
+                        localStorage.pass = '';
+                        localStorage.chkbx = '';
+                    }
+                });
+            });
+ 
+        </script>
 @stop

@@ -24,6 +24,8 @@
         {{ HTML::style('css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); }} 
         <!-- Theme style -->
         {{ HTML::style('css/AdminLTE.css'); }} 
+         <!-- Scrolling style -->
+        {{ HTML::style('css/image.css'); }} 
         
 
         <!--[if lt IE 9]>
@@ -212,8 +214,9 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('stats/generalcharts') ? 'active' : '' }}"><a href="{{ URL::to('stats/generalcharts') }}"><i class="fa fa-bar-chart-o"></i>General Charts</a></li>
+                                <li class="{{ Request::is('stats/detailcharts') ? 'active' : '' }}"><a href="{{ URL::to('stats/detailcharts') }}"><i class="fa fa-bar-chart-o"></i>Detail Charts</a></li>
                                 <li class="{{ Request::is('timeseries/*') ? 'active' : '' }}"><a href="{{ URL::to('timeseries') }}"><i class="fa fa-bar-chart-o"></i>Timeseries Charts</a></li>
-                                <li class="{{ Request::is('location/*') ? 'active' : '' }}"><a href="{{ URL::to('location') }}"><i class="fa fa-map-marker"></i>Location Charts</a></li>
+                                <li class="{{ Request::is('stats/locationcharts') ? 'active' : '' }}"><a href="{{ URL::to('stats/locationcharts') }}"><i class="fa fa-map-marker"></i>Location Charts</a></li>
                             </ul>
                         </li>
 
@@ -278,6 +281,10 @@
         {{ HTML::script('js/plugins/datatables/dataTables.bootstrap.js'); }}
         <!-- AdminLTE App -->
         {{ HTML::script('js/AdminLTE/app.js'); }}
+        <!-- Scrolling -->
+        {{ HTML::script('js/jquery.scrollUp.min.js'); }}
+        
+        
 
         @yield('script')
     </body>

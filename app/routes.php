@@ -44,6 +44,8 @@ Route::get('/getagechart', array('as'=>'getagechart', 'uses'=>'StatsController@g
 
 //Stats Charts
 Route::get('stats/generalcharts', array('uses' => 'StatsController@showGeneralChart'));
+Route::get('stats/detailcharts', array('uses' => 'StatsController@showDetailChart'));
+Route::get('stats/locationcharts', array('uses' => 'StatsController@showLocationChart'));
 
 Route::get('/', array('uses' => 'HomeController@showHome'))->before('auth');
 Route::get('/dashboard', array('uses' => 'HomeController@showHome'))->before('auth');

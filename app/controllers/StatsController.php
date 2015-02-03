@@ -2,11 +2,315 @@
 
 class StatsController extends BaseController {
 
-    public function showGeneralChart() {
+    public function showGeneralChart(){
+        
+           //getting all subscirbers so as to get the count
+        //$subs = 'Select count(*) From clients_sms_registration';
+        $subscribersCount = DB::table('clients_sms_registration')     
+                ->count();
+        
+        // gender data
+        $sqlmale = ' client_gender = "m" ';
+        $sqlfemale = ' client_gender = "f" ';
+        
+        //Male Subscribers 
+        $subscribersMale = DB::table('clients_sms_registration')
+                ->whereRaw($sqlmale)
+                ->count();
+        
+         //Female Subscribers 
+        $subscribersFemale = DB::table('clients_sms_registration')
+                ->whereRaw($sqlfemale)
+                ->count();
+        
+         // Number of not-assigned subscribers
+        $subscribersNotAssignedGender = DB::table('clients_sms_registration')
+                ->whereRaw('client_gender  NOT IN ("M","F") ')
+                ->count();
+        
+        $subscribersByGender["chart"] = array("plotBackgroundColor" => null,"plotBorderWidth"=>1,"plotShadow"=>false);
+        $subscribersByGender["title"] = array("text" => " ");
+        //$chartArray["tooltip"] = array("pointFormat" => "{series.name}: <b>{point.percentage:.1f}%</b>");
+        $subscribersByGender["legend"] = array("enabled" => true);
+        $subscribersByGender["credits"] = array("enabled" => false);
+        $subscribersByGender["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
+        $subscribersByGender["series"][] = array("type" => "pie", 'name' => "Registrants By Gender", "data" => [array("name" => "Males", "y" => $subscribersMale), array("name" => "Females", "y" => $subscribersFemale), array("name" => "Not Assigned", "y" => $subscribersNotAssignedGender) ]);
+       
+        
+        // educational level data
+        $sqljhs = ' client_education_level="jhs" ';
+        $sqlshs = ' client_education_level="shs" ';
+        $sqlter = ' client_education_level="ter" ';
+        $sqlna = ' client_education_level="na" ';
+        
+        //Jhs Level Subscribers 
+        $subscribersJhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqljhs)
+                ->count();
+        
+        //Shs Level Subscribers 
+        $subscribersShs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlshs)
+                ->count();
+        
+        //Tertiary Level Subscribers 
+        $subscribersTer = DB::table('clients_sms_registration')
+                ->whereRaw($sqlter)
+                ->count();
+        
+        //Not In School Subscribers 
+        $subscribersNa = DB::table('clients_sms_registration')
+                ->whereRaw($sqlna)
+                ->count();
+        
+         //Other educational level subscribers
+        $subscribersOtherLevel = DB::table('clients_sms_registration')
+                ->whereRaw('client_education_level  NOT IN ("Jhs","Shs","Ter","Na") ')
+                ->count();
+        
+        $subscribersByEduLevel["chart"] = array("plotBackgroundColor" => null,"plotBorderWidth"=>1,"plotShadow"=>false);
+        $subscribersByEduLevel["title"] = array("text" => " ");
+        //$chartArray["tooltip"] = array("pointFormat" => "{series.name}: <b>{point.percentage:.1f}%</b>");
+        $subscribersByEduLevel["legend"] = array("enabled" => true);
+        $subscribersByEduLevel["credits"] = array("enabled" => false);
+        $subscribersByEduLevel["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
+        $subscribersByEduLevel["series"][] = array("type" => "pie", 'name' => "Registrants By Education Level", "data" => [array("name" => "JHS", "y" => $subscribersJhs), array("name" => "SHS", "y" => $subscribersShs), array("name" => "Tertiary", "y" => $subscribersTer) , array("name" => "Not In School", "y" => $subscribersNa) , array("name" => "Others", "y" => $subscribersOtherLevel) ]);
+       
+        
+        //voice languages  data
+        $sqlenglish = ' And client_language="English"';
+        $sqltwi = ' And client_language="Twi"';
+        $sqlewe = ' And  client_language="Ewe"';
+        $sqlhausa = ' And  client_language="Hausa"';
+        $sqldangme = ' And  client_language="Dangme"';
+        $sqldagbani = ' And  client_language="Dagbani"';
+        $sqldagaare = ' And  client_language="Dagaare"';
+        $sqlkassem = ' And  client_language="Kassem"';
+        $sqlgonja = ' And  client_language="Gonja"';
+        
+        $sqlnotassigned = ' And  client_language NOT IN ("English","Gonja","Twi","Ewe","Hausa","Dangme","Dagbani","Dagaare","Kassem") ';
+        $sqlnulllanguage = ' And client_language IS NULL ';
+        
+        $sqlvoice = ' channel="Voice" And status IN ("Completed","LongCode") ';
+        
+        //English Voice
+        $subscribersEnglish = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqlenglish)
+                ->count();
+        
+        //Twi Voice 
+        $subscribersTwi = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqltwi)
+                ->count();
+        
+        //Ewe Voice 
+        $subscribersEwe = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqlewe)
+                ->count();
+        
+        //Hausa 
+        $subscribersHausa = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqlhausa)
+                ->count();
+        
+         //Dangwe  
+        $subscribersDangwe = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqldangme)
+                ->count();
+        
+        //Dagbani 
+        $subscribersDagbani = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqldagbani)
+                ->count();
+        
+        //Dagaare 
+        $subscribersDagaare = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqldagaare)
+                ->count();
+        
+        //Kaseem 
+        $subscribersKassem = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqlkassem)
+                ->count();
+        
+        //Gonja 
+        $subscribersGonja = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqlgonja)
+                ->count();
+        
+         //Not Assigned 
+        $subscribersNotAssignedVoice = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqlnotassigned)
+                ->count();
+        
+         //Null language 
+        $subscribersNullLanguage = DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice. ' ' .$sqlnulllanguage)
+                ->count();
+        
+        //Voice Subscribers
+        $subscribersVoice =  DB::table('clients_sms_registration')
+                ->whereRaw($sqlvoice)
+                ->count();
+        
+        $subscribersByVoice["chart"] = array("plotBackgroundColor" => null,"plotBorderWidth"=>1,"plotShadow"=>false);
+        $subscribersByVoice["title"] = array("text" => " ");
+        //$chartArray["tooltip"] = array("pointFormat" => "{series.name}: <b>{point.percentage:.1f}%</b>");
+        $subscribersByVoice["legend"] = array("enabled" => true);
+        $subscribersByVoice["credits"] = array("enabled" => false);
+        $subscribersByVoice["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
+        $subscribersByVoice["series"][] = array("type" => "pie", 'name' => "Registrants By Voice Languages", "data" => [array("name" => "English", "y" => $subscribersEnglish), array("name" => "Twi", "y" => $subscribersTwi), 
+            array("name" => "Ewe", "y" => $subscribersEwe) , array("name" => "Hausa", "y" => $subscribersHausa) , array("name" => "Dangme", "y" => $subscribersDangwe) , 
+            array("name" => "Dagbani", "y" => $subscribersDagbani), array("name" => "Dagaare", "y" => $subscribersDagaare) , array("name" => "Kassem", "y" => $subscribersKassem), array("name" => "Gonja", "y" => $subscribersGonja)  , array("name" => "Not Assigned", "y" => ($subscribersNotAssignedVoice + $subscribersNullLanguage) ) ]);
+       
 
         
-        //Charts
+        // campaign data
+        $sqlroland = ' And UPPER(campaignid)="RONALD" ';
+        $sqlrita = ' And UPPER(campaignid)="RITA" ';
+        $sqlkiki = ' And UPPER(campaignid)="KIKI" ';
         
+        $sqlcompleted = ' status IN ("Completed","LongCode") ';
+        
+        //Ronald Subscribers 
+        $subscribersRonald = DB::table('clients_sms_registration')
+                ->whereRaw($sqlcompleted ." ". $sqlroland)
+                ->count();
+        
+        //Rita Subscribers 
+        $subscribersRita = DB::table('clients_sms_registration')
+                ->whereRaw($sqlcompleted ." ". $sqlrita)
+                ->count();
+        
+        //Kiki  Subscribers 
+        $subscribersKiki = DB::table('clients_sms_registration')
+                ->whereRaw($sqlcompleted ." ". $sqlkiki)
+                ->count();
+        
+        
+        
+        $subscribersByCampaign["chart"] = array("plotBackgroundColor" => null,"plotBorderWidth"=>1,"plotShadow"=>false);
+        $subscribersByCampaign["title"] = array("text" => " ");
+        //$chartArray["tooltip"] = array("pointFormat" => "{series.name}: <b>{point.percentage:.1f}%</b>");
+        $subscribersByCampaign["legend"] = array("enabled" => true);
+        $subscribersByCampaign["credits"] = array("enabled" => false);
+        $subscribersByCampaign["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
+        $subscribersByCampaign["series"][] = array("type" => "pie", 'name' => "Registrants By Campaign", "data" => [array("name" => "15-19 yrs (In School) ", "y" => $subscribersRonald), array("name" => "20-24 yrs", "y" => $subscribersRita), array("name" => "15-19 yrs (Not In School)", "y" => $subscribersKiki) ]);
+       
+        
+
+        $data = array("subscribersCount"=>$subscribersCount,"subscribersByGender"=>$subscribersByGender,'subscribersMale'=>$subscribersMale,'subscribersFemale'=>$subscribersFemale,'subscribersNotAssignedGender'=>$subscribersNotAssignedGender,
+            'subscribersByEduLevel'=>$subscribersByEduLevel,'subscribersJhs'=>$subscribersJhs,'subscribersShs'=>$subscribersShs,'subscribersTer'=>$subscribersTer,'subscribersNa'=>$subscribersNa,'subscribersOtherLevel'=>$subscribersOtherLevel,
+            'subscribersByVoice'=>$subscribersByVoice,'subscribersVoice'=>$subscribersVoice,'subscribersEnglish'=>$subscribersEnglish,'subscribersTwi'=>$subscribersTwi,'subscribersEwe'=>$subscribersEwe,'subscribersHausa'=>$subscribersHausa,'subscribersDangwe'=>$subscribersDangwe,
+            'subscribersDagbani'=>$subscribersDagbani,'subscribersDagaare'=>$subscribersDagaare,'subscribersKassem'=>$subscribersKassem, 'subscribersGonja'=>$subscribersGonja,'subscribersNotAssignedVoice'=>($subscribersNotAssignedVoice + $subscribersNullLanguage),
+            'subscribersByCampaign'=>$subscribersByCampaign,'subscribersRonald'=>$subscribersRonald,'subscribersRita'=>$subscribersRita,'subscribersKiki'=>$subscribersKiki);
+        
+        
+         return View::make('stats/generalcharts')->with($data);
+    }
+  
+     public function showLocationChart(){
+        
+           //getting all subscirbers so as to get the count
+        //$subs = 'Select count(*) From clients_sms_registration';
+        $subscribersCount = DB::table('clients_sms_registration')     
+                ->count();
+        
+        // location chart data
+        $sqlregion = ' UPPER(client_region) Like ';
+        $sqlGreaterAccra = $sqlregion . ' UPPER("Greater Accra%") ';
+        $sqlAshanti = $sqlregion .'  UPPER("Ashanti%") ';
+        $sqlBrongAhafo = $sqlregion . ' UPPER("Brong Ahafo%") ';
+        $sqlCentral = $sqlregion .'  UPPER("Central%") ';
+        $sqlNorthern = $sqlregion .'  UPPER("Northern%") ';
+        $sqlUpperEast = $sqlregion .'  UPPER("Upper East%") ';
+        $sqlUpperWest = $sqlregion .'  UPPER("Upper West%") ';
+        $sqlVolta = $sqlregion .'  UPPER("Volta%") ';
+        $sqlEastern = $sqlregion .'  UPPER("Eastern%") ';
+        $sqlWestern = $sqlregion .'  UPPER("Western%") ';
+        
+        $sqlNoLocation = ' UPPER(client_region) Not Like  UPPER("Greater Accra%") And UPPER(client_region) Not Like  UPPER("Ashanti%") '
+                . 'And UPPER(client_region) Not Like  UPPER("Brong Ahafo%") And UPPER(client_region) Not Like  UPPER("Central%") And UPPER(client_region) Not Like  UPPER("Northern%") '
+                . 'And UPPER(client_region) Not Like  UPPER("Upper East%") And UPPER(client_region) Not Like  UPPER("Upper West%") And UPPER(client_region) Not Like  UPPER("Volta%") '
+                . 'And UPPER(client_region) Not Like  UPPER("Eastern%") And UPPER(client_region) Not Like  UPPER("Western%")';
+        
+        
+        //Greater Accra Region 
+        $subscribersGreaterAccra = DB::table('clients_sms_registration')
+                ->whereRaw($sqlGreaterAccra)
+                ->count();
+        
+         //Ashanti Region 
+        $subscribersAshanti = DB::table('clients_sms_registration')
+                ->whereRaw($sqlAshanti)
+                ->count();
+        
+         // Brong Ahafo Region
+        $subscribersBrongAhafo = DB::table('clients_sms_registration')
+                ->whereRaw($sqlBrongAhafo)
+                ->count();
+        
+         //Central Region 
+        $subscribersCentral = DB::table('clients_sms_registration')
+                ->whereRaw($sqlCentral)
+                ->count();
+        
+        //Northern Region 
+        $subscribersNorthern = DB::table('clients_sms_registration')
+                ->whereRaw($sqlNorthern)
+                ->count();
+        
+         //Upper East Region 
+        $subscribersUpperEast = DB::table('clients_sms_registration')
+                ->whereRaw($sqlUpperEast)
+                ->count();
+        
+         //Upper West Region 
+        $subscribersUpperWest = DB::table('clients_sms_registration')
+                ->whereRaw($sqlUpperWest)
+                ->count();
+        
+         //Volta Region 
+        $subscribersVolta = DB::table('clients_sms_registration')
+                ->whereRaw($sqlVolta)
+                ->count();
+        
+         //Eastern Region 
+        $subscribersEastern = DB::table('clients_sms_registration')
+                ->whereRaw($sqlEastern)
+                ->count();
+        
+         //Western Region 
+        $subscribersWestern = DB::table('clients_sms_registration')
+                ->whereRaw($sqlWestern)
+                ->count();
+        
+        //Not Assigned  Region 
+        $subscribersNotAssigned = DB::table('clients_sms_registration')
+                ->whereRaw($sqlNoLocation)
+                ->count();
+        
+        
+        $subscribersByLocation["chart"] = array("plotBackgroundColor" => null,"plotBorderWidth"=>1,"plotShadow"=>false);
+        $subscribersByLocation["title"] = array("text" => " ");
+        $subscribersByLocation["legend"] = array("enabled" => true);
+        $subscribersByLocation["credits"] = array("enabled" => false);
+        $subscribersByLocation["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
+        $subscribersByLocation["series"][] = array("type" => "pie", 'name' => "Registrants By Location(Regions)", "data" => [array("name" => "Greater Accra", "y" => $subscribersGreaterAccra), array("name" => "Ashanti", "y" => $subscribersAshanti), array("name" => "Brong Ahafo", "y" => $subscribersBrongAhafo), 
+            array("name" => "Central", "y" => $subscribersCentral), array("name" => "Northern", "y" => $subscribersNorthern), array("name" => "Upper East", "y" => $subscribersUpperEast), array("name" => "Upper West", "y" => $subscribersUpperWest), 
+            array("name" => "Volta", "y" => $subscribersVolta), array("name" => "Eastern", "y" => $subscribersEastern), array("name" => "Western", "y" => $subscribersWestern), array("name" => "Not Assigned", "y" => $subscribersNotAssigned) ]);
+       
+
+        $data = array("subscribersCount"=>$subscribersCount,"subscribersByLocation"=>$subscribersByLocation,'subscribersGreaterAccra'=>$subscribersGreaterAccra,'subscribersAshanti'=>$subscribersAshanti,'subscribersBrongAhafo'=>$subscribersBrongAhafo,
+            'subscribersCentral'=>$subscribersCentral,'subscribersNorthern'=>$subscribersNorthern,'subscribersUpperEast'=>$subscribersUpperEast,'subscribersUpperWest'=>$subscribersUpperWest,
+            'subscribersVolta'=>$subscribersVolta,'subscribersEastern'=>$subscribersEastern,'subscribersWestern'=>$subscribersWestern,'subscribersNotAssigned'=>$subscribersNotAssigned);
+        
+        
+         return View::make('stats/locationcharts')->with($data);
+    }
+    
+    public function showDetailChart() {
+
         //getting chart array of subscribers by age
         $subscribersByAge = $this->getSubscribersByAgeChart();
         $subscribersByChannel = $this->getSubscribersByChannelChart();
@@ -16,11 +320,9 @@ class StatsController extends BaseController {
 
         $data = array("subscribersByAge"=>$subscribersByAge,"subscribersByChannel"=>$subscribersByChannel,"subscribersByOperator"=>$subscribersByOperator,"subscribersBySource"=>$subscribersBySource);
         
-        return View::make('stats/generalcharts')->with($data);
+        return View::make('stats/detailcharts')->with($data);
     }
     
-    
-
     public function getSubscribersByAgeChart() {
         $sqlmale = ' and client_gender = "m" ';
         $sqlfemale = ' and client_gender = "f" ';
@@ -266,7 +568,7 @@ class StatsController extends BaseController {
         $chartArray["legend"] = array("enabled" => true);
         $chartArray["credits"] = array("enabled" => false);
         //$chartArray["tooltip"] = array("pointFormat" => "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>","headerFormat"=>"<span style='font-size:11px'>{series.name}</span><br>");
-          $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %")));
+          $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
          //$chartArray["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %")));
         $chartArray["series"][] = array("type" => "pie", 'name' => "Age Ranges", "colorByPoint" => true, "data" => [ array("name" => "15-19 yrs", "y" => $subscribers1519, "drilldown" => "age1519"),
                 array("name" => "20-24 yrs", "y" => $subscribers2024, "drilldown" => "age2024")]);
@@ -772,7 +1074,7 @@ class StatsController extends BaseController {
         $chartArray["legend"] = array("enabled" => true,"layout"=>"vertical","align"=>"right","verticalAlign"=>"top");
         $chartArray["credits"] = array("enabled" => false);
         //$chartArray["tooltip"] = array("pointFormat" => "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>","headerFormat"=>"<span style='font-size:11px'>{series.name}</span><br>");
-        $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %")));
+        $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
         //$chartArray["plotOptions"] = array("pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %")));
         $chartArray["series"][] = array("type" => "pie", 'name' => "Channels", "colorByPoint" => true, "data" => [array("name" => "SMS", "y" => $subscribersSms, "drilldown" => "channelSms"), 
                 array("name" => "Voice", "y" => $subscribersVoice, "drilldown" => "channelVoice")]);
@@ -2226,7 +2528,7 @@ class StatsController extends BaseController {
         $chartArray["legend"] = array("enabled" => true,"layout"=>"vertical","align"=>"right","verticalAlign"=>"top");
         $chartArray["credits"] = array("enabled" => false);
         //$chartArray["tooltip"] = array("pointFormat" => "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>","headerFormat"=>"<span style='font-size:11px'>{series.name}</span><br>");
-        $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %"))); 
+        $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})"))); 
        //$chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)));
         $chartArray["series"][] = array("type" => "pie", 'name' => "Channels", "colorByPoint" => true, "data" => [
                 array("name" => "Mtn", "y" => $subscribersMtn, "drilldown" => "networkMtn"), 
@@ -3081,232 +3383,232 @@ class StatsController extends BaseController {
                 ->whereRaw($sqlMSI . " " . $sql25 . " " . $sqlfemale . " " . $sqlna)
                 ->count();
 
-        //Next Source: JamJam
-        //Subscribers with JamJam
-        $sqlJamJam = 'status IN ("LongCode","Completed") and' . " source = 'JamJam' ";
-        $subscribersJamJam = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam)
+        //Next Source: JamJar
+        //Subscribers with JamJar
+        $sqlJamJar = 'status IN ("LongCode","Completed") and' . " source = 'JamJar' ";
+        $subscribersJamJar = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar)
                 ->count();
 
 
-        //Subscribers registered with Jamjam and between 0-14 yrs
-        $subscribersJamJam014 = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014)
+        //Subscribers registered with Jamjar and between 0-14 yrs
+        $subscribersJamJar014 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 0-14 yrs
-        $subscribersJamJam014male = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlmale)
+        //Male Subscribers registered with Jamjar and between 0-14 yrs
+        $subscribersJamJar014male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlmale)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 0-14 yrs in Jhs
-        $subscribersJamJam014malejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlmale . " " . $sqljhs)
+        //Male Subscribers registered with Jamjar and between 0-14 yrs in Jhs
+        $subscribersJamJar014malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlmale . " " . $sqljhs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 0-14 yrs in Shs
-        $subscribersJamJam014maleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlmale . " " . $sqlshs)
+        //Male Subscribers registered with Jamjar and between 0-14 yrs in Shs
+        $subscribersJamJar014maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlmale . " " . $sqlshs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 0-14 yrs in Tertiary
-        $subscribersJamJam014maleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlmale . " " . $sqlter)
+        //Male Subscribers registered with Jamjar and between 0-14 yrs in Tertiary
+        $subscribersJamJar014maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlmale . " " . $sqlter)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 0-14 yrs not in school
-        $subscribersJamJam014malena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlmale . " " . $sqlna)
+        //Male Subscribers registered with Jamjar and between 0-14 yrs not in school
+        $subscribersJamJar014malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlmale . " " . $sqlna)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 0-14 yrs
-        $subscribersJamJam014female = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlfemale)
+        //Female Subscribers registered with Jamjar and between 0-14 yrs
+        $subscribersJamJar014female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlfemale)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 0-14 yrs in Jhs
-        $subscribersJamJam014femalejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlfemale . " " . $sqljhs)
+        //Female Subscribers registered with Jamjar and between 0-14 yrs in Jhs
+        $subscribersJamJar014femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlfemale . " " . $sqljhs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 0-14 yrs in Shs
-        $subscribersJamJam014femaleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlfemale . " " . $sqlshs)
+        //Female Subscribers registered with Jamjar and between 0-14 yrs in Shs
+        $subscribersJamJar014femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlfemale . " " . $sqlshs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 0-14 yrs in Tertiary
-        $subscribersJamJam014femaleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlfemale . " " . $sqlter)
+        //Female Subscribers registered with Jamjar and between 0-14 yrs in Tertiary
+        $subscribersJamJar014femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlfemale . " " . $sqlter)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 0-14 yrs not in school
-        $subscribersJamJam014femalena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql014 . " " . $sqlfemale . " " . $sqlna)
+        //Male Subscribers registered with Jamjar and between 0-14 yrs not in school
+        $subscribersJamJar014femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql014 . " " . $sqlfemale . " " . $sqlna)
                 ->count();
 
-        //Subscribers registered with Jamjam and between 15-19 yrs
-        $subscribersJamJam1519 = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519)
+        //Subscribers registered with Jamjar and between 15-19 yrs
+        $subscribersJamJar1519 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 15-19 yrs
-        $subscribersJamJam1519male = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlmale)
+        //Male Subscribers registered with Jamjar and between 15-19 yrs
+        $subscribersJamJar1519male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlmale)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 15-19 yrs in Jhs
-        $subscribersJamJam1519malejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlmale . " " . $sqljhs)
+        //Male Subscribers registered with Jamjar and between 15-19 yrs in Jhs
+        $subscribersJamJar1519malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlmale . " " . $sqljhs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 15-19 yrs in Shs
-        $subscribersJamJam1519maleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlmale . " " . $sqlshs)
+        //Male Subscribers registered with Jamjar and between 15-19 yrs in Shs
+        $subscribersJamJar1519maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlmale . " " . $sqlshs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 15-19 yrs in Tertiary
-        $subscribersJamJam1519maleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlmale . " " . $sqlter)
+        //Male Subscribers registered with Jamjar and between 15-19 yrs in Tertiary
+        $subscribersJamJar1519maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlmale . " " . $sqlter)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 15-19 yrs not in school
-        $subscribersJamJam1519malena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlmale . " " . $sqlna)
+        //Male Subscribers registered with Jamjar and between 15-19 yrs not in school
+        $subscribersJamJar1519malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlmale . " " . $sqlna)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 15-19 yrs
-        $subscribersJamJam1519female = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlfemale)
+        //Female Subscribers registered with Jamjar and between 15-19 yrs
+        $subscribersJamJar1519female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlfemale)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 15-19 yrs in Jhs
-        $subscribersJamJam1519femalejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlfemale . " " . $sqljhs)
+        //Female Subscribers registered with Jamjar and between 15-19 yrs in Jhs
+        $subscribersJamJar1519femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlfemale . " " . $sqljhs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 15-19 yrs in Shs
-        $subscribersJamJam1519femaleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlfemale . " " . $sqlshs)
+        //Female Subscribers registered with Jamjar and between 15-19 yrs in Shs
+        $subscribersJamJar1519femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlfemale . " " . $sqlshs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 15-19 yrs in Tertiary
-        $subscribersJamJam1519femaleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlfemale . " " . $sqlter)
+        //Female Subscribers registered with Jamjar and between 15-19 yrs in Tertiary
+        $subscribersJamJar1519femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlfemale . " " . $sqlter)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 15-19 yrs not in school
-        $subscribersJamJam1519femalena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql1519 . " " . $sqlfemale . " " . $sqlna)
+        //Female Subscribers registered with Jamjar and between 15-19 yrs not in school
+        $subscribersJamJar1519femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql1519 . " " . $sqlfemale . " " . $sqlna)
                 ->count();
 
-        //Subscribers registered with Jamjam and between 20-24 yrs 
-        $subscribersJamJam2024 = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024)
+        //Subscribers registered with Jamjar and between 20-24 yrs 
+        $subscribersJamJar2024 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 20-24 yrs
-        $subscribersJamJam2024male = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlmale)
+        //Male Subscribers registered with Jamjar and between 20-24 yrs
+        $subscribersJamJar2024male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlmale)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 20-24 yrs in Jhs
-        $subscribersJamJam2024malejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlmale . " " . $sqljhs)
+        //Male Subscribers registered with Jamjar and between 20-24 yrs in Jhs
+        $subscribersJamJar2024malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlmale . " " . $sqljhs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 20-24 yrs in Shs
-        $subscribersJamJam2024maleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlmale . " " . $sqlshs)
+        //Male Subscribers registered with Jamjar and between 20-24 yrs in Shs
+        $subscribersJamJar2024maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlmale . " " . $sqlshs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 20-24 yrs in Tertiary
-        $subscribersJamJam2024maleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlmale . " " . $sqlter)
+        //Male Subscribers registered with Jamjar and between 20-24 yrs in Tertiary
+        $subscribersJamJar2024maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlmale . " " . $sqlter)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 20-24 yrs not in school
-        $subscribersJamJam2024malena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlmale . " " . $sqlna)
+        //Male Subscribers registered with Jamjar and between 20-24 yrs not in school
+        $subscribersJamJar2024malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlmale . " " . $sqlna)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 20-24 yrs
-        $subscribersJamJam2024female = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlfemale)
+        //Female Subscribers registered with Jamjar and between 20-24 yrs
+        $subscribersJamJar2024female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlfemale)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 20-24 yrs in Jhs
-        $subscribersJamJam2024femalejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlfemale . " " . $sqljhs)
+        //Female Subscribers registered with Jamjar and between 20-24 yrs in Jhs
+        $subscribersJamJar2024femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlfemale . " " . $sqljhs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 20-24 yrs in Shs
-        $subscribersJamJam2024femaleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlfemale . " " . $sqlshs)
+        //Female Subscribers registered with Jamjar and between 20-24 yrs in Shs
+        $subscribersJamJar2024femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlfemale . " " . $sqlshs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 20-24 yrs in Tertiary
-        $subscribersJamJam2024femaleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlfemale . " " . $sqlter)
+        //Female Subscribers registered with Jamjar and between 20-24 yrs in Tertiary
+        $subscribersJamJar2024femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlfemale . " " . $sqlter)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 20-24 yrs not in school
-        $subscribersJamJam2024femalena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql2024 . " " . $sqlfemale . " " . $sqlna)
+        //Female Subscribers registered with Jamjar and between 20-24 yrs not in school
+        $subscribersJamJar2024femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql2024 . " " . $sqlfemale . " " . $sqlna)
                 ->count();
 
-        //Subscribers registered with Jamjam and between 25+ yrs 
-        $subscribersJamJam25 = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25)
+        //Subscribers registered with Jamjar and between 25+ yrs 
+        $subscribersJamJar25 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 25+ yrs
-        $subscribersJamJam25male = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlmale)
+        //Male Subscribers registered with Jamjar and between 25+ yrs
+        $subscribersJamJar25male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlmale)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 25+ yrs in Jhs
-        $subscribersJamJam25malejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlmale . " " . $sqljhs)
+        //Male Subscribers registered with Jamjar and between 25+ yrs in Jhs
+        $subscribersJamJar25malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlmale . " " . $sqljhs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 25+ yrs in Shs
-        $subscribersJamJam25maleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlmale . " " . $sqlshs)
+        //Male Subscribers registered with Jamjar and between 25+ yrs in Shs
+        $subscribersJamJar25maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlmale . " " . $sqlshs)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 25+ yrs in Tertiary
-        $subscribersJamJam25maleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlmale . " " . $sqlter)
+        //Male Subscribers registered with Jamjar and between 25+ yrs in Tertiary
+        $subscribersJamJar25maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlmale . " " . $sqlter)
                 ->count();
 
-        //Male Subscribers registered with Jamjam and between 25+ yrs not in school
-        $subscribersJamJam25malena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlmale . " " . $sqlna)
+        //Male Subscribers registered with Jamjar and between 25+ yrs not in school
+        $subscribersJamJar25malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlmale . " " . $sqlna)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 25+ yrs
-        $subscribersJamJam25female = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlfemale)
+        //Female Subscribers registered with Jamjar and between 25+ yrs
+        $subscribersJamJar25female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlfemale)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 25+ yrs in Jhs
-        $subscribersJamJam25femalejhs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlfemale . " " . $sqljhs)
+        //Female Subscribers registered with Jamjar and between 25+ yrs in Jhs
+        $subscribersJamJar25femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlfemale . " " . $sqljhs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 25+ yrs in Shs
-        $subscribersJamJam25femaleshs = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlfemale . " " . $sqlshs)
+        //Female Subscribers registered with Jamjar and between 25+ yrs in Shs
+        $subscribersJamJar25femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlfemale . " " . $sqlshs)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 25+ yrs in Tertiary
-        $subscribersJamJam25femaleter = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlfemale . " " . $sqlter)
+        //Female Subscribers registered with Jamjar and between 25+ yrs in Tertiary
+        $subscribersJamJar25femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlfemale . " " . $sqlter)
                 ->count();
 
-        //Female Subscribers registered with Jamjam and between 25+ yrs not in school
-        $subscribersJamJam25femalena = DB::table('clients_sms_registration')
-                ->whereRaw($sqlJamJam . " " . $sql25 . " " . $sqlfemale . " " . $sqlna)
+        //Female Subscribers registered with Jamjar and between 25+ yrs not in school
+        $subscribersJamJar25femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlJamJar . " " . $sql25 . " " . $sqlfemale . " " . $sqlna)
                 ->count();
 
         //Next Source : None
@@ -3548,13 +3850,13 @@ class StatsController extends BaseController {
         $chartArray["credits"] = array("enabled" => false);
         //$chartArray["tooltip"] = array("pointFormat" => "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>","headerFormat"=>"<span style='font-size:11px'>{series.name}</span><br>");
         //$chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)));
-            $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} %")));
+            $chartArray["plotOptions"] = array("series" => array("borderWidth" => 0, "dataLabels" => array("enabled" => true)),"pie" => array("allowPointSelect" => true, "cursor"=>"pointer","dataLabels" => array("enabled" => true,"format"=>"<b>{point.name}</b>: {point.percentage:.1f} % ({y})")));
       
         $chartArray["series"][] = array("type" => "pie", 'name' => "Sources", "colorByPoint" => true, "data" => [
                 array("name" => "GF", "y" => $subscribersGF, "drilldown" => "sourceGF"), 
                 array("name" => "DKT", "y" => $subscribersDKT, "drilldown" => "sourceDKT"), 
                 array("name" => "MSI", "y" => $subscribersMSI, "drilldown" => "sourceMSI"),
-                array("name" => "JamJam", "y" => $subscribersJamJam, "drilldown" => "sourceJamJam"), 
+                array("name" => "JamJar", "y" => $subscribersJamJar, "drilldown" => "sourceJamJar"), 
                 array("name" => "None", "y" => $subscribersNone, "drilldown" => "sourceNone")]);
         $chartArray["drilldown"] = array("series" => [
                 
@@ -3625,27 +3927,27 @@ class StatsController extends BaseController {
                 array("name" => "MSI : 25+ yrs : Female By Education Level", "id" => "msifemaleage25", "data" => [['JHS', $subscribersMSI25femalejhs], ['SHS', $subscribersMSI25femaleshs], ['Tertiary', $subscribersMSI25femaleter], ["Not In School", $subscribersMSI25femalena]]),
             
          
-            //JamJam drilldowns
+            //JamJar drilldowns
             
-            array("id" => "sourceJamJam", "name" => "JamJam By Age Groups", "data" => [ 
-                                                                    array("name" => "15-19 yrs", "y" => $subscribersJamJam1519, "drilldown" => "jamjamage1519"),
-                                                                    array("name" => "20-24 yrs", "y" => $subscribersJamJam2024, "drilldown" => "jamjamage2024")]),
+            array("id" => "sourceJamJar", "name" => "JamJar By Age Groups", "data" => [ 
+                                                                    array("name" => "15-19 yrs", "y" => $subscribersJamJar1519, "drilldown" => "jamjarage1519"),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersJamJar2024, "drilldown" => "jamjarage2024")]),
             
-            array("id" => "jamjamage014", "name" => "JamJam : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJam014male, "drilldown" => "jamjammaleage014"), array("name" => "Female", "y" => $subscribersJamJam014female, "drilldown" => "jamjamfemaleage014")]),
-                array("name" => "JamJam : 0-14 yrs : Male By Education Level", "id" => "jamjammaleage014", "data" => [['JHS', $subscribersJamJam014malejhs], ['SHS', $subscribersJamJam014maleshs], ['Tertiary', $subscribersJamJam014maleter], ["Not In School", $subscribersJamJam014malena]]),
-                array("name" => "JamJam : 0-14 yrs : Female By Education Level", "id" => "jamjamfemaleage014", "data" => [['JHS', $subscribersJamJam014femalejhs], ['SHS', $subscribersJamJam014femaleshs], ['Tertiary', $subscribersJamJam014femaleter], ["Not In School", $subscribersJamJam014femalena]]),
+            array("id" => "jamjarage014", "name" => "JamJar : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJar014male, "drilldown" => "jamjarmaleage014"), array("name" => "Female", "y" => $subscribersJamJar014female, "drilldown" => "jamjarfemaleage014")]),
+                array("name" => "JamJar : 0-14 yrs : Male By Education Level", "id" => "jamjarmaleage014", "data" => [['JHS', $subscribersJamJar014malejhs], ['SHS', $subscribersJamJar014maleshs], ['Tertiary', $subscribersJamJar014maleter], ["Not In School", $subscribersJamJar014malena]]),
+                array("name" => "JamJar : 0-14 yrs : Female By Education Level", "id" => "jfemaleage014", "data" => [['JHS', $subscribersJamJar014femalejhs], ['SHS', $subscribersJamJar014femaleshs], ['Tertiary', $subscribersJamJar014femaleter], ["Not In School", $subscribersJamJar014femalena]]),
                 
-            array("id" => "jamjamage1519", "name" => "JamJam : 15-19 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJam1519male, "drilldown" => "jamjammaleage1519"), array("name" => "Female", "y" => $subscribersJamJam1519female, "drilldown" => "jamjamfemaleage1519")]),
-                array("name" => "JamJam : 15-19 yrs : Male By Education Level", "id" => "jamjammaleage1519", "data" => [['JHS', $subscribersJamJam1519malejhs], ['SHS', $subscribersJamJam1519maleshs], ['Tertiary', $subscribersJamJam1519maleter], ["Not In School", $subscribersJamJam1519malena]]),
-                array("name" => "JamJam : 15-19 yrs : Female By Education Level", "id" => "jamjamfemaleage1519", "data" => [['JHS', $subscribersJamJam1519femalejhs], ['SHS', $subscribersJamJam1519femaleshs], ['Tertiary', $subscribersJamJam1519femaleter], ["Not In School", $subscribersJamJam1519femalena]]),
+            array("id" => "jamjarage1519", "name" => "JamJar : 15-19 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJar1519male, "drilldown" => "jamjarmaleage1519"), array("name" => "Female", "y" => $subscribersJamJar1519female, "drilldown" => "jamjarfemaleage1519")]),
+                array("name" => "JamJar : 15-19 yrs : Male By Education Level", "id" => "jamjarmaleage1519", "data" => [['JHS', $subscribersJamJar1519malejhs], ['SHS', $subscribersJamJar1519maleshs], ['Tertiary', $subscribersJamJar1519maleter], ["Not In School", $subscribersJamJar1519malena]]),
+                array("name" => "JamJar : 15-19 yrs : Female By Education Level", "id" => "jamjarfemaleage1519", "data" => [['JHS', $subscribersJamJar1519femalejhs], ['SHS', $subscribersJamJar1519femaleshs], ['Tertiary', $subscribersJamJar1519femaleter], ["Not In School", $subscribersJamJar1519femalena]]),
                 
-            array("id" => "jamjamage2024", "name" => "JamJam : 20-24 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJam2024male, "drilldown" => "jamjammaleage2024"), array("name" => "Female", "y" => $subscribersJamJam2024female, "drilldown" => "jamjamfemaleage2024")]),
-                array("name" => "JamJam : 20-24 yrs : Male By Education Level", "id" => "jamjammaleage2024", "data" => [['JHS', $subscribersJamJam2024malejhs], ['SHS', $subscribersJamJam2024maleshs], ['Tertiary', $subscribersJamJam2024maleter], ["Not In School", $subscribersJamJam2024malena]]),
-                array("name" => "JamJam : 20-24 yrs : Female By Education Level", "id" => "jamjamfemaleage2024", "data" => [['JHS', $subscribersJamJam2024femalejhs], ['SHS', $subscribersJamJam2024femaleshs], ['Tertiary', $subscribersJamJam2024femaleter], ["Not In School", $subscribersJamJam2024femalena]]),
+            array("id" => "jamjarage2024", "name" => "JamJar : 20-24 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJar2024male, "drilldown" => "jamjarmaleage2024"), array("name" => "Female", "y" => $subscribersJamJar2024female, "drilldown" => "jamjarfemaleage2024")]),
+                array("name" => "JamJar : 20-24 yrs : Male By Education Level", "id" => "jamjarmaleage2024", "data" => [['JHS', $subscribersJamJar2024malejhs], ['SHS', $subscribersJamJar2024maleshs], ['Tertiary', $subscribersJamJar2024maleter], ["Not In School", $subscribersJamJar2024malena]]),
+                array("name" => "JamJar : 20-24 yrs : Female By Education Level", "id" => "jamjarfemaleage2024", "data" => [['JHS', $subscribersJamJar2024femalejhs], ['SHS', $subscribersJamJar2024femaleshs], ['Tertiary', $subscribersJamJar2024femaleter], ["Not In School", $subscribersJamJar2024femalena]]),
                 
-            array("id" => "jamjamage25", "name" => "JamJam : 25+ yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJam25male, "drilldown" => "jamjammaleage25"), array("name" => "Female", "y" => $subscribersJamJam25female, "drilldown" => "jamjamfemaleage25")]),
-                array("name" => "JamJam : 25+ yrs : Male By Education Level", "id" => "jamjammaleage25", "data" => [['JHS', $subscribersJamJam25malejhs], ['SHS', $subscribersJamJam25maleshs], ['Tertiary', $subscribersJamJam25maleter], ["Not In School", $subscribersJamJam25malena]]),
-                array("name" => "JamJam : 25+ yrs : Female By Education Level", "id" => "jamjamfemaleage25", "data" => [['JHS', $subscribersJamJam25femalejhs], ['SHS', $subscribersJamJam25femaleshs], ['Tertiary', $subscribersJamJam25femaleter], ["Not In School", $subscribersJamJam25femalena]]),
+            array("id" => "jamjarage25", "name" => "JamJar : 25+ yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersJamJar25male, "drilldown" => "jamjarmaleage25"), array("name" => "Female", "y" => $subscribersJamJar25female, "drilldown" => "jamjarfemaleage25")]),
+                array("name" => "JamJar : 25+ yrs : Male By Education Level", "id" => "jamjarmaleage25", "data" => [['JHS', $subscribersJamJar25malejhs], ['SHS', $subscribersJamJar25maleshs], ['Tertiary', $subscribersJamJar25maleter], ["Not In School", $subscribersJamJar25malena]]),
+                array("name" => "JamJar : 25+ yrs : Female By Education Level", "id" => "jamjarfemaleage25", "data" => [['JHS', $subscribersJamJar25femalejhs], ['SHS', $subscribersJamJar25femaleshs], ['Tertiary', $subscribersJamJar25femaleter], ["Not In School", $subscribersJamJar25femalena]]),
             
 
             //None drilldowns
