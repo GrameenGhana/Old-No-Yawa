@@ -175,11 +175,23 @@ class ExcelUploadController extends BaseController {
                         Log::info("Empty contact number");
                         $sizeOfFailedData ++;
                     } else {
+                        
+                        if($gender == "M"){
+                            $gender = "MALE";
+                        }else if($gender == "F"){
+                            $gender = "FEMALE";
+                        }
+                        
+                        if($channel == strtoupper("Voice")){
+                            $channel = "V";
+                        }
+                        
+                         $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, strtoupper($education), strtoupper($channel) );
 
                         
-                        $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" , excel="'.$filename.'"');
+                        //$success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" , excel="'.$filename.'"');
 
-                        if ($success) {
+                        if ($success=="success") {
 
                             Log::info("Client [233" . $contact . "] saved!");
 

@@ -26,6 +26,8 @@
         {{ HTML::style('css/AdminLTE.css'); }} 
          <!-- Scrolling style -->
         {{ HTML::style('css/image.css'); }} 
+        <!-- TableTool style -->
+        {{ HTML::style('css/dataTables.tableTools.css'); }} 
         
 
         <!--[if lt IE 9]>
@@ -215,13 +217,13 @@
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('stats/generalcharts') ? 'active' : '' }}"><a href="{{ URL::to('stats/generalcharts') }}"><i class="fa fa-bar-chart-o"></i>General Charts</a></li>
                                 <li class="{{ Request::is('stats/detailcharts') ? 'active' : '' }}"><a href="{{ URL::to('stats/detailcharts') }}"><i class="fa fa-bar-chart-o"></i>Detail Charts</a></li>
-                                <li class="{{ Request::is('timeseries/*') ? 'active' : '' }}"><a href="{{ URL::to('timeseries') }}"><i class="fa fa-bar-chart-o"></i>Timeseries Charts</a></li>
+                                <li class="{{ Request::is('stats/timeseries/*') ? 'active' : '' }}"><a href="{{ URL::to('stats/timeseriescharts') }}"><i class="fa fa-bar-chart-o"></i>Timeseries Charts</a></li>
                                 <li class="{{ Request::is('stats/locationcharts') ? 'active' : '' }}"><a href="{{ URL::to('stats/locationcharts') }}"><i class="fa fa-map-marker"></i>Location Charts</a></li>
                             </ul>
                         </li>
 
 
-                        <li class="treeview {{ (Request::is('users*')) ? 'active' : '' }}">
+                        <li class="treeview {{ (Request::is('system_setup*')) ? 'active' : '' }}">
                             <a href="#">
                                 <i class="fa fa-cogs"></i>
                                 <span>System Setup</span>
@@ -229,9 +231,10 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="{{ Request::is('users/*') ? 'active' : '' }}"><a href="{{ URL::to('users') }}"><i class="fa fa-users"></i>Users</a></li>
-                                <li class="{{ Request::is('langs/*') ? 'active' : '' }}"><a href="{{ URL::to('langs') }}"><i class="fa fa-flag-o"></i>Languages</a></li>
-                                <li class="{{ Request::is('smslogs/*') ? 'active' : '' }}"><a href="{{ URL::to('smslogs') }}"><i class="fa fa-flag-o"></i>Sms Logs</a></li>
+                                <li class="{{ Request::is('system_setup/users*') ? 'active' : '' }}"><a href="{{ URL::to('system_setup/users') }}"><i class="fa fa-users"></i>Users</a></li>
+                                <li class="{{ Request::is('system_setup/langs*') ? 'active' : '' }}"><a href="{{ URL::to('system_setup/langs') }}"><i class="fa fa-flag-o"></i>Languages</a></li>
+                                <li class="{{ Request::is('system_setup/smslogs*') ? 'active' : '' }}"><a href="{{ URL::to('system_setup/smslogs') }}"><i class="fa fa-flag-o"></i>Sms Logs</a></li>
+                                <li class="{{ Request::is('system_setup/voicelogs*') ? 'active' : '' }}"><a href="{{ URL::to('system_setup/voicelogs') }}"><i class="fa fa-flag-o"></i>Voice Logs</a></li>
                             </ul>
                         </li>
                         @endif
@@ -279,6 +282,7 @@
         <!-- data tables -->
         {{ HTML::script('js/plugins/datatables/jquery.dataTables.js'); }}
         {{ HTML::script('js/plugins/datatables/dataTables.bootstrap.js'); }}
+        <script src="//cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools.min.js"></script>
         <!-- AdminLTE App -->
         {{ HTML::script('js/AdminLTE/app.js'); }}
         <!-- Scrolling -->

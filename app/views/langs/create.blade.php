@@ -11,7 +11,7 @@
         <h1> <i class="fa fa-users"></i> Languages <small>Control panel</small> </h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ URL::to('langs') }}"><i class="fa fa-users"></i> Languages</a></li>
+            <li><a href="{{ URL::to('system_setup/langs') }}"><i class="fa fa-users"></i> Languages</a></li>
             <li class="active">Create</li>
         </ol>
     </section>
@@ -38,7 +38,7 @@
         </div>
         @endif
 
-        {{ Form::open(array('url'=> 'langs','method'=>'post')) }}
+        {{ Form::open(array('url'=> 'system_setup/langs','method'=>'post')) }}
         <div class="row">
             <div class="col-md-8">
                 <div class="box box-primary">

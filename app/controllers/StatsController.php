@@ -2700,7 +2700,7 @@ class StatsController extends BaseController {
         $sqlna = ' and client_education_level="na"';
 
          //Subscribers with source GF
-        $sqlGF = 'status IN ("LongCode","Completed") and' . " source = 'GF' ";
+        $sqlGF = 'status IN ("Completed") and' . " source = 'GF' ";
         $subscribersGF = DB::table('clients_sms_registration')
                 ->whereRaw($sqlGF)
                 ->count();
@@ -2929,7 +2929,7 @@ class StatsController extends BaseController {
 
         //Next Source : DKT
         //Subscribers with source DKT
-        $sqlDKT = 'status IN ("LongCode","Completed") and' . " source = 'DKT' ";
+        $sqlDKT = 'status IN ("Completed") and' . " source = 'DKT' ";
         $subscribersDKT = DB::table('clients_sms_registration')
                 ->whereRaw($sqlDKT)
                 ->count();
@@ -3157,7 +3157,7 @@ class StatsController extends BaseController {
 
         //Next Source : MSI
         //Subscribers with source MSI
-        $sqlMSI = 'status IN ("LongCode","Completed") and' . " source ='MSI' ";
+        $sqlMSI = 'status IN ("Completed") and' . " source ='MSI' ";
         $subscribersMSI = DB::table('clients_sms_registration')
                 ->whereRaw($sqlMSI)
                 ->count();
@@ -3385,7 +3385,7 @@ class StatsController extends BaseController {
 
         //Next Source: JamJar
         //Subscribers with JamJar
-        $sqlJamJar = 'status IN ("LongCode","Completed") and' . " source = 'JamJar' ";
+        $sqlJamJar = 'status IN ("Completed") and' . " source = 'JamJar' ";
         $subscribersJamJar = DB::table('clients_sms_registration')
                 ->whereRaw($sqlJamJar)
                 ->count();
@@ -3613,11 +3613,10 @@ class StatsController extends BaseController {
 
         //Next Source : None
         //Subscribers with no source 
-        $sqlNone = 'status IN ("LongCode","Completed") and' . " ISNULL(source) or source = '' ";
+        $sqlNone = 'status IN ("Completed") and' . " ISNULL(source)  ";
         $subscribersNone = DB::table('clients_sms_registration')
                 ->whereRaw($sqlNone)
                 ->count();
-
 
         //Subscribers registered with no source  and between 0-14 yrs
         $subscribersNone014 = DB::table('clients_sms_registration')
@@ -3839,7 +3838,232 @@ class StatsController extends BaseController {
                 ->whereRaw($sqlNone . " " . $sql25 . " " . $sqlfemale . " " . $sqlna)
                 ->count();
 
-       
+       //Next Source : Self
+        //Subscribers with self source 
+        $sqlSelf = 'status IN ("LongCode") and source="Self"';
+        $subscribersSelf = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf)
+                ->count();
+
+        //Subscribers registered with self source  and between 0-14 yrs
+        $subscribersSelf014 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 0-14 yrs
+        $subscribersSelf014male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlmale)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 0-14 yrs in Jhs
+        $subscribersSelf014malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlmale . " " . $sqljhs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 0-14 yrs in Shs
+        $subscribersSelf014maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlmale . " " . $sqlshs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 0-14 yrs in Tertiary
+        $subscribersSelf014maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlmale . " " . $sqlter)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 0-14 yrs selft in school
+        $subscribersSelf014malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlmale . " " . $sqlna)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 0-14 yrs
+        $subscribersSelf014female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlfemale)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 0-14 yrs in Jhs
+        $subscribersSelf014femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlfemale . " " . $sqljhs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 0-14 yrs in Shs
+        $subscribersSelf014femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlfemale . " " . $sqlshs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 0-14 yrs in Tertiary
+        $subscribersSelf014femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlfemale . " " . $sqlter)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 0-14 yrs selft in school
+        $subscribersSelf014femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql014 . " " . $sqlfemale . " " . $sqlna)
+                ->count();
+
+        //Subscribers registered with self source  and between 15-19 yrs
+        $subscribersSelf1519 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 15-19 yrs
+        $subscribersSelf1519male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlmale)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 15-19 yrs in Jhs
+        $subscribersSelf1519malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlmale . " " . $sqljhs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 15-19 yrs in Shs
+        $subscribersSelf1519maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlmale . " " . $sqlshs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 15-19 yrs in Tertiary
+        $subscribersSelf1519maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlmale . " " . $sqlter)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 15-19 yrs selft in school
+        $subscribersSelf1519malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlmale . " " . $sqlna)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 15-19 yrs
+        $subscribersSelf1519female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlfemale)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 15-19 yrs in Jhs
+        $subscribersSelf1519femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlfemale . " " . $sqljhs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 15-19 yrs in Shs
+        $subscribersSelf1519femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlfemale . " " . $sqlshs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 15-19 yrs in Tertiary
+        $subscribersSelf1519femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlfemale . " " . $sqlter)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 15-19 yrs selft in school
+        $subscribersSelf1519femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql1519 . " " . $sqlfemale . " " . $sqlna)
+                ->count();
+
+        //Subscribers registered with self source  and between 20-24 yrs 
+        $subscribersSelf2024 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 20-24 yrs
+        $subscribersSelf2024male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlmale)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 20-24 yrs in Jhs
+        $subscribersSelf2024malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlmale . " " . $sqljhs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 20-24 yrs in Shs
+        $subscribersSelf2024maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlmale . " " . $sqlshs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 20-24 yrs in Tertiary
+        $subscribersSelf2024maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlmale . " " . $sqlter)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 20-24 yrs selft in school
+        $subscribersSelf2024malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlmale . " " . $sqlna)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 20-24 yrs
+        $subscribersSelf2024female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlfemale)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 20-24 yrs in Jhs
+        $subscribersSelf2024femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlfemale . " " . $sqljhs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 20-24 yrs in Shs
+        $subscribersSelf2024femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlfemale . " " . $sqlshs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 20-24 yrs in Tertiary
+        $subscribersSelf2024femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlfemale . " " . $sqlter)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 20-24 yrs selft in school
+        $subscribersSelf2024femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql2024 . " " . $sqlfemale . " " . $sqlna)
+                ->count();
+
+        //Subscribers registered with self source  and between 25+ yrs 
+        $subscribersSelf25 = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 25+ yrs
+        $subscribersSelf25male = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlmale)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 25+ yrs in Jhs
+        $subscribersSelf25malejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlmale . " " . $sqljhs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 25+ yrs in Shs
+        $subscribersSelf25maleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlmale . " " . $sqlshs)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 25+ yrs in Tertiary
+        $subscribersSelf25maleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlmale . " " . $sqlter)
+                ->count();
+
+        //Male Subscribers registered with self source  and between 25+ yrs selft in school
+        $subscribersSelf25malena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlmale . " " . $sqlna)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 25+ yrs
+        $subscribersSelf25female = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlfemale)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 25+ yrs in Jhs
+        $subscribersSelf25femalejhs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlfemale . " " . $sqljhs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 25+ yrs in Shs
+        $subscribersSelf25femaleshs = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlfemale . " " . $sqlshs)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 25+ yrs in Tertiary
+        $subscribersSelf25femaleter = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlfemale . " " . $sqlter)
+                ->count();
+
+        //Female Subscribers registered with self source  and between 25+ yrs selft in school
+        $subscribersSelf25femalena = DB::table('clients_sms_registration')
+                ->whereRaw($sqlSelf . " " . $sql25 . " " . $sqlfemale . " " . $sqlna)
+                ->count();
 
 
         $chartArray["chart"] = array("type" => "column");
@@ -3857,7 +4081,9 @@ class StatsController extends BaseController {
                 array("name" => "DKT", "y" => $subscribersDKT, "drilldown" => "sourceDKT"), 
                 array("name" => "MSI", "y" => $subscribersMSI, "drilldown" => "sourceMSI"),
                 array("name" => "JamJar", "y" => $subscribersJamJar, "drilldown" => "sourceJamJar"), 
-                array("name" => "None", "y" => $subscribersNone, "drilldown" => "sourceNone")]);
+                array("name" => "None", "y" => $subscribersNone, "drilldown" => "sourceNone"),
+                array("name" => "Self (LongCode)", "y" => $subscribersSelf, "drilldown" => "sourceSelf")
+            ]);
         $chartArray["drilldown"] = array("series" => [
                 
             //GF drilldowns
@@ -3970,9 +4196,30 @@ class StatsController extends BaseController {
                 
             array("id" => "noneage25", "name" => "None : 25+ yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersNone25male, "drilldown" => "nonemaleage25"), array("name" => "Female", "y" => $subscribersNone25female, "drilldown" => "nonefemaleage25")]),
                 array("name" => "None : 25+ yrs : Male By Education Level", "id" => "nonemaleage25", "data" => [['JHS', $subscribersNone25malejhs], ['SHS', $subscribersNone25maleshs], ['Tertiary', $subscribersNone25maleter], ["Not In School", $subscribersNone25malena]]),
-                array("name" => "None : 25+ yrs : Female By Education Level", "id" => "nonefemaleage25", "data" => [['JHS', $subscribersNone25femalejhs], ['SHS', $subscribersNone25femaleshs], ['Tertiary', $subscribersNone25femaleter], ["Not In School", $subscribersNone25femalena]])
+                array("name" => "None : 25+ yrs : Female By Education Level", "id" => "nonefemaleage25", "data" => [['JHS', $subscribersNone25femalejhs], ['SHS', $subscribersNone25femaleshs], ['Tertiary', $subscribersNone25femaleter], ["Not In School", $subscribersNone25femalena]]),
             
-
+            //Self drilldowns
+            
+            array("id" => "sourceSelf", "name" => "Self By Age Groups", "data" => [ 
+                                                                    array("name" => "15-19 yrs", "y" => $subscribersSelf1519, "drilldown" => "selfage1519"),
+                                                                    array("name" => "20-24 yrs", "y" => $subscribersSelf2024, "drilldown" => "selfage2024")]),
+            
+            array("id" => "selfage014", "name" => "Self : 0-14 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersSelf014male, "drilldown" => "selfmaleage014"), array("name" => "Female", "y" => $subscribersSelf014female, "drilldown" => "selffemaleage014")]),
+                array("name" => "Self : 0-14 yrs : Male By Education Level", "id" => "selfmaleage014", "data" => [['JHS', $subscribersSelf014malejhs], ['SHS', $subscribersSelf014maleshs], ['Tertiary', $subscribersSelf014maleter], ["Not In School", $subscribersSelf014malena]]),
+                array("name" => "Self : 0-14 yrs : Female By Education Level", "id" => "selffemaleage014", "data" => [['JHS', $subscribersSelf014femalejhs], ['SHS', $subscribersSelf014femaleshs], ['Tertiary', $subscribersSelf014femaleter], ["Not In School", $subscribersSelf014femalena]]),
+                
+            array("id" => "selfage1519", "name" => "Self : 15-19 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersSelf1519male, "drilldown" => "selfmaleage1519"), array("name" => "Female", "y" => $subscribersSelf1519female, "drilldown" => "selffemaleage1519")]),
+                array("name" => "Self : 15-19 yrs : Male By Education Level", "id" => "selfmaleage1519", "data" => [['JHS', $subscribersSelf1519malejhs], ['SHS', $subscribersSelf1519maleshs], ['Tertiary', $subscribersSelf1519maleter], ["Not In School", $subscribersSelf1519malena]]),
+                array("name" => "Self : 15-19 yrs : Female By Education Level", "id" => "selffemaleage1519", "data" => [['JHS', $subscribersSelf1519femalejhs], ['SHS', $subscribersSelf1519femaleshs], ['Tertiary', $subscribersSelf1519femaleter], ["Not In School", $subscribersSelf1519femalena]]),
+                
+            array("id" => "selfage2024", "name" => "Self : 20-24 yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersSelf2024male, "drilldown" => "selfmaleage2024"), array("name" => "Female", "y" => $subscribersSelf2024female, "drilldown" => "selffemaleage2024")]),
+                array("name" => "Self : 20-24 yrs : Male By Education Level", "id" => "selfmaleage2024", "data" => [['JHS', $subscribersSelf2024malejhs], ['SHS', $subscribersSelf2024maleshs], ['Tertiary', $subscribersSelf2024maleter], ["Not In School", $subscribersSelf2024malena]]),
+                array("name" => "Self : 20-24 yrs : Female By Education Level", "id" => "selffemaleage2024", "data" => [['JHS', $subscribersSelf2024femalejhs], ['SHS', $subscribersSelf2024femaleshs], ['Tertiary', $subscribersSelf2024femaleter], ["Not In School", $subscribersSelf2024femalena]]),
+                
+            array("id" => "selfage25", "name" => "Self : 25+ yrs By Gender", "data" => [array("name" => "Male", "y" => $subscribersSelf25male, "drilldown" => "selfmaleage25"), array("name" => "Female", "y" => $subscribersSelf25female, "drilldown" => "selffemaleage25")]),
+                array("name" => "Self : 25+ yrs : Male By Education Level", "id" => "selfmaleage25", "data" => [['JHS', $subscribersSelf25malejhs], ['SHS', $subscribersSelf25maleshs], ['Tertiary', $subscribersSelf25maleter], ["Not In School", $subscribersSelf25malena]]),
+                array("name" => "Self : 25+ yrs : Female By Education Level", "id" => "selffemaleage25", "data" => [['JHS', $subscribersSelf25femalejhs], ['SHS', $subscribersSelf25femaleshs], ['Tertiary', $subscribersSelf25femaleter], ["Not In School", $subscribersSelf25femalena]])
+            
             
             ]);
 

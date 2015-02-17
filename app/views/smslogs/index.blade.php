@@ -1,11 +1,5 @@
 @extends('layouts.master')
 
-@section('head')
-   @parent
-   {{ HTML::style('css/datatables/dataTables.bootstrap.css'); }}
-@stop
-
-
 @section('content-header')
    <!-- Content Header (Page header) -->
    <section class="content-header">
@@ -66,6 +60,7 @@
         var oTable;
         $(document).ready(function() {
             oTable = $('#logstable').dataTable({
+                "dom": "T<'clear'>lfrtip",
                 "aaSorting": [[5, 'desc']],
                 "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
                 "sPaginationType": "bootstrap",
@@ -77,6 +72,11 @@
                 "bServerSide": true,
                 "sAjaxSource": "{{ URL::to('/getlogs') }}"
             });
+            
+            var tt = new $.fn.dataTable.TableTools( oTable );
+ 
+         $( tt.fnContainer() ).insertBefore('div.dataTables_wrapper');
+         
         });
     </script>
 @stop

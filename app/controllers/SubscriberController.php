@@ -2,8 +2,11 @@
 
 use Bllim\Datatables\Datatables;
 
+
 class SubscriberController extends BaseController {
 
+    
+    
     public function __construct() {
         $this->createRules = array(
             'msisdn' => 'required|min:10|max:16',
@@ -108,11 +111,14 @@ class SubscriberController extends BaseController {
             } else {
                 $status = "Ineligible";
             }
+            
+                        
+            $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, $education, $channel);
 
             
-            $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" ');
+            //$success = DB::statement('insert ignore into clients_sms_registration Set client_number ="' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" ');
 
-            if ($success) {
+            if ($success == "success") {
 
                 Session::flash('message', "{" . Input::get('msisdn') . "} created successfully");
             
@@ -125,6 +131,9 @@ class SubscriberController extends BaseController {
             
         }
     }
+    
+    
+    
     
     public function fireAllForCampaign(){
          $subs  = Subscriber::all();

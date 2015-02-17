@@ -52,10 +52,23 @@ return array(
 			'prefix'   => '',
 		),
 
+            # Our primary database connection
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'noyawagh',
+			'username'  => 'root',
+			'password'  => 'mysql',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+		),
+            
+            # Our secondary database connection
+            'mysql2' => array(
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'database'  => 'asterisk',
 			'username'  => 'root',
 			'password'  => 'mysql',
 			'charset'   => 'utf8',

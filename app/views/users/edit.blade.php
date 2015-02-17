@@ -12,7 +12,7 @@
         <h1> <i class="fa fa-users"></i> Users <small>Control panel</small> </h1>
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="{{ URL::to('users') }}"><i class="fa fa-users"></i> Users</a></li>
+                <li><a href="{{ URL::to('system_setup/users') }}"><i class="fa fa-users"></i> Users</a></li>
                 <li class="active">Edit</li>
             </ol>
     </section>
@@ -40,7 +40,7 @@
         </div>
         @endif
 
-        {{ Form::open(array('url'=> 'users/'.$user->id,'method'=>'post')) }}
+        {{ Form::open(array('url'=> 'system_setup/users/'.$user->id,'method'=>'post')) }}
         
             <input type="hidden" name="_method" value="PATCH" />
             

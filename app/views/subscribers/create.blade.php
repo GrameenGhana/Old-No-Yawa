@@ -76,8 +76,8 @@
                             <label for="gender">Gender</label>
                             <select class="form-control" name="gender">
                                 <option value="">Select Gender</option>
-                                <option value="F">Female</option>
-                                <option value="M">Male</option>
+                                <option value="FEMALE">Female</option>
+                                <option value="MALE">Male</option>
                             </select>
                         </div>
 
@@ -85,10 +85,10 @@
                             <label for="education_level">Educational Level</label>
                             <select class="form-control" name="education_level">
                                 <option value="">Select Level</option>
-                                <option value="jhs">JHS</option>
-                                <option value="shs">SHS</option>
-                                <option value="ter">TERTIARY</option>
-                                <option value="n/a">N/A</option>
+                                <option value="JHS">JHS</option>
+                                <option value="SHS">SHS</option>
+                                <option value="TER">TERTIARY</option>
+                                <option value="NA">N/A</option>
                             </select>
                         </div>
 
@@ -130,7 +130,7 @@
                             <label for="channel">Channel</label>
                             <select class="form-control" name="channel">
                                 <option value="SMS">SMS</option>
-                                <option value="VOICE">VOICE</option>
+                                <option value="V">VOICE</option>
                             </select>
                         </div>
                         

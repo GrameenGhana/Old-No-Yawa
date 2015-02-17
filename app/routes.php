@@ -23,12 +23,13 @@ Route::post('updateSchedule', array('uses' => 'SchedulerController@updateSchedul
 
 /** System paths **/
 Route::resource('subs','SubscriberController');
-Route::resource('users','UserController');
+Route::resource('system_setup/users','UserController');
 Route::resource('uploads','ExcelUploadController');
-Route::resource('langs','LanguageController');
+Route::resource('system_setup/langs','LanguageController');
 Route::resource('broadcast','BroadcastController');
 Route::resource('stopmsg','StopController');
-Route::resource('smslogs','SmsLogController');
+Route::resource('system_setup/smslogs','SmsLogController');
+Route::resource('system_setup/voicelogs','AsteriskController');
 Route::resource('blastmsg','BroadcastController@blast');
 
 Route::group(array('prefix' => 'api/v1'), function()
@@ -37,8 +38,11 @@ Route::group(array('prefix' => 'api/v1'), function()
     Route::resource('consumer','ApiConsumerController');
 });
 
+
 Route::get('/gettotalsubscribers', array('as'=>'getdata', 'uses'=>'HomeController@getTotalSubscribersData'));
 Route::get('/getactivesubscribers', array('as'=>'getdata', 'uses'=>'HomeController@getActiveSubscribersData'));
+Route::get('/getoutgoingcalls', array('as'=>'getdata', 'uses'=>'TimeseriesController@getOutgoingCallsData'));
+Route::get('/getincomingcalls', array('as'=>'getdata', 'uses'=>'TimeseriesController@getIncomingCallsData'));
 
 Route::get('/getagechart', array('as'=>'getagechart', 'uses'=>'StatsController@getSubscribersByAgeChart'));
 
@@ -46,6 +50,8 @@ Route::get('/getagechart', array('as'=>'getagechart', 'uses'=>'StatsController@g
 Route::get('stats/generalcharts', array('uses' => 'StatsController@showGeneralChart'));
 Route::get('stats/detailcharts', array('uses' => 'StatsController@showDetailChart'));
 Route::get('stats/locationcharts', array('uses' => 'StatsController@showLocationChart'));
+Route::get('stats/timeseriescharts', array('uses' => 'TimeseriesController@showTimeseriesChart'));
+
 
 Route::get('/', array('uses' => 'HomeController@showHome'))->before('auth');
 Route::get('/dashboard', array('uses' => 'HomeController@showHome'))->before('auth');
@@ -60,6 +66,7 @@ Route::post('broadcastsearch', array('uses' => 'BroadcastController@search'));
 Route::any('/blastmsg', array('as' => 'blastmsg' ,'uses' => 'BroadcastController@blast'));
 Route::get('/getclients', array('as'=>'getclients', 'uses'=>'SubscriberController@getData'));
 Route::get('/getlogs', array('as'=>'getlogs', 'uses'=>'SmsLogController@getData'));
+Route::get('/getvoicelogs', array('as'=>'getvoicelogs', 'uses'=>'AsteriskController@getData'));
 Route::get('/getuploads', array('as'=>'getuploads', 'uses'=>'ExcelUploadController@getData'));
 Route::get('/getblastclients', array('as'=>'getblastclients', 'uses'=>'BroadcastController@getData'));
 Route::get('/report', array('uses' => 'HomeController@showDashboard'));
