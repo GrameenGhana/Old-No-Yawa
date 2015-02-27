@@ -42,11 +42,13 @@ class ExcelUploadController extends BaseController {
         $uploads = DB::table('excel_uploads')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(10);
-        return View::make('uploads.index', array('uploads' => $uploads));
+        
+        //return "Am feeling good";
+        return View::make('exceluploads.index', array('uploads' => $uploads));
     }
 
     public function show() {
-        return View::make('uploads.upload');
+        return View::make('exceluploads.upload');
     }
 
     public function edit($id) {
@@ -61,12 +63,12 @@ class ExcelUploadController extends BaseController {
         $file = Input::file('file'); //  file upload input field in the form should be named 'file'
 
         //$source = Input::get('source');
-        $uploaded_by = Auth::user()->firstname;
+        $uploaded_by = Auth::user()->id;
 
-        $destinationPath = 'uploads/';
-        $filename = $file->getClientOriginalName();
+        $destinationPath = public_path() .'/uploads/';
+        $filename = time() . '-' .$file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension(); //if you need extension of the file
-        $uploadSuccess = Input::file('file')->move($destinationPath, $filename);
+        $uploadSuccess = Input::file('file')->move( $destinationPath, $filename);
         $sizeOfSuccessData = 0;
         $sizeOfFailedData = 0;
 
@@ -81,11 +83,11 @@ class ExcelUploadController extends BaseController {
             Log::info('File uploaded -> ' . $filename . ' :: Processing started...');
 
 
-            if (is_readable('uploads/' . $filename)) {
+            if (is_readable( $destinationPath . $filename)) {
 
                 Log::info('File is readable -> ' . $filename);
 
-                $objPHPExcel = PHPExcel_IOFactory::load('uploads/' . $filename);
+                $objPHPExcel = PHPExcel_IOFactory::load( $destinationPath . $filename);
                 $rows = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
 
 
@@ -186,10 +188,10 @@ class ExcelUploadController extends BaseController {
                             $channel = "V";
                         }
                         
-                         $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, strtoupper($education), strtoupper($channel) );
-
+                       $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, strtoupper($education), strtoupper($channel),$location,$region,$source );
+                      // Queue::push('RegisterSubscriber', array('phone_number' => '233' . $contact , 'language' => strtoupper($language) , 'age' => $age , 'gender' => $gender , 'education_level' => strtoupper($education) , 'channel' => strtoupper($channel) , 'region' => $region , 'source' => $source ));
                         
-                        //$success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" , excel="'.$filename.'"');
+                       // $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" , excel="'.$filename.'"');
 
                         if ($success=="success") {
 
@@ -208,17 +210,17 @@ class ExcelUploadController extends BaseController {
                 // subscripe client here
 
                 Log:: info('Processing of file completed');
-                DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . ($sizeOfSuccessData + $sizeOfFailedData ) . '",status="Completed : Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ']",created_at="' . $currentDateTime . '" ,  uploaded_by='.$uploaded_by .'');
+                DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . $sizeOfSuccessData . '",status="Completed : Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ']",created_at="' . $currentDateTime . '" ,  uploaded_by='.$uploaded_by .'');
 
                 Session::flash('msg', 'File Uploaded successfully , Data with Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ' ] records saved !');
                 Log::info('File has Success[ ' . $sizeOfSuccessData . '] and Failed [' . $sizeOfFailedData . ' ] records');
 
                  Session::flash('message', "File uploaded successfully");
-                 return Redirect::to('/uploads');
+                 return Redirect::to('/exceluploads');
                 
             } else {
 
-                DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . $sizeOfData . '",status="Error:invalid permissions on file",created_at="' . $currentDateTime . '" , uploaded_by='.$uploaded_by .'');
+                DB::statement('insert into excel_uploads set file_name ="' . $filename . '",file_extension="' . $extension . '",number_of_records="' . $sizeOfSuccessData . '",status="Error:invalid permissions on file",created_at="' . $currentDateTime . '" , uploaded_by='.$uploaded_by .'');
                  Session::flash('message', "Error loading file , check permissions on file");
                 return Redirect::back()
                                 ->with('errors.message', 'Error loading file , check permissions on file');

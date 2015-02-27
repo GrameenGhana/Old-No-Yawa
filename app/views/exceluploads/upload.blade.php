@@ -11,7 +11,7 @@
     <h1> <i class="fa fa-users"></i> Excel Uploads <small>Control panel</small> </h1>
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('/') }}"><i class="fa fa-dashboard"></i> Home </a></li>
-        <li><a href="{{ URL::to('uploads') }}"><i class="fa fa-users"></i> Excel Uploads </a></li>
+        <li><a href="{{ URL::to('exceluploads') }}"><i class="fa fa-users"></i> Excel Uploads </a></li>
         <li class="active">Upload</li>
     </ol>
 </section>
@@ -38,7 +38,7 @@
     <div class="alert alert-danger">{{ Session::get('message') }}</div>
     @endif
 
-    {{ Form::open(array('url'=> 'uploads','method'=>'post','enctype'=>'multipart/form-data')) }}
+    {{ Form::open(array('url'=> 'exceluploads','method'=>'post','enctype'=>'multipart/form-data')) }}
     <div class="row">
 
 

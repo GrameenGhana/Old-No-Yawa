@@ -113,7 +113,7 @@ class SubscriberController extends BaseController {
             }
             
                         
-            $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, $education, $channel);
+            $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, $education, $channel,$location,$region,$source);
 
             
             //$success = DB::statement('insert ignore into clients_sms_registration Set client_number ="' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" ');

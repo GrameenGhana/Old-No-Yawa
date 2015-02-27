@@ -146,8 +146,8 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
-                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('uploads/show') }}"><i class="fa fa-file"></i>Upload Excel File</a></li>
-                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('uploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
+                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceluploads/show') }}"><i class="fa fa-file"></i>Upload Excel File</a></li>
+                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceluploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
                                 <li class="{{ Request::is('broadcast/*') ? 'active' : '' }}"><a href="{{ URL::to('broadcast/show') }}"><i class="fa fa-files-o"></i>Broadcast A Message</a></li>
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
                             </ul>
@@ -165,7 +165,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
-                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('uploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
+                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceluploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
                             </ul>
 

@@ -24,7 +24,7 @@ Route::post('updateSchedule', array('uses' => 'SchedulerController@updateSchedul
 /** System paths **/
 Route::resource('subs','SubscriberController');
 Route::resource('system_setup/users','UserController');
-Route::resource('uploads','ExcelUploadController');
+Route::resource('exceluploads','ExcelUploadController');
 Route::resource('system_setup/langs','LanguageController');
 Route::resource('broadcast','BroadcastController');
 Route::resource('stopmsg','StopController');
@@ -43,6 +43,8 @@ Route::get('/gettotalsubscribers', array('as'=>'getdata', 'uses'=>'HomeControlle
 Route::get('/getactivesubscribers', array('as'=>'getdata', 'uses'=>'HomeController@getActiveSubscribersData'));
 Route::get('/getoutgoingcalls', array('as'=>'getdata', 'uses'=>'TimeseriesController@getOutgoingCallsData'));
 Route::get('/getincomingcalls', array('as'=>'getdata', 'uses'=>'TimeseriesController@getIncomingCallsData'));
+Route::get('/getoutgoingsms', array('as'=>'getdata', 'uses'=>'TimeseriesController@getOutgoingSmsData'));
+Route::get('/getincomingsms', array('as'=>'getdata', 'uses'=>'TimeseriesController@getIncomingSmsData'));
 
 Route::get('/getagechart', array('as'=>'getagechart', 'uses'=>'StatsController@getSubscribersByAgeChart'));
 

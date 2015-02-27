@@ -13,7 +13,7 @@ class AsteriskController extends BaseController {
     public function getData() {
 
         $logs = DB::table('asterisk.cdr as a')
-                ->select('a.calldate', 'a.clid', 'a.disposition', 'a.lastapp', 'a.duration', "c.value")
+                ->select('a.calldate', 'a.clid','a.lastdata', 'a.disposition', 'a.lastapp', 'a.duration', "c.value")
                 ->join('noyawagh.clients_sms_registration as b', DB::raw('concat("233",a.clid)'), '=', 'b.client_number')
                 ->join('noyawagh.campaign as c', 'b.campaignid', '=', 'c.key')
                 ->orderBy('calldate', 'DESC');
@@ -24,7 +24,7 @@ class AsteriskController extends BaseController {
 
     public function index() {
         $logs =  DB::table('asterisk.cdr as a')
-                ->select('a.calldate', 'a.clid', 'a.disposition', 'a.lastapp', 'a.duration', "c.value")
+                ->select('a.calldate', 'a.clid', 'a.lastdata','a.disposition', 'a.lastapp', 'a.duration', "c.value")
                 ->join('noyawagh.clients_sms_registration as b', DB::raw('concat("233",a.clid)'), '=', 'b.client_number')
                 ->join('noyawagh.campaign as c', 'b.campaignid', '=', 'c.key')
                 ->orderBy('calldate', 'DESC')

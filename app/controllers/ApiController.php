@@ -2,10 +2,10 @@
 
 class ApiController  {
 
-     public function register($phone_number,$language,$age,$gender,$education_level,$channel) {
+     public function register($phone_number,$language,$age,$gender,$education_level,$channel,$location,$region,$source) {
 
-        $sURL = "http://admin:admin@41.190.69.163:8080/motech-platform-server/module/nyvrs/web-api/register"; // The POST URL
-        $sPD = "callerId=" . $phone_number . "&language=" . $language . "&age=" . $age . "&gender=" . $gender . "&educationLevel=" . $education_level . "&channel=" . $channel ; // The POST Data
+        $sURL = "http://admin:admin@41.191.245.72:8080/motech-platform-server/module/nyvrs/web-api/register"; // The POST URL
+        $sPD = "callerId=" . $phone_number . "&language=" . $language . "&age=" . $age . "&gender=" . $gender . "&educationLevel=" . $education_level . "&channel=" . $channel . "&location=" . $location  . "&region=" . $region  . "&source=" . $source ; // The POST Data
         $aHTTP = array(
             'http' => // The wrapper to be used
             array(

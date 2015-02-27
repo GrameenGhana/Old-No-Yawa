@@ -39,6 +39,7 @@
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
 <script type="text/javascript">
+
 $(function() {
     $('#byStatus').highcharts(
     {{json_encode($subscribersByStatus)}}

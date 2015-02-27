@@ -67,6 +67,24 @@
     <section class="content">
         <div class="box">
             <div class="box-header">
+                <form>
+                    <div class="form-group" style=" text-align: left;
+                     background: white;
+                     padding-bottom: 5px;
+                     padding-right: 5px;
+                     padding: 5px;margin-bottom: 0px;">
+                        <label>Show Logs For ...</label>
+                        <select  class="from-control " id="optionselected" >
+                            <option selected="selected" value="0">Both</option>
+                            <option value="1">Outgoing</option>
+                            <option value="2">Incoming</option>
+                            
+
+
+                        </select>
+
+                    </div>
+                </form>
             </div><!-- /.box-header -->
 
 
@@ -76,6 +94,7 @@
                         <tr>
                             <th>Call Date</th>
                             <th>Call Id</th>
+                            <th>Voice Data</th>
                             <th>Disposition</th>
                             <th>Last Application</th>
                             <th>Duration(secs)</th>
@@ -84,6 +103,7 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td> </td>
                             <td> </td>
                             <td> </td>
                             <td>  </td>
@@ -122,6 +142,16 @@
          var tt = new $.fn.dataTable.TableTools( oTable );
  
          $( tt.fnContainer() ).insertBefore('div.dataTables_wrapper');
+         
+          // onchange of year selection
+    $('#optionselected').on('change', function() {
+        var option = $('#optionselected').val();
+        
+        console.log("Option:"+option);
+      
+
+    });
+    
         
         });
 

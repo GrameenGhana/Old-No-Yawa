@@ -221,7 +221,7 @@ if ($credit >= ($subscribersCount * 3)) {
 
                 </div>
             </form>
-
+           
 
 
             <div id="subscriberschart" class="span6">
