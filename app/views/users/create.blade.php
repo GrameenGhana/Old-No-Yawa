@@ -107,7 +107,7 @@
         <div class="row">
             <div class="col-xs-6">
                 <div class="box-footer">
-                    {{ Form::submit('Create User',array('class'=>'btn btn-primary')) }}
+                    {{ Form::submit('Create User',array('class'=>'btn btn-primary','id'=>'submit')) }}
                 </div>
             </div>
         </div>

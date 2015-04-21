@@ -13,12 +13,7 @@
 
 Route::get('/fire', array('uses' => 'SubscriberController@fireAllForCampaign'));
 
-/** for Vas2Nets **/
-Route::resource('users','ApiSubscriberController');
-Route::post('insertUser',     array('uses' => 'ApiSubscriberController@store'));
-Route::post('updateUser',     array('uses' => 'ApiSubscriberController@update'));
-Route::post('updateSchedule', array('uses' => 'SchedulerController@updateSchedule'));
-/** end Vas2Nets **/
+
 
 
 /** System paths **/
@@ -31,6 +26,63 @@ Route::resource('stopmsg','StopController');
 Route::resource('system_setup/smslogs','SmsLogController');
 Route::resource('system_setup/voicelogs','AsteriskController');
 Route::resource('blastmsg','BroadcastController@blast');
+
+//APIs
+Route::resource('feedback','FeedbackController');
+Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
+{
+    Route::resource('smssynclog', 'FeedbackController@saveLog');
+});
+
+Route::get('feedback.send', array(
+  'uses' => 'FeedbackController@send',
+  'as' => 'feedback.send'
+));
+
+Route::get('feedback.trash', array(
+  'uses' => 'FeedbackController@trash',
+  'as' => 'feedback.trash'
+));
+
+Route::get('feedback.sentmessages', array(
+  'uses' => 'FeedbackController@sentmessages',
+  'as' => 'feedback.sentmessages'
+));
+
+Route::get('feedback.trashmessages', array(
+  'uses' => 'FeedbackController@trashmessages',
+  'as' => 'feedback.trashmessages'
+));
+
+Route::get('feedback.allresponses', array(
+  'uses' => 'FeedbackController@allresponses',
+  'as' => 'feedback.allresponses'
+));
+
+Route::get('feedback.registration', array(
+  'uses' => 'FeedbackController@registration',
+  'as' => 'feedback.resgistration'
+));
+
+Route::get('feedback.comments', array(
+  'uses' => 'FeedbackController@comments',
+  'as' => 'feedback.comments'
+));
+
+Route::get('feedback.stop', array(
+  'uses' => 'FeedbackController@stopmessages',
+  'as' => 'feedback.stop'
+));
+
+Route::get('feedback.others', array(
+  'uses' => 'FeedbackController@others',
+  'as' => 'feedback.others'
+));
+
+
+
+
+
 
 Route::group(array('prefix' => 'api/v1'), function()
 {
@@ -67,6 +119,16 @@ Route::post('nonauthstopmsg', array('uses' => 'NonAuthStopController@stopmsg'));
 Route::post('broadcastsearch', array('uses' => 'BroadcastController@search'));
 Route::any('/blastmsg', array('as' => 'blastmsg' ,'uses' => 'BroadcastController@blast'));
 Route::get('/getclients', array('as'=>'getclients', 'uses'=>'SubscriberController@getData'));
+
+Route::get('/getsynclogs', array('as'=>'getsynclogs', 'uses'=>'FeedbackController@getData'));
+Route::get('/getsentsynclogs', array('as'=>'getsentsynclogs', 'uses'=>'FeedbackController@getSentData'));
+Route::get('/gettrashsynclogs', array('as'=>'gettrashsynclogs', 'uses'=>'FeedbackController@getTrashData'));
+Route::get('/getallresponsessynclogs', array('as'=>'getallresponsessynclogs', 'uses'=>'FeedbackController@getAllResponsesData'));
+Route::get('/getstopsynclogs', array('as'=>'getstopsynclogs', 'uses'=>'FeedbackController@getStopData'));
+Route::get('/getregsynclogs', array('as'=>'getregsynclogs', 'uses'=>'FeedbackController@getRegData'));
+Route::get('/getotherssynclogs', array('as'=>'getotherssynclogs', 'uses'=>'FeedbackController@getOthersData'));
+Route::get('/getcommentssynclogs', array('as'=>'getcommentssynclogs', 'uses'=>'FeedbackController@getCommentsData'));
+
 Route::get('/getlogs', array('as'=>'getlogs', 'uses'=>'SmsLogController@getData'));
 Route::get('/getvoicelogs', array('as'=>'getvoicelogs', 'uses'=>'AsteriskController@getData'));
 Route::get('/getuploads', array('as'=>'getuploads', 'uses'=>'ExcelUploadController@getData'));

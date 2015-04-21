@@ -150,6 +150,8 @@
                                 <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceluploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
                                 <li class="{{ Request::is('broadcast/*') ? 'active' : '' }}"><a href="{{ URL::to('broadcast/show') }}"><i class="fa fa-files-o"></i>Broadcast A Message</a></li>
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
+                               <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('feedback') }}"><i class="fa fa-envelope-o"></i>SMS Feedback</a></li>
+
                             </ul>
 
                         </li>
@@ -171,6 +173,7 @@
 
                         </li>
                         @endif
+                        
 
                         @if (in_array(strtolower(Auth::user()->role), array('partner')))
 
@@ -184,6 +187,8 @@
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
 
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
+                           
+                                <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('feedback') }}"><i class="fa fa-envelope-o"></i>SMS Feedback</a></li>
                             </ul>
 
                         </li>
