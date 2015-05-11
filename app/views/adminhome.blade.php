@@ -46,7 +46,7 @@ if ($credit >= ($subscribersCount * 3)) {
         <div class="small-box bg-purple">
             <div class="inner">
                 <h3>
-                    {{ $subscribersCompletedCount }}
+                    {{ number_format($subscribersCompletedCount) }}
                 </h3>
                 <p>
                     Subscribers
@@ -73,7 +73,7 @@ if ($credit >= ($subscribersCount * 3)) {
         }
         ?>">
             <div class="inner">
-                <h3> {{ $credit }}
+                <h3> {{ number_format($credit) }}
                 </h3>
                 <p>
                     SMS Balance Credit
@@ -102,7 +102,7 @@ if ($credit >= ($subscribersCount * 3)) {
         <div class="small-box bg-blue">
             <div class="inner">
                 <h3>
-                    {{ $messagesOut }}
+                    {{ number_format($messagesOut) }}
                 </h3>
                 <p>
                     Messages sent

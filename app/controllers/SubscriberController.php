@@ -156,10 +156,11 @@ class SubscriberController extends BaseController {
             if ($success == "success") {
 
             
-                return " { message : " . Input::get('msisdn')  ."created successfully }"
+                return " { 'response': 1, 'message' : '" . Input::get('msisdn')  ." created successfully' }";
+                
             }else{
             
-                return " { message : " . Input::get('msisdn')  ." not created }"
+                return return " { 'response': 0, 'message' : '" . Input::get('msisdn')  ."  not created' }";
             }
             
         }
