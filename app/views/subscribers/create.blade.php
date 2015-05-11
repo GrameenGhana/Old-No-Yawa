@@ -115,6 +115,15 @@
                             <label for="location">Location</label>
                             <input type="text" class="form-control" id="location" name="location" placeholder="Enter location">
                         </div>
+
+                        <div class="form-group">
+                            <label for="rural">Rural</label>
+                            <select class="form-control" name="rural">
+                                <option value="">Is Location Rural?</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
                     </fieldset>
                 </div>
             </div>

@@ -58,7 +58,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'noyawagh',
 			'username'  => 'root',
-			'password'  => 'mysql',
+			'password'  => 'grameenghana',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

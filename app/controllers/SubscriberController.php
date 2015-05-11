@@ -113,8 +113,7 @@ class SubscriberController extends BaseController {
             }
             
                         
-            $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, $education, $channel,$location,$region,$source);
-
+          $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, strtoupper($education), strtoupper($channel),$location,$region,$source );
             
             //$success = DB::statement('insert ignore into clients_sms_registration Set client_number ="' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" ');
 
@@ -132,6 +131,39 @@ class SubscriberController extends BaseController {
         }
     }
     
+     public function register() {
+        $validator = Validator::make(Input::all(), $this->rules);
+
+        if ($validator->fails()) {
+            return $validator->messages()->toJson();
+        } else {
+            $contact = Input::get('msisdn');
+            $age = Input::get('age');
+            $gender = Input::get('gender');
+            $education = Input::get('education_level');
+            $region = Input::get('region');
+            $location = Input::get('location');
+            $source = Input::get('source');
+            $channel = Input::get('channel');
+            $language = Input::get('language');
+           
+            $date = date_create();
+            $currentDateTime = date_format($date, 'Y-m-d H:i:s');
+
+                        
+          $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, strtoupper($education), strtoupper($channel),$location,$region,$source );
+            
+            if ($success == "success") {
+
+            
+                return " { message : " . Input::get('msisdn')  ."created successfully }"
+            }else{
+            
+                return " { message : " . Input::get('msisdn')  ." not created }"
+            }
+            
+        }
+    }
     
     
     

@@ -45,6 +45,20 @@ class StopController extends BaseController {
                         ->where('msisdn', $msisdn)
                         ->update(array('status' => "Suspended" , 'modified_by' => Auth::user()->id));
 
+                 $url = 'http://admin:admin@41.191.245.72:8080/motech-platform-server/module/nyvrs/web-api/unsubscribe';
+                        $data = array('callerId' => $msisdn);
+
+                        // use key 'http' even if you send the request to https://...
+                        $options = array(
+                                'http' => array(
+                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                'method'  => 'POST',
+                                'content' => http_build_query($data),
+                                ),
+                        );
+                    $context  = stream_context_create($options);
+                    $result = file_get_contents($url, false, $context);
+
                 $stoppednumbers = $stoppednumbers . "  [ " . $msisdn . " ] ";
 
                 Session::flash('message', " { " . $stoppednumbers . " } successfully stopped");

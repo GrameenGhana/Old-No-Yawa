@@ -135,6 +135,8 @@ Route::get('/getuploads', array('as'=>'getuploads', 'uses'=>'ExcelUploadControll
 Route::get('/getblastclients', array('as'=>'getblastclients', 'uses'=>'BroadcastController@getData'));
 Route::get('/report', array('uses' => 'HomeController@showDashboard'));
 
+Route::get('/register',array('uses' => 'SubscriberController@register'));
+
 Blade::extend(function($value) {
     return preg_replace('/\{\?(.+)\?\}/', '<?php ${1} ?>', $value);
 });
