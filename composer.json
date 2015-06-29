@@ -8,7 +8,8 @@
 		"pda/pheanstalk": "dev-master",
                 "phpexcel/phpexcel": "dev-master",
 		"pda/pheanstalk": "2.0.*",
-                "bllim/datatables": "*"
+                "bllim/datatables": "*",
+		"monolog/monolog": "~1.13@dev"
 	},
 	"autoload": {
 		"classmap": [

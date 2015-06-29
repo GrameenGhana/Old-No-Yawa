@@ -21,11 +21,11 @@ class FeedbackController extends BaseController {
     //All Ajax Resquests  
     public function getData() {
 
-        $logs = Smslog::select(array('receiver', 'message', 'created_at','id','feedback','message_id'))->whereRaw('istrash = 0 and feedback = "None" and message_type="smssync" ');
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','feedback','message_id'))->whereRaw('istrash = 0  and message_type="smssync" ');
 
         return Datatables::of($logs)
                         
-                        ->edit_column('receiver', '<a href="/feedback.allresponses?id={{$id}}"> {{$receiver}} </a>')
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
                         ->edit_column('message', '<b> {{$message}} </b>')
                         ->edit_column('feedback', '<a href="/feedback.send?id={{$id}}"><i class="fa fa-envelope-o"></i> reply</a> ')
                         ->edit_column('message_id', '<a href="/feedback.trash?id={{$id}}"><i class="fa fa-trash-o"></i> trash</a>')        
@@ -35,11 +35,11 @@ class FeedbackController extends BaseController {
     
      public function getCommentsData() {
 
-        $logs = Smslog::select(array('receiver', 'message', 'created_at','id','feedback','message_id'))->whereRaw(' message_type="smssync" and receiver Not In ("MTNGH-CC","NoYawa") and Upper(message) Not In ("STOP","START","M","F","SHS","JHS","TER","SMS","VOICE") and istrash = 0 and feedback = "None"  ');
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','feedback','message_id'))->whereRaw(' message_type="smssync" and sender Not In ("MTNGH-CC","NoYawa") and Upper(message) Not In ("STOP","START","M","F","SHS","JHS","TER","SMS","VOICE") and istrash = 0   ');
 
         return Datatables::of($logs)
                         
-                        ->edit_column('receiver', '<a href="/feedback.allresponses?id={{$id}}"> {{$receiver}} </a>')
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
                         ->edit_column('message', '<b> {{$message}} </b>')
                         ->edit_column('feedback', '<a href="/feedback.send?id={{$id}}"><i class="fa fa-envelope-o"></i> reply</a> ')
                         ->edit_column('message_id', '<a href="/feedback.trash?id={{$id}}"><i class="fa fa-trash-o"></i> trash</a>')        
@@ -49,11 +49,11 @@ class FeedbackController extends BaseController {
     
     public function getSentData() {
 
-        $logs = Smslog::select(array('receiver', 'message', 'created_at','id','feedback','message_id'))->whereRaw('feedback != "None" and istrash = 0 and message_type="smssync" ');
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','feedback','message_id'))->whereRaw('feedback != "None" and istrash = 0 and message_type="smssync" ');
 
         return Datatables::of($logs)
                         
-                        ->edit_column('receiver', '<a href="/feedback.allresponses?id={{$id}}"> {{$receiver}} </a>')
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
                         ->edit_column('message', '<b> {{$message}} </b>')
                         ->edit_column('feedback', '<a href="/feedback.send?id={{$id}}"><i class="fa fa-envelope-o"></i> reply</a> ')
                         ->edit_column('message_id', '<a href="/feedback.trash?id={{$id}}"><i class="fa fa-trash-o"></i> trash</a>')        
@@ -63,11 +63,11 @@ class FeedbackController extends BaseController {
 
     public function getTrashData() {
 
-        $logs = Smslog::select(array('receiver', 'message', 'created_at','id','feedback'))->where('istrash', '=', 1);
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','feedback'))->where('istrash', '=', 1);
 
         return Datatables::of($logs)
                         
-                        ->edit_column('receiver', '<a href="/feedback.allresponses?id={{$id}}"> {{$receiver}} </a>')
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
                         ->edit_column('message', '<b> {{$message}} </b>')
                         ->edit_column('feedback', '<a href="/feedback.send?id={{$id}}"><i class="fa fa-envelope-o"></i> reply</a> ')        
                         ->remove_column('id')
@@ -81,11 +81,11 @@ class FeedbackController extends BaseController {
        
         $synclog = Smslog::find($id);
         
-         Log::info("Fetching responses for -> ".$synclog->receiver);
+         Log::info("Fetching responses for -> ".$synclog->sender);
 
-        $logs = Smslog::select(array('message','feedback', 'receiver', 'created_at','responded_at','istrash'))
+        $logs = Smslog::select(array('message','feedback', 'sender', 'updated_at','responded_at','istrash'))
                 ->whereRaw('feedback != "None" and istrash = 0 and message_type="smssync" ' )
-                ->where('receiver', '=', $synclog->receiver);
+                ->where('sender', '=', $synclog->sender);
 
         return Datatables::of($logs)
                         ->edit_column('message', 'NoYawa')
@@ -96,11 +96,11 @@ class FeedbackController extends BaseController {
     
     public function getStopData() {
 
-        $logs = Smslog::select(array('receiver', 'message', 'created_at','id','message_id'))->whereRaw('Upper(message) = "STOP" and message_type="smssync"');
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','message_id'))->whereRaw('Upper(message) = "STOP" and message_type="smssync"');
 
         return Datatables::of($logs)
                         
-                        ->edit_column('receiver', '<a href="/feedback.allresponses?id={{$id}}"> {{$receiver}} </a>')
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
                         ->edit_column('message', '<b> {{$message}} </b>')
                         ->edit_column('message_id', '<a href="/feedback.trash?id={{$id}}"><i class="fa fa-trash-o"></i> trash</a>')        
                         ->remove_column('id')
@@ -109,11 +109,11 @@ class FeedbackController extends BaseController {
     
      public function getRegData() {
 
-        $logs = Smslog::select(array('receiver', 'message', 'created_at','id','message_id'))->whereRaw('message REGEXP "^[0-9]+$" or Upper(message) In ("START","M","F","SHS","JHS","TER","SMS","VOICE") and message_type="smssync"');
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','message_id'))->whereRaw('message REGEXP "^[0-9]+$" or Upper(message) In ("START","M","F","SHS","JHS","TER","SMS","VOICE") and message_type="smssync"');
 
         return Datatables::of($logs)
                         
-                        ->edit_column('receiver', '<a href="/feedback.allresponses?id={{$id}}"> {{$receiver}} </a>')
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
                         ->edit_column('message', '<b> {{$message}} </b>')
                         ->edit_column('message_id', '<a href="/feedback.trash?id={{$id}}"><i class="fa fa-trash-o"></i> trash</a>')        
                         ->remove_column('id')
@@ -122,12 +122,26 @@ class FeedbackController extends BaseController {
     
      public function getOthersData() {
 
-        $logs = Smslog::select(array('receiver', 'message', 'created_at','id','message_id'))->whereRaw(' receiver In ("MTNGH-CC","NoYawa") and message_type="smssync" ');
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','message_id'))->whereRaw(' sender In ("MTNGH-CC","NoYawa") and message_type="smssync" ');
 
         return Datatables::of($logs)
                         
-                        ->edit_column('receiver', '<a href="/feedback.allresponses?id={{$id}}"> {{$receiver}} </a>')
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
                         ->edit_column('message', '<b> {{$message}} </b>')
+                        ->edit_column('message_id', '<a href="/feedback.trash?id={{$id}}"><i class="fa fa-trash-o"></i> trash</a>')        
+                        ->remove_column('id')
+                        ->make();
+    }
+
+     public function getCallsData() {
+
+        $logs = Smslog::select(array('sender', 'message', 'updated_at','id','feedback','message_id'))->whereRaw(' message_id ="android_call" and message_type="smssync" ');
+
+        return Datatables::of($logs)
+                        
+                        ->edit_column('sender', '<a href="/feedback.allresponses?id={{$id}}"> {{$sender}} </a>')
+                        ->edit_column('message', '<b> {{$message}} </b>')
+                        ->edit_column('feedback', '<a href="/feedback.send?id={{$id}}"><i class="fa fa-envelope-o"></i> reply</a> ')
                         ->edit_column('message_id', '<a href="/feedback.trash?id={{$id}}"><i class="fa fa-trash-o"></i> trash</a>')        
                         ->remove_column('id')
                         ->make();
@@ -137,16 +151,23 @@ class FeedbackController extends BaseController {
     
     public function saveLog(){
         
-        $synclog = new Smslog();
+       $synclog = new Smslog();
         $synclog->message = Request::get('message');
         $synclog->message_id = Request::get('message_id');
-        $synclog->receiver = Request::get('receiver');
+        $synclog->sender = Request::get('sender');
         $synclog->sent_timestamp = Request::get('sent_timestamp');
         $synclog->status = "None";
         $synclog->feedback = "None";
          $synclog->message_type = "smssync";
-        
+        $synclog->direction = "INBOUND";
+        $synclog->istrash = "0";
+
         $synclog->save();
+
+        Log::info("Api fired to log call....");
+        Log::info("message->".Request::get('message'));
+        Log::info("sender->".Request::get('sender'));
+        Log::info("message_id->".Request::get('message_id'));
         
         return Response::json(array('error' => false,'synclog' => $synclog->toArray()),200);
         
@@ -165,13 +186,13 @@ class FeedbackController extends BaseController {
             
             $synclog = Smslog::find($id);
         
-            Log::info('Trashing message  -> ' . $synclog->message +' receiver ->'.$synclog->receiver);
+            Log::info('Trashing message  -> ' . $synclog->message +' sender ->'.$synclog->sender);
 
             $success =  DB::statement('update smslog Set status="'.$status.'" , istrash=1 Where id= "'.$id.'" ');
             
             if ($success) {
 
-                Session::flash('message', "Message receiver ".$synclog->receiver . " has been trashed");
+                Session::flash('message', "Message sender ".$synclog->sender . " has been trashed");
             
                 return Redirect::to('/feedback');
             }else{
@@ -189,13 +210,13 @@ class FeedbackController extends BaseController {
     
      public function getSmsSmslogCommentsCount(){
         return DB::table('smslog')  
-                ->whereRaw('message_type="smssync" and receiver Not In ("MTNGH-CC","NoYawa") and Upper(message) Not In ("STOP","START","M","F","SHS","JHS","TER","SMS","VOICE") and istrash = 0 and feedback = "None"  ')
+                ->whereRaw('message_type="smssync" and sender Not In ("MTNGH-CC","NoYawa") and Upper(message) Not In ("STOP","START","M","F","SHS","JHS","TER","SMS","VOICE") and istrash = 0  ')
                 ->count();
     }
     
     public function getSmsSmslogInboxCount(){
         return DB::table('smslog')  
-                ->whereRaw('istrash = 0 and feedback = "None" and message_type="smssync" ')
+                ->whereRaw('istrash = 0 and message_type="smssync" ')
                 ->count();
     }
     
@@ -225,7 +246,13 @@ class FeedbackController extends BaseController {
     
     public function getSmsSmslogOthersCount(){
         return DB::table('smslog')
-                ->whereRaw('receiver In ("MTNGH-CC","NoYawa") and message_type="smssync" ')
+                ->whereRaw('sender In ("MTNGH-CC","NoYawa") and message_type="smssync" ')
+                ->count();
+    }
+
+     public function getSmsSmslogCallCount(){
+        return DB::table('smslog')
+                ->whereRaw('message_id="android_call" and message_type="smssync" ')
                 ->count();
     }
     
@@ -248,13 +275,15 @@ class FeedbackController extends BaseController {
         $othersCount = $this->getSmsSmslogOthersCount();
         
         $commentsCount = $this->getSmsSmslogCommentsCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
        
          $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
-                ->whereRaw('istrash = 0 and feedback = "None" and message_type="smssync" ')
+                ->whereRaw('istrash = 0  and message_type="smssync" ')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.index', compact('$logs'))->with($data);
     }
@@ -276,13 +305,15 @@ class FeedbackController extends BaseController {
         $regCount = $this->getSmsSmslogRegCount();
         
         $othersCount = $this->getSmsSmslogOthersCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
        
         $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
-                ->whereRaw('istrash = 0 and feedback = "None" and message_type="smssync" ')
+                ->whereRaw('istrash = 0  and message_type="smssync" ')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.indexcomments', compact('$logs'))->with($data);
     }
@@ -304,13 +335,15 @@ class FeedbackController extends BaseController {
         $regCount = $this->getSmsSmslogRegCount();
         
         $othersCount = $this->getSmsSmslogOthersCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
        
         $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
                 ->whereRaw('feedback != "None" and istrash = 0 and message_type="smssync" ')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.indexsent', compact('$logs'))->with($data);
     }
@@ -333,13 +366,15 @@ class FeedbackController extends BaseController {
         $othersCount = $this->getSmsSmslogOthersCount();
         
         $commentsCount = $this->getSmsSmslogCommentsCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
        
          $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
                 ->whereRaw('Upper(message) = "STOP" and message_type="smssync" ')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.indexstop', compact('$logs'))->with($data);
     }
@@ -360,13 +395,15 @@ class FeedbackController extends BaseController {
         $othersCount = $this->getSmsSmslogOthersCount();
         
         $commentsCount = $this->getSmsSmslogCommentsCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
        
          $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
                  ->whereRaw('istrash = 1 and message_type="smssync" ')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount, 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.indextrash', compact('$logs'))->with($data);
     }
@@ -390,13 +427,15 @@ class FeedbackController extends BaseController {
         $othersCount = $this->getSmsSmslogOthersCount();
         
          $commentsCount = $this->getSmsSmslogCommentsCount();
+
+         $callsCount = $this->getSmsSmslogCallCount();
        
          $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
                 ->whereRaw('feedback != "None" and istrash = 0 and message_type="smssync" ')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount , 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount , 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.indexallresponses', compact('$logs'))->with($data);
     }
@@ -418,13 +457,15 @@ class FeedbackController extends BaseController {
         $othersCount = $this->getSmsSmslogOthersCount();
         
         $commentsCount = $this->getSmsSmslogCommentsCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
        
          $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
                 ->whereRaw('message REGEXP "^[0-9]+$" or Upper(message) In ("START","M","F","SHS","JHS","TER","SMS","VOICE") and message_type="smssync"')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount , 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount , 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.indexreg', compact('$logs'))->with($data);
     }
@@ -445,15 +486,46 @@ class FeedbackController extends BaseController {
         $othersCount = $this->getSmsSmslogOthersCount();
         
         $commentsCount = $this->getSmsSmslogCommentsCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
        
          $logs = DB::table('smslog')
                 ->orderBy('created_at', 'DESC')
-                ->whereRaw(' receiver In ("MTNGH-CC","NoYawa") and message_type="smssync" ')
+                ->whereRaw(' sender In ("MTNGH-CC","NoYawa") and message_type="smssync" ')
                 ->paginate(10);
          
-          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount , 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount);
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount , 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
                   
         return View::make('feedback.indexothers', compact('$logs'))->with($data);
+    }
+
+    public function calls(){
+        $logsCount = $this->getSmsSmslogTotalCount();
+       
+        $inboxCount = $this->getSmsSmslogInboxCount();
+        
+        $sentCount = $this->getSmsSmslogSentCount();
+        
+        $stopCount = $this->getSmsSmslogStopCount();
+        
+        $trashCount = $this->getSmsSmslogTrashCount();
+        
+        $regCount = $this->getSmsSmslogRegCount();
+        
+        $othersCount = $this->getSmsSmslogOthersCount();
+        
+        $commentsCount = $this->getSmsSmslogCommentsCount();
+
+        $callsCount = $this->getSmsSmslogCallCount();
+       
+         $logs = DB::table('smslog')
+                ->orderBy('created_at', 'DESC')
+                ->whereRaw(' message_id ="android_call" and message_type="smssync" ')
+                ->paginate(10);
+         
+          $data = array('logsCount'=>$logsCount ,'inboxCount'=>$inboxCount , 'sentCount'=>$sentCount ,  'trashCount'=>$trashCount , 'stopCount'=>$stopCount , 'regCount'=>$regCount, 'othersCount'=>$othersCount, 'commentsCount'=>$commentsCount, 'callsCount'=>$callsCount);
+                  
+        return View::make('feedback.indexcalls', compact('$logs'))->with($data);
     }
 
     
@@ -474,26 +546,37 @@ class FeedbackController extends BaseController {
             
             $synclog = Smslog::find($id);
             
-            Log::info("Sending response to -> +" .$synclog->receiver . " with message -> ".$feedback);
+            Log::info("Sending response to -> +" .$synclog->sender . " with message -> ".$feedback);
             
             //checking balance from txtconnect api
-            $url = 'http://txtconnect.co/api/send/';
+            $url = 'http://txtconnect.co/api/send/'."?from=NoYawa&msg=". urlencode($feedback). "&to=+". $synclog->sender . "&token=" . urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0');
             $context = stream_context_create(array('http' => array('header' => 'Connection: close\r\n')));
-            $result = @file_get_contents($url . "?from=NoYawa&msg=". $feedback. "&to=+". $synclog->receiver . "&token=" . urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0'), false, $context);
+            $result = @file_get_contents($url , false, $context);
+            Log::info('Request to TxtConnect -> ' . $url);
+            Log::info('Response from TxtConnect -> ' . $result);
+           
+           try {
+
+
             if ($result) {
                 $data = json_decode($result);
                 $message = $data->response;
             } else {
                 $message = $data->error;
             }
-            
-            Log::info('Response from TxtConnect -> ' . $result);
 
+        }catch(Exception $ex){
+            Log::error ("Exception -> " .$ex);
+
+            $message = "Message not sent, issues from sms providers, please try again later!"; 
+        }
+
+            
             $success =  DB::statement('update smslog Set status="'.$status.'" ,responded_at="'.$responded_at.'" , feedback="' .$feedback.'" Where id= "'.$id.'" ');
             
             if ($success) {
 
-                Session::flash('message', "Response sent successfully to ".$synclog->receiver);
+                Session::flash('message', "Response sent successfully to ".$synclog->sender);
             
                 return Redirect::to('/feedback');
             }else{

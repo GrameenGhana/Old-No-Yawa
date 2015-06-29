@@ -33,6 +33,7 @@
                   <ul class="nav nav-pills nav-stacked">
                     <li ><a href="/feedback"><i class="fa fa-inbox"></i> Inbox <span class="label label-primary pull-right">{{$inboxCount}}</span></a></li>
                     <li class="active"><a href="/feedback.sentmessages"><i class="fa fa-envelope-o"></i> Sent <span class="label label-primary pull-right">{{$sentCount}}</span></a></li>
+                    <li><a href="/feedback.callmessages"><i class="fa fa-envelope-o"></i> Calls(Incoming) <span class="label label-primary pull-right">{{$callsCount}}</span></a></li>
                     <li><a href="/feedback.trashmessages"><i class="fa fa-trash-o"></i> Trash <span class="label label-primary pull-right">{{$trashCount}}</span></a></li>
                   </ul>
                 </div><!-- /.box-body -->

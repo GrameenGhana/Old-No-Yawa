@@ -79,6 +79,13 @@ Route::get('feedback.others', array(
   'as' => 'feedback.others'
 ));
 
+Route::get('feedback.callmessages', array(
+  'uses' => 'FeedbackController@callmessages',
+  'as' => 'feedback.callmessages'
+));
+
+
+
 
 
 
@@ -128,6 +135,7 @@ Route::get('/getstopsynclogs', array('as'=>'getstopsynclogs', 'uses'=>'FeedbackC
 Route::get('/getregsynclogs', array('as'=>'getregsynclogs', 'uses'=>'FeedbackController@getRegData'));
 Route::get('/getotherssynclogs', array('as'=>'getotherssynclogs', 'uses'=>'FeedbackController@getOthersData'));
 Route::get('/getcommentssynclogs', array('as'=>'getcommentssynclogs', 'uses'=>'FeedbackController@getCommentsData'));
+Route::get('/getcallssynclogs', array('as'=>'getcallssynclogs', 'uses'=>'FeedbackController@getCallsData'));
 
 Route::get('/getlogs', array('as'=>'getlogs', 'uses'=>'SmsLogController@getData'));
 Route::get('/getvoicelogs', array('as'=>'getvoicelogs', 'uses'=>'AsteriskController@getData'));
