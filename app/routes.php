@@ -10,16 +10,22 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::get('/triggerSendVoice', array('uses' => 'ApiController@triggerSendVoice'));
+Route::get('/sendvoice','AsteriskController@sendvoice');
+
+Route::post('/resolve', array('uses' => 'ExcelUploadController@resolve'));
 
 Route::get('/fire', array('uses' => 'SubscriberController@fireAllForCampaign'));
 
-
+Route::post('/downloadchannellogs', 'ExcelDownloadController@getChannelReport');
+Route::post('/downloadsubscribers', 'ExcelDownloadController@getSubscriberReports');
 
 
 /** System paths **/
 Route::resource('subs','SubscriberController');
 Route::resource('system_setup/users','UserController');
 Route::resource('exceluploads','ExcelUploadController');
+Route::resource('exceldownloads','ExcelDownloadController');
 Route::resource('system_setup/langs','LanguageController');
 Route::resource('broadcast','BroadcastController');
 Route::resource('stopmsg','StopController');
@@ -168,3 +174,8 @@ Route::post('password/reset/{token}', array(
  */
 
 Route::controller('password', 'RemindersController');
+
+Route::get('/blast', function()
+{
+    Queue::push('BlastMessage', array('message' => "Testing 101", 'messageid' => "Noyawa", 'numbers' => "233201063177,233262836997"));
+});

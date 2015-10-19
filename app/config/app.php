@@ -121,7 +121,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-                'Bllim\Datatables\DatatablesServiceProvider',
+        'Bllim\Datatables\DatatablesServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
 
 	),
 
@@ -189,7 +190,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-                'Datatables'      => 'Bllim\Datatables\Facade\Datatables',
+        'Datatables'      => 'Bllim\Datatables\Facade\Datatables',
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 
 	),
 

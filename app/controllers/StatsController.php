@@ -3840,7 +3840,7 @@ class StatsController extends BaseController {
 
        //Next Source : Self
         //Subscribers with self source 
-        $sqlSelf = 'status IN ("LongCode") and source="Self"';
+        $sqlSelf = 'status IN ("LongCode") or source="Self"';
         $subscribersSelf = DB::table('clients_sms_registration')
                 ->whereRaw($sqlSelf)
                 ->count();

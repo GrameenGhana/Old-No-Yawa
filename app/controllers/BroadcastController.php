@@ -22,6 +22,7 @@ class BroadcastController extends BaseController {
     public function search() {
 
         ini_set('memory_limit', '512M');
+        ini_set('max_execution_time', 60);
         DB::connection()->disableQueryLog();
 
         $sql = "";
@@ -31,104 +32,96 @@ class BroadcastController extends BaseController {
         //ages
         $age15 = Input::get('age15');
         if ($age15 != null) {
-            if($selectedAge){
-                $sql .= " or client_age = '" . $age15 ;
-            }else{
-                $sql .= "and client_age = '" . $age15 ;
-            }
             
-            $selectedAge=true;
+           $sql .= "and client_age = '" . $age15 . "' and ";
+            
             
         }
 
         $age16 = Input::get('age16');
         if ($age16 != null) {
-            $sql .= " client_age = '" . $age16 . "' or ";
+            $sql .= " client_age = '" . $age16 . "' and ";
         }
 
         $age17 = Input::get('age17');
         if ($age17 != null) {
-            $sql .= " client_age = '" . $age17 . "' or ";
+            $sql .= " client_age = '" . $age17 . "' and ";
         }
 
         $age18 = Input::get('age18');
         if ($age18 != null) {
-            $sql .= " client_age = '" . $age18 . "' or ";
+            $sql .= " client_age = '" . $age18 . "' and ";
         }
 
         $age19 = Input::get('age19');
         if ($age19 != null) {
-            $sql .= " client_age = '" . $age19 . "' or ";
+            $sql .= " client_age = '" . $age19 . "' and ";
         }
 
         $age20 = Input::get('age20');
         if ($age20 != null) {
-             if($selectedAge){
-                $sql .= " or client_age = '" . $age20 ;
-            }else{
-                $sql .= "and client_age = '" . $age20 ;
-            }
             
-            $selectedAge=true;
+                $sql .= " client_age = '" . $age20 . "' and ";
+            
         }
 
         $age21 = Input::get('age21');
         if ($age21 != null) {
-            $sql .= " client_age = '" . $age21 . "' or ";
+            $sql .= " client_age = '" . $age21 . "' and ";
         }
 
         $age22 = Input::get('age22');
         if ($age22 != null) {
-            $sql .= " client_age = '" . $age22 . "' or ";
+            $sql .= " client_age = '" . $age22 . "' and ";
         }
 
         $age23 = Input::get('age23');
         if ($age23 != null) {
-            $sql .= " client_age = '" . $age23 . "' or ";
+            $sql .= " client_age = '" . $age23 . "' and ";
         }
 
         $age24 = Input::get('age24');
         if ($age24 != null) {
-            $sql .= " client_age = '" . $age24 . "' or ";
+            $sql .= " client_age = '" . $age24 . "' and ";
         }
 
         //gender
         $male = Input::get('male');
         if ($male != null) {
-            $sql .= " client_gender = '" . $male . "' or ";
+            $sql .= " client_gender = '" . $male . "' and ";
         }
 
         $female = Input::get('female');
         if ($female != null) {
-            $sql .= " client_gender = '" . $female . "' or ";
+            $sql .= " client_gender = '" . $female . "' and ";
         }
 
         //educational level
         $jhs = Input::get('jhs');
         if ($jhs != null) {
-            $sql .= " client_education_level = '" . $jhs . "' or ";
+            $sql .= " client_education_level = '" . $jhs . "' and ";
         }
 
         $shs = Input::get('shs');
         if ($shs != null) {
-            $sql .= " client_education_level = '" . $shs . "' or ";
+            $sql .= " client_education_level = '" . $shs . "' and ";
         }
 
         $tertiary = Input::get('ter');
         if ($tertiary != null) {
-            $sql .= " client_education_level = '" . $tertiary . "' or ";
+            $sql .= " client_education_level = '" . $tertiary . "' and ";
         }
 
         $na = Input::get('na');
         if ($na != null) {
-            $sql .= " client_education_level = '" . $na . "' or ";
+            $sql .= " client_education_level = '" . $na . "' and ";
         }
 
 
         //number of weeks
         $noofweeks = Input::get('noofweeks');
         if ($noofweeks != null) {
-            $sql .= " nyweeks = '" . $noofweeks . "' or ";
+            $sql .= " nyweeks = '" . $noofweeks . "' and ";
         }
 
 
@@ -137,117 +130,117 @@ class BroadcastController extends BaseController {
         //region
         $ashanti = Input::get('Ashanti');
         if ($ashanti != null) {
-            $sql .= " client_region = '" . $ashanti . "' or ";
+            $sql .= " client_region = '" . $ashanti . "' and ";
         }
 
         $brong_Ahafo = Input::get('Brong_Ahafo');
         if ($brong_Ahafo != null) {
-            $sql .= " client_region = '" . $brong_Ahafo . "' or ";
+            $sql .= " client_region = '" . $brong_Ahafo . "' and ";
         }
 
         $central = Input::get('Central');
         if ($central != null) {
-            $sql .= " client_region = '" . $central . "' or ";
+            $sql .= " client_region = '" . $central . "' and ";
         }
 
         $eastern = Input::get('Eastern');
         if ($eastern != null) {
-            $sql .= " client_region = '" . $eastern . "' or ";
+            $sql .= " client_region = '" . $eastern . "' and ";
         }
 
         $greater_Accra = Input::get('Greater_Accra');
         if ($greater_Accra != null) {
-            $sql .= " client_region = '" . $greater_Accra . "' or ";
+            $sql .= " client_region = '" . $greater_Accra . "' and ";
         }
 
         $northern = Input::get('Northern');
         if ($northern != null) {
-            $sql .= " client_region = '" . $northern . "' or ";
+            $sql .= " client_region = '" . $northern . "' and ";
         }
 
         $upper_East = Input::get('Upper_East');
         if ($upper_East != null) {
-            $sql .= " client_region = '" . $upper_East . "' or ";
+            $sql .= " client_region = '" . $upper_East . "' and ";
         }
 
         $upper_West = Input::get('Upper_West');
         if ($upper_West != null) {
-            $sql .= " client_region = '" . $upper_West . "' or ";
+            $sql .= " client_region = '" . $upper_West . "' and ";
         }
 
         $volta = Input::get('Volta');
         if ($volta != null) {
-            $sql .= " client_region = '" . $volta . "' or ";
+            $sql .= " client_region = '" . $volta . "' and ";
         }
 
         $western = Input::get('Western');
         if ($western != null) {
-            $sql .= " client_region = '" . $western . "' or ";
+            $sql .= " client_region = '" . $western . "' and ";
         }
 
         //location
         $location = Input::get('location');
         if ($location != null) {
-            $sql .= " client_location LIKE '%" . $location . "%' or ";
+            $sql .= " client_location LIKE '%" . $location . "%' and ";
         }
 
         //operators
         $mtn = Input::get('mtn');
         if ($mtn != null) {
             $mtnC = array("54", "24", "55");
-            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $mtnC)) . "') or ";
+            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $mtnC)) . "') and ";
         }
 
         $tigo = Input::get('tigo');
         if ($tigo != null) {
             $tigoC = array("27", "57");
-            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $tigoC)) . "') or ";
+            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $tigoC)) . "') and ";
         }
 
         $vodafone = Input::get('vodafone');
         if ($vodafone != null) {
             $vodaC = array("50", "20");
-            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $vodaC)) . "') or ";
+            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $vodaC)) . "') and ";
         }
 
         $glo = Input::get('glo');
         if ($glo != null) {
             $gloC = array("23");
-            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $gloC)) . "') or ";
+            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $gloC)) . "') and ";
         }
 
         $airtel = Input::get('airtel');
         if ($airtel != null) {
             $airtelC = array("26");
-            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $airtelC)) . "') or ";
+            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $airtelC)) . "') and ";
         }
 
         $expresso = Input::get('expresso');
         if ($expresso != null) {
             $expressoC = array("28");
-            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $expressoC)) . "') or ";
+            $sql .= " substring(client_number,4,2)  IN ('" . str_replace(" ", "", implode("', '", $expressoC)) . "') and ";
         }
 
         //channel
         $sms = Input::get('sms');
         if ($sms != null) {
-            $sql .= " channel = '" . $sms . "' or ";
+            $sql .= " channel = '" . $sms . "' and ";
         }
 
         $voice = Input::get('voice');
         if ($voice != null) {
-            $sql .= " channel = '" . $voice . "' or ";
+            $sql .= " channel = '" . $voice . "' and ";
         }
 
         //registration date
         $reg_from_date = Input::get('dorf');
         if ($reg_from_date != null) {
-            $sql .= " created_at > '" . $reg_from_date . "' or ";
+            $sql .= " created_at > '" . $reg_from_date . "' and ";
         }
 
         $reg_to_date = Input::get('dort');
         if ($reg_to_date != null) {
-            $sql .= " created_at < '" . $reg_from_date . "' or ";
+            $sql .= " created_at < '" . $reg_from_date . "' and ";
         }
 
         $sql = preg_replace('/\W\w+\s*(\W*)$/', '$1', $sql);
@@ -255,30 +248,69 @@ class BroadcastController extends BaseController {
         
         //return preg_replace("/''/","and",$sql,1);
 
-        Session::forget('session_subs');
+        //Session::forget('session_subs');
 
+        $all = Input::get('all');
+        if ($all != null) {
+               $sql = "";
+            }
+
+            $smsmessage = Input::get('smsmessage');
+             if ($smsmessage == null) {
+                Session::flash('message', "Enter sms message");
+                return Redirect::back();
+             }
+
+             $smsid = Input::get('smsid');
+              if ($smsid == null) {
+                $smsid = "NoYawa";
+             } 
+
+        $subs = array();
 
         if (empty($sql) || !isset($sql) || (strlen($sql) == 0)) {
-            $session_subs = DB::table('clients_sms_registration')
+
+            $subs = DB::table('clients_sms_registration')
+                    ->select('client_number')
+                    ->whereRaw('status IN ("LongCode","Completed") ')  
                     ->orderBy('created_at', 'DESC')
                     ->get();
-            Session::push('session_subs', $session_subs);
+           
 
-            $subs = $session_subs;
+           // Session::push('session_subs', $session_subs);
 
-            return View::make('broadcast/blastmsg', compact('subs'));
+           // $subs = $session_subs;
+
+            //return View::make('broadcast/blastmsg', compact('subs'));
+
+             
+
+            $this->blast($subs, $smsmessage ,$smsid );
+
         } else {
 
-            $session_subs = DB::table('clients_sms_registration')
-                    ->whereRaw($sql)
+            //return $sql;
+
+            $subs = DB::table('clients_sms_registration')
+                    ->select('client_number')
+                    ->whereRaw($sql . ' and status IN ("LongCode","Completed")')
                     ->orderBy('created_at', 'DESC')
                     ->get();
-            Session::push('session_subs', $session_subs);
+            
+            //Session::push('session_subs', $session_subs);
 
 
-            $subs = $session_subs;
-            return View::make('broadcast/blastmsg', compact('subs'));
+           // $subs = $session_subs;
+           // return View::make('broadcast/blastmsg', compact('subs'));
+
+            $this->blast($subs, $smsmessage ,$smsid );
+
         }
+
+
+
+        Session::flash('message', "Message {" . $smsmessage . "} sent to {" . count($subs) . "} subscribers successfully");
+        return Redirect::to('broadcast/show');
     }
 
     public function getData() {
@@ -296,42 +328,47 @@ class BroadcastController extends BaseController {
         file_get_contents($url . "?token=" . urlencode('4401410c4bd4edccc449ed77a63f2f644e7870e0') . "&msg=" . urlencode($message) . "&from=" . urlencode("NoYawa") . "&to=" . urlencode($number));
     }
 
-    public function blast() {
-        $sms = Input::get('sms');
-        $smsid = Input::get('smsid');
+    public function blast($subs , $smsmessage , $smsid) {
+       
+      Log::info("Blasting message to -> " .count($subs) . " subscribers");
 
-        $subscribers = Session::get('session_subs');
-        $noOfSubscribers = "";
+         $sms = $smsmessage;
+
+        $noOfSubscribers = count($subs);
         $numbers = array();
 
-        foreach ($subscribers as $key => $value) {
-            $noOfSubscribers = count($value);
-            for ($i = 0; $i < count($value); $i++) {
+        //var_dump($subs);
+        //exit;
+
+
+        foreach ($subs as $value) {
+
+                Log::info("Got client_number -> ". $value->client_number );
 
                 //$this->sendmessage( $value[$i]->client_number , $sms);
-                $numbers[] = "+" . $value[$i]->client_number;
+                $numbers[] = "+" . $value->client_number;
                 //Queue::push('BlastMessage', array('message' => $sms , 'messageid' => $smsid , 'number' => $value[$i]->client_number ));
 
                 $smslog = new Smslog();
                 $smslog->direction = "OUTBOUND";
                 $smslog->sender = $smsid;
-                $smslog->receiver = $value[$i]->client_number;
+                $smslog->receiver = $value->client_number;
                 $smslog->message = $sms;
                 $smslog->message_type = "system_blast";
                 $smslog->status = "success";
                 $smslog->save();
             }
-        }
+        
 
-        $this->pulse($numbers, '3000', $sms, $smsid);
+        $this->pulse($numbers, '100', $sms, $smsid);
 
-        Session::forget('session_subs');
+        //Session::forget('session_subs');
 
-        Session::flash('message', "Message {" . $sms . "} sent to {" . $noOfSubscribers . "} subscribers successfully");
-        return Redirect::to('broadcast/show');
     }
 
-    function pulse($numbers, $maxsize, $message, $messageid) {
+   public function pulse($numbers, $maxsize, $message, $messageid) {
+
+        Log::info("Slicing numbers -> [" . count($numbers) . " ] ");
         $tolog;
         while (count($numbers) > 0) {
             $slice = array_slice($numbers, 0, $maxsize);
@@ -344,6 +381,9 @@ class BroadcastController extends BaseController {
             $comma_separated = implode(",", $slice);
             //echo  $comma_separated . "  ";
             //$result = sendmessage($comma_separated, $message);
+
+            //Log::info("Sending number [". count($slice) . "] to job queue"); 
+
             Queue::push('BlastMessage', array('message' => $message, 'messageid' => $messageid, 'numbers' => $comma_separated));
 
             $numbers = array_splice($numbers, $tolog);

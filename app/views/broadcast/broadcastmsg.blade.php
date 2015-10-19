@@ -2,7 +2,7 @@
 
 @section('head')
 @parent
-{{ HTML::style('css/datatables/dataTables.bootstrap.css'); }}
+{{ HTML::style('css/bootstrap-datepicker.min.css'); }}
 @stop
 
 @section('content-header')
@@ -17,11 +17,7 @@
 </section>
 @stop
 
-<?php
-if (Session::has('session_subs')) {
-    Session::forget('session_subs');
-}
-?>
+
 
 @section('content')
 
@@ -32,7 +28,7 @@ if (Session::has('session_subs')) {
             <h2 class="page-header">Send a Broadcast</h2>
         </div><!-- /.col -->
     </div>
-
+    <br/>
     @if (Session::has('message'))
     <div class="alert alert-info">{{ Session::get('message') }}</div>
     @endif
@@ -53,6 +49,15 @@ if (Session::has('session_subs')) {
         <div class="col-md-6">
             <div class="box box-primary">
                 <div class="box-body">
+                    <fieldset>
+                        <legend>All Subscribers [With no filters] </legend>
+                        <div class="form-group">
+                            {{ Form::checkbox('all','all') }}
+                            {{ Form::label('all','All') }}
+
+                        </div>
+                    </fieldset>
+
                     <fieldset>
                         <legend>Age</legend>
 
@@ -317,6 +322,28 @@ if (Session::has('session_subs')) {
 
 
                     </fieldset>
+
+                 <fieldset>
+                     <legend>SMS / Message</legend>
+
+                     <div class="form-group">
+                         {{ Form::label('smsid','Sms ID') }}
+                         {{ Form::text('smsid',Input::old('smsid'),array('class'=>'form-control','placeholder'=>'Enter your sms id')) }}
+                     </div> 
+
+                     <div class="form-group">
+                         {{ Form::label('smsmessage','Message') }}
+                         {{ Form::textarea('smsmessage',Input::old('smsmessage'),array('class'=>'form-control','placeholder'=>'Enter your message here','style'=>'height:80px' ,
+                                         'onKeyDown'=>'limitText(this.form.smsmessage,this.form.countdown,160);',
+                                         'onKeyUp'=>'limitText(this.form.smsmessage,this.form.countdown,160);')) }}
+                                     <font class="alert-info" size="2">(Maximum characters: 160)<br>
+                                    You have <input readonly type="text" name="countdown" size="3" value="160"> characters left.</font>
+                                     </div>
+
+
+
+                </fieldset>
+
                 </div>
             </div>
         </div>
@@ -325,7 +352,7 @@ if (Session::has('session_subs')) {
     <div class="row">
         <div class="col-xs-6">
             <div class="box-footer">
-                {{ Form::submit('Search',array('class'=>'btn btn-primary')) }}
+                {{ Form::submit('Submit',array('class'=>'btn btn-primary')) }}
             </div>
         </div>
     </div>
@@ -337,17 +364,42 @@ if (Session::has('session_subs')) {
 @stop                            
 @section('script')
 
+{{ HTML::script('js/bootstrap-datepicker.min.js'); }}
+
+<script type="text/javascript">
+    $(function() {
+        $('textarea').keyup(function() {
+            var cs = $(this).val().length;
+            $('#characters').text(cs);
+        });
+
+    });
+</script>
+
+
+<script language="javascript" type="text/javascript">
+    function limitText(limitField, limitCount, limitNum) {
+        if (limitField.value.length > limitNum) {
+            limitField.value = limitField.value.substring(0, limitNum);
+        } else {
+            limitCount.value = limitNum - limitField.value.length;
+        }
+    }
+</script>
+                                
 <script type="text/javascript">
     $(function() {
         var nowDate = new Date();
         var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
 
         $('#dorf').datepicker({
-            startDate: today
+            startView: 2,
+            autoclose: true
         });
 
         $('#dort').datepicker({
-            startDate: today
+            todayBtn: true,
+           autoclose: true
         });
 
     });

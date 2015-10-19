@@ -36,6 +36,8 @@
         <![endif]-->
 
         @show
+
+        @yield('head')
     </head>
 
     <body class="skin-blue">
@@ -52,9 +54,19 @@
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
                         <?php
-                        if (Auth::check() == false) {
+                        if ( Auth::check() == false) {
                             Redirect::to('/');
                         }
+                        ?>
+                        <?php
+
+                        $bag = Session::getMetadataBag();
+                        $max = Config::get('session.lifetime') * 60;
+                        if ($bag && $max < (time() - $bag->getLastUsed())) {
+                            Event::fire('idle.too-long');
+                            Redirect::to('/');
+                        }
+
                         ?>
 
                         <!-- User Account: style can be found in dropdown.less -->
@@ -148,6 +160,7 @@
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
                                 <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceluploads/show') }}"><i class="fa fa-file"></i>Upload Excel File</a></li>
                                 <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceluploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
+                                <li class="{{ Request::is('downloads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceldownloads') }}"><i class="fa fa-files-o"></i>Excel Downloads</a></li>
                                 <li class="{{ Request::is('broadcast/*') ? 'active' : '' }}"><a href="{{ URL::to('broadcast/show') }}"><i class="fa fa-files-o"></i>Broadcast A Message</a></li>
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
                                <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('feedback') }}"><i class="fa fa-envelope-o"></i>SMS Feedback</a></li>

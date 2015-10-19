@@ -50,7 +50,7 @@
 
                         <div class="alert alert-info">
                             <center><p><strong>Excel File Structure : Sample</strong></p></center>   
-                            <img alt="Excel Structure" src="{{{ asset('img/structure.PNG') }}}" style="width:100%;"/>
+                            <img alt="Excel Structure" src="{{{ asset('img/structure.png') }}}" style="width:100%;"/>
                         </div>
                         <!--
 
@@ -60,6 +60,42 @@
                             </div>
                         
                         -->
+
+                        <div class="form-group">
+                            <label for="file">Click to upload excel file</label>
+                            <input type="file" class="form-control" id="file" name="file" >
+                        </div>
+
+                        {{ Form::token() }}
+
+
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="box-footer">
+                {{ Form::submit('Upload',array('class'=>'btn btn-primary')) }}
+            </div>
+        </div>
+    </div>
+    {{ Form::close() }}
+
+     {{ Form::open(array('url'=> 'resolve','method'=>'post','enctype'=>'multipart/form-data')) }}
+    <div class="row">
+
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <fieldset>
+                        <legend>Upload File To Resolve </legend>
+
 
                         <div class="form-group">
                             <label for="file">Click to upload excel file</label>

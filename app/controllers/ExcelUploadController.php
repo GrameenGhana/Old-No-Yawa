@@ -56,7 +56,99 @@ class ExcelUploadController extends BaseController {
         return View::make('users.edit', array('user' => $user, 'roles' => $this->roles));
     }
 
-  
+    public function resolve() {
+
+        $file = Input::file('file'); //  file upload input field in the form should be named 'file'
+
+        //$source = Input::get('source');
+        $uploaded_by = Auth::user()->id;
+
+        $destinationPath = public_path() .'/uploads/';
+        $filename = time() . '-' .$file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension(); //if you need extension of the file
+        $uploadSuccess = Input::file('file')->move( $destinationPath, $filename);
+        $sizeOfSuccessData = 0;
+        $sizeOfFailedData = 0;
+
+        $date = date_create();
+        $currentDateTime = date_format($date, 'Y-m-d H:i:s');
+
+        Log::info('Uploading excel file -> ' . $filename .' with extension ->' . $extension );
+
+        if ($uploadSuccess && $extension =="xlsx") {
+            //return Response::json('success', 200); // or do a redirect with some message that file was uploaded
+
+            Log::info('File uploaded -> ' . $filename . ' :: Processing started...');
+
+
+            if (is_readable( $destinationPath . $filename)) {
+
+                Log::info('File is readable -> ' . $filename);
+
+                $objPHPExcel = PHPExcel_IOFactory::load( $destinationPath . $filename);
+                $rows = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+
+
+                // get the column names
+                $xls_fields = isset($rows[1]) ? $rows[1] : array();
+                if (!empty($xls_fields))
+                    unset($rows[1]);
+
+                // xls returns $value = array('A' => 'value'); so you have to remove keys
+                $fields = array();
+                foreach ($xls_fields as $field) {
+                    $fields[] = strtolower($field);
+                }
+
+                // find each column's position from available data set
+                $location_pos = array_search('location', $fields);
+                $condition_pos = array_search('condition',$fields);
+
+
+                foreach ($rows as $row) {
+                    // remove keys again
+                    $data = array();
+                    foreach ($row as $key => $value) {
+                        $data[] = $value;
+                    }
+
+                    // getting data read for insertion
+                    $location = $data[$location_pos];
+                    $condition = $data[$condition_pos];
+                    
+                    
+                    if($condition == "R"){
+                        $condition = "Rural";
+                    }else if($condition == "U"){
+                        $condition = "Urban";
+                    }
+ 
+                     $success = DB::statement('update clients_sms_registration Set location_status ="' . $condition . '" where client_location = "'. $location .'" ');
+
+                        if ($success=="success") {
+
+                            Log::info("Client [" . $location ." :: ". $condition . "] saved!");
+
+                        } 
+                    
+                }
+
+                unset($rows);
+                unset($objPHPExcel);
+
+                // subscripe client here
+
+                Log:: info('Processing of file completed');
+                
+                Session::flash('msg', 'File Uploaded successfully records saved !');
+                
+                Session::flash('message', "File uploaded successfully");
+
+                 return Redirect::to('/exceluploads');
+                
+            } 
+        } 
+    }
 
     public function store() {
 
@@ -112,6 +204,9 @@ class ExcelUploadController extends BaseController {
                 $region_pos = array_search('region',$fields);
                 $channel_pos = array_search('channel',$fields);
                 $language_pos = array_search('language',$fields);
+                $location_status_pos = array_search('locationstatus',$fields);
+
+               // Log::info("Value ->" .$objPHPExcel->getActiveSheet()->getCell('B2')->getValue());
 
 
                 foreach ($rows as $row) {
@@ -119,35 +214,48 @@ class ExcelUploadController extends BaseController {
                     $data = array();
                     foreach ($row as $key => $value) {
                         $data[] = $value;
+                       // Log::info("Value -> " . $value);
                     }
 
                     $location = "";
                     // Only use location if exists
-                    if ($location_pos !== false) {
+                    if ($location_pos != false) {
                         $location = $data[$location_pos];
                     } 
+
+                    $location_status = $data[$location_status_pos];
+
+                    if($location_status == "R"){
+                        $location_status = "Rural";
+                    }else if($location_status == "U"){
+                        $location_status = "Urban";
+                    }
                     
                      $source = "";
-                     if ($source_pos !== false) {
+                     if ($source_pos != false) {
                         $source = $data[$source_pos];
                     } 
                     
                     $region = "";
                     // Only use region if exists
-                    if ($region_pos !== false) {
+                    if ($region_pos != false) {
                         $region = $data[$region_pos];
                     } 
                     
                      $channel = "";
                     // Only use channel if exists
-                    if ($channel_pos !== false) {
+                    if ($channel_pos != false) {
                         $channel = $data[$channel_pos];
                     } 
                     
                     $language = "";
                     // Only use langauge if exists
-                    if ($language_pos !== false) {
+                    if ($language_pos != false) {
                         $language = $data[$language_pos];
+
+                        if(strtoupper($language) == "BLANK" || $language == "" || $language == "--blank--" ){
+                            $language = "ENGLISH";
+                        }
                     } 
 
 
@@ -178,24 +286,40 @@ class ExcelUploadController extends BaseController {
                         $sizeOfFailedData ++;
                     } else {
                         
-                        if($gender == "M"){
-                            $gender = "MALE";
-                        }else if($gender == "F"){
-                            $gender = "FEMALE";
-                        }
+                       if($contact[0] == "0"){
+                         $pattern = '/^0/';
+                         $replacement = '233';
+                         $contact = preg_replace($pattern, $replacement, $contact);
+                       }
                         
                         if($channel == strtoupper("Voice")){
                             $channel = "V";
                         }
                         
-                       $success = App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, strtoupper($education), strtoupper($channel),$location,$region,$source );
+                       // App::make('ApiController')->register($contact, strtoupper($language), $age, $gender, strtoupper($education), strtoupper($channel),$location,$region,$source );
                       // Queue::push('RegisterSubscriber', array('phone_number' => '233' . $contact , 'language' => strtoupper($language) , 'age' => $age , 'gender' => $gender , 'education_level' => strtoupper($education) , 'channel' => strtoupper($channel) , 'region' => $region , 'source' => $source ));
                         
-                       // $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" , excel="'.$filename.'"');
+                        Log::info("Got the following:");
+                        Log::info("Contact ->" .$contact );
+                        Log::info("Gender ->" .$gender );
+                        Log::info("Age ->" .$age );
+                        Log::info("Language ->" .$language );
+                        Log::info("Education level ->" .$education );
+                        Log::info("Location ->" .$location );
+                        Log::info("Location Status ->" .$location_status );
+                        Log::info("Region ->" .$region );
+                        Log::info("Source ->" .$source );
+                        
+                         return;
+
+                       $success = DB::statement('insert ignore into clients_sms_registration Set client_number ="233' . $contact . '",client_gender="' . $gender . '",client_age="' . $age . '",client_education_level="' . $education . '",status="'.$status.'" ,channel="'.$channel.'" ,created_at="' . $currentDateTime . '" , client_location="' . $location . '"  ,source = "' . $source . '"  , campaignid="' .$campaign.'" , client_region="'.$region.'" , client_language="'.$language.'" , excel="'.$filename.'" , location_status ="'.$location_status.'" ');
+
+                       // $success="success";
+
 
                         if ($success=="success") {
 
-                            Log::info("Client [233" . $contact . "] saved!");
+                            Log::info("Client [".  $contact . "] saved!");
 
                             $sizeOfSuccessData ++;
                         } else {
