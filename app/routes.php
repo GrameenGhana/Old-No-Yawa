@@ -17,6 +17,8 @@ Route::post('/resolve', array('uses' => 'ExcelUploadController@resolve'));
 
 Route::get('/fire', array('uses' => 'SubscriberController@fireAllForCampaign'));
 
+Route::get('/reportme', array('uses' => 'ExcelDownloadController@getSubscriberReportYOUDRIC'));
+
 Route::post('/downloadchannellogs', 'ExcelDownloadController@getChannelReport');
 Route::post('/downloadsubscribers', 'ExcelDownloadController@getSubscriberReports');
 
@@ -32,12 +34,27 @@ Route::resource('stopmsg','StopController');
 Route::resource('system_setup/smslogs','SmsLogController');
 Route::resource('system_setup/voicelogs','AsteriskController');
 Route::resource('blastmsg','BroadcastController@blast');
+Route::resource('subscribers','SubscriberController');
+Route::resource('meetingsessions','MeetingsController');
 
 //APIs
 Route::resource('feedback','FeedbackController');
 Route::group(array('prefix' => 'api/v1', 'before' => 'auth.basic'), function()
 {
     Route::resource('smssynclog', 'FeedbackController@saveLog');
+});
+
+
+//Mobile APIs for noyawa on the go
+Route::group(array('prefix' => 'api/v2'), function()
+{
+    Route::post('register', 'MobileApiController@register');
+    Route::post('login', 'MobileApiController@login');
+    Route::post('checkregister', 'MobileApiController@checkRegistration');
+    Route::post('syncUserActions', 'MobileApiController@syncUserActions');
+    Route::post('startMeetingSession', 'MobileApiController@startMeetingSession');
+    Route::post('endMeetingSession', 'MobileApiController@endMeetingSession');
+
 });
 
 Route::get('feedback.send', array(
@@ -91,12 +108,6 @@ Route::get('feedback.callmessages', array(
 ));
 
 
-
-
-
-
-
-
 Route::group(array('prefix' => 'api/v1'), function()
 {
     Route::resource('subscriber','ApiSubscriberController');
@@ -142,6 +153,7 @@ Route::get('/getregsynclogs', array('as'=>'getregsynclogs', 'uses'=>'FeedbackCon
 Route::get('/getotherssynclogs', array('as'=>'getotherssynclogs', 'uses'=>'FeedbackController@getOthersData'));
 Route::get('/getcommentssynclogs', array('as'=>'getcommentssynclogs', 'uses'=>'FeedbackController@getCommentsData'));
 Route::get('/getcallssynclogs', array('as'=>'getcallssynclogs', 'uses'=>'FeedbackController@getCallsData'));
+Route::get('/getmeetings', array('as'=>'getmeetings', 'uses'=>'MeetingsController@getData'));
 
 Route::get('/getlogs', array('as'=>'getlogs', 'uses'=>'SmsLogController@getData'));
 Route::get('/getvoicelogs', array('as'=>'getvoicelogs', 'uses'=>'AsteriskController@getData'));

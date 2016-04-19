@@ -11,3 +11,7 @@
 |
 */
 
+Artisan::add(new WeeklyVoiceCall);
+Artisan::add(new StoryVoiceCall);
+Artisan::add(new WednesdaySMS);
+Artisan::add(new SaturdaySMS);

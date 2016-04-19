@@ -164,6 +164,7 @@
                                 <li class="{{ Request::is('broadcast/*') ? 'active' : '' }}"><a href="{{ URL::to('broadcast/show') }}"><i class="fa fa-files-o"></i>Broadcast A Message</a></li>
                                 <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
                                <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('feedback') }}"><i class="fa fa-envelope-o"></i>SMS Feedback</a></li>
+                               <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('meetingsessions') }}"><i class="fa fa-users"></i>Meeting Sessions</a></li>
 
                             </ul>
 
@@ -180,12 +181,12 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="{{ Request::is('subs/*') ? 'active' : '' }}"><a href="{{ URL::to('subs') }}"><i class="fa fa-users"></i>Subscribers</a></li>
-                                <li class="{{ Request::is('uploads/*') ? 'active' : '' }}"><a href="{{ URL::to('exceluploads') }}"><i class="fa fa-files-o"></i>Excel Uploads</a></li>
-                                <li class="{{ Request::is('stopmsg/*') ? 'active' : '' }}"><a href="{{ URL::to('stopmsg/show') }}"><i class="fa fa-files-o"></i>Stop Subscription</a></li>
-                            </ul>
+                             </ul>
 
                         </li>
                         @endif
+
+                        
                         
 
                         @if (in_array(strtolower(Auth::user()->role), array('partner')))
@@ -223,7 +224,7 @@
                         </li>
                         @endif
 
-                        @if (in_array(strtolower(Auth::user()->role), array('admin','demo')))
+                        @if (in_array(strtolower(Auth::user()->role), array('admin')))
 
                         <li class="treeview {{ (Request::is('stats*')) ? 'active' : '' }}">
                             <a href="#">

@@ -10,9 +10,17 @@ class HomeController extends BaseController {
         $subscribersCount = DB::table('clients_sms_registration')     
                 ->count();
         
-        $subscribersCompletedCount = DB::table('clients_sms_registration')
+        if((in_array(strtolower(Auth::user()->role), array('demo')))){
+
+        $subscribersCompletedCount = DB::table('client_new_reg')
                 ->whereRaw('status IN ("LongCode","Completed") ')     
                 ->count();
+
+        }else{
+            $subscribersCompletedCount = DB::table('clients_sms_registration')
+                ->whereRaw('status IN ("LongCode","Completed") ')     
+                ->count();
+        }
         
         $messagesOut = DB::table('smslog')
                 ->whereRaw('direction="OUTBOUND"')

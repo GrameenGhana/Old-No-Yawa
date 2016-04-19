@@ -333,5 +333,57 @@ public function getSubscriberReports(){
 }
 
 
+public function getSubscriberReportYOUDRIC{
+
+
+  $sql = "";
+
+
+  DB::setFetchMode(PDO::FETCH_ASSOC);
+
+   
+
+   $sql .= " source = 'YOUDRIC'  and ";
+   
+
+  
+
+ $sql = preg_replace('/\W\w+\s*(\W*)$/', '$1', $sql);
+
+
+  $file = "subscribers_". date('Ymd-H:i:s') .".csv";
+
+    $sql = "SELECT 'client_number', 'client_gender' , 'client_age' , 'client_education_level' , 'client_location' , 'status' , 'channel' , 'created_at' " .
+           " UNION ALL SELECT client_number, client_gender , client_age , client_education_level , client_location , status , channel , created_at " .
+           " FROM clients_sms_registration where " . $sql ." ORDER BY created_at DESC INTO OUTFILE '/tmp/". $file ."' FIELDS TERMINATED BY ';'  " ;
+    
+   
+    $sucess = DB::statement($sql);
+
+    if($sucess) {
+
+      if(File::move('/tmp/'. $file , public_path().'/downloads/'.$file) )
+      {
+       Session::flash('message', " File generated successfully! , click  <a href='" . "http://localhost:8000" . '/downloads/'.$file . "' > HERE </a> to download " );
+       return Redirect::back();
+      }else{
+     Session::flash('message', " File not generated , file permissions not permitted" );
+     return Redirect::back();
+     }
+
+
+    }else{
+
+      Session::flash('message', "Error downloading excel document, check date selection");
+      return Redirect::back();
+
+    }
+
+  
+
+
+}
+
+
 
 }                                                            

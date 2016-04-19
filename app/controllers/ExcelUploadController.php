@@ -58,6 +58,9 @@ class ExcelUploadController extends BaseController {
 
     public function resolve() {
 
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 300);
+
         $file = Input::file('file'); //  file upload input field in the form should be named 'file'
 
         //$source = Input::get('source');
@@ -101,8 +104,7 @@ class ExcelUploadController extends BaseController {
                 }
 
                 // find each column's position from available data set
-                $location_pos = array_search('location', $fields);
-                $condition_pos = array_search('condition',$fields);
+                $contact_pos = array_search('contact', $fields);
 
 
                 foreach ($rows as $row) {
@@ -113,21 +115,16 @@ class ExcelUploadController extends BaseController {
                     }
 
                     // getting data read for insertion
-                    $location = $data[$location_pos];
-                    $condition = $data[$condition_pos];
+                    $contact = $data[$contact_pos];
                     
                     
-                    if($condition == "R"){
-                        $condition = "Rural";
-                    }else if($condition == "U"){
-                        $condition = "Urban";
-                    }
+                    
  
-                     $success = DB::statement('update clients_sms_registration Set location_status ="' . $condition . '" where client_location = "'. $location .'" ');
+                     $success = DB::statement('insert ignore into client_new_reg Set client_number ="' . $contact . '" ');
 
                         if ($success=="success") {
 
-                            Log::info("Client [" . $location ." :: ". $condition . "] saved!");
+                            Log::info("Client [" . $contact ."] saved!");
 
                         } 
                     

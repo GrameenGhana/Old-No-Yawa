@@ -41,8 +41,15 @@ class SubscriberController extends BaseController {
 
     public function getData() {
 
-        $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'channel', 'status','created_at'));
+        if((in_array(strtolower(Auth::user()->role), array('demo')))){
+             $subs = DB::table('client_new_reg')
+                ->select(array('client_number', 'client_gender', 'client_education_level', 'channel', 'status','created_at'));
 
+        }else{
+             $subs = Subscriber::select(array('client_number', 'client_gender', 'client_education_level', 'channel', 'status','created_at'));
+
+        }
+       
         return Datatables::of($subs)
                         ->make();
     }
@@ -55,9 +62,17 @@ class SubscriberController extends BaseController {
 
 
     public function index() {
-        $subs = DB::table('clients_sms_registration')
+
+        if((in_array(strtolower(Auth::user()->role), array('demo')))){
+            $subs = DB::table('client_new_reg')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(10);
+        }else{
+            $subs = DB::table('clients_sms_registration')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
+        }
+        
         return View::make('subscribers.index', compact('subs'));
     }
 
@@ -160,7 +175,7 @@ class SubscriberController extends BaseController {
                 
             }else{
             
-                return return " { 'response': 0, 'message' : '" . Input::get('msisdn')  ."  not created' }";
+                return  " { 'response': 0, 'message' : '" . Input::get('msisdn')  ."  not created' }";
             }
             
         }

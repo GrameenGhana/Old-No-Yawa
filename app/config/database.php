@@ -55,10 +55,10 @@ return array(
             # Our primary database connection
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => '127.0.0.1',
 			'database'  => 'noyawagh',
 			'username'  => 'root',
-			'password'  => 'grameenghana',
+			'password'  => 'hab6czim',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -67,10 +67,10 @@ return array(
             # Our secondary database connection
             'mysql2' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => '127.0.0.1',
 			'database'  => 'asterisk',
 			'username'  => 'root',
-			'password'  => 'mysql',
+			'password'  => 'hab6czim',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -78,10 +78,10 @@ return array(
              # Our tertiary database connection
             'mysql2' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => '127.0.0.1',
 			'database'  => 'motech_data_services',
 			'username'  => 'root',
-			'password'  => 'mysql',
+			'password'  => 'hab6czim',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
