@@ -182,18 +182,18 @@ class MobileApiController extends BaseController {
             $user_id = Request::get('user_id');
            
                         
-            $success = DB::statement('update  meeting_sessions Where meeting_id = "'.$meeting_id.'" Set end_time ="' . $end_time . '",in_session="' . $in_session . '",user_id="' . $user_id  );
+            $success = DB::statement('update  meeting_sessions  Set end_time ="' . $end_time . '",in_session="' . $in_session . '",created_by="' . $user_id .'" Where meeting_id = "'.$meeting_id.'"' );
 
             if ($success ) {
 
                 $message =  "Meeting session ended successfully ";
             
-                return Response::json(array('error' => false,'msg' => $message,'message_id'=>$message_id),200);
+                return Response::json(array('error' => false,'msg' => $message,'meeting_id'=>$meeting_id),200);
 
             }else{
                 $message = 'Meeting session not ended';
 
-                return Response::json(array('error' => true,'msg' => $message,'message_id'=>$message_id),300);
+                return Response::json(array('error' => true,'msg' => $message,'meeting_id'=>$meeting_id),300);
             
             }
             
